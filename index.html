@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>oagentkit — Open Agent Kit</title>
+<meta name="description" content="Agent / LLM 编排工具链模块矩阵 —— 13 个独立发版的 Go 模块">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<style>
+:root{--fg:#1a1a1a;--muted:#666;--bg:#fff;--bd:#e5e5e5;--accent:#0a58ca}
+@media(prefers-color-scheme:dark){:root{--fg:#e6e6e6;--muted:#999;--bg:#0d1117;--bd:#30363d;--accent:#6cb6ff}}
+*{box-sizing:border-box}
+body{margin:0;padding:3rem 1.25rem;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:52rem;margin:0 auto}
+h1{font-size:2rem;margin:0 0 .25rem}
+.sub{color:var(--muted);margin:0 0 2.5rem}
+h2{font-size:1.1rem;margin:2.5rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--bd)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--bd);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:color-mix(in srgb,var(--fg) 8%,transparent);padding:.1rem .35rem;border-radius:4px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.tier{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.desc{color:var(--muted)}
+footer{margin-top:3.5rem;padding-top:1.25rem;border-top:1px solid var(--bd);color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body><main>
+<h1>oagentkit</h1>
+<p class="sub">Open Agent Kit —— Agent / LLM 编排工具链模块矩阵</p>
+
+<p>13 个独立发版的 Go 模块，依赖严格自底向上，每仓独立 SemVer + 独立 CI。
+每个仓库根目录都有 <code>AGENTS.md</code>，是面向 AI Agent 的权威规范。</p>
+
+<h2>模块矩阵</h2>
+<table>
+<thead><tr><th>模块</th><th>层</th><th>说明</th><th>依赖</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/oagentkit/textx">textx</a></td><td class="tier">tier 0</td><td class="desc">文本与差异处理——增量切片/unified diff/代码符号索引/会话压缩/报告后处理</td><td class="tier">—</td></tr>
+<tr><td><a href="https://github.com/oagentkit/runtime">runtime</a></td><td class="tier">tier 0</td><td class="desc">Agent 进程运行时——流式节控/事件总线/子进程环境/热插拔/钩子</td><td class="tier">—</td></tr>
+<tr><td><a href="https://github.com/oagentkit/guardx">guardx</a></td><td class="tier">tier 0</td><td class="desc">安全围栏——凭据脱敏/SSRF 防护/工具许可判定/Shell 沙箱解析/审计</td><td class="tier">—</td></tr>
+<tr><td><a href="https://github.com/oagentkit/queue">queue</a></td><td class="tier">tier 0</td><td class="desc">DB 即队列 + Lease 选主</td><td class="tier">—</td></tr>
+<tr><td><a href="https://github.com/oagentkit/promptx">promptx</a></td><td class="tier">tier 1</td><td class="desc">提示词上下文——分段组装/运行中转向/读后写一致性</td><td class="tier">runtime, textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/obs">obs</a></td><td class="tier">tier 1</td><td class="desc">LLM 可观测——eino callbacks/token 用量/分阶段打标/Langfuse</td><td class="tier">textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/skillkit">skillkit</a></td><td class="tier">tier 1</td><td class="desc">技能与资产契约——SKILL.md 渐进披露/包布局/装配血缘</td><td class="tier">guardx, textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/mcpkit">mcpkit</a></td><td class="tier">tier 1</td><td class="desc">MCP 工具池——客户端/工具目录/建连单飞/自愈租约</td><td class="tier">runtime</td></tr>
+<tr><td><a href="https://github.com/oagentkit/rag">rag</a></td><td class="tier">tier 1</td><td class="desc">知识检索——向量化/混合召回/重排</td><td class="tier">textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/llm">llm</a></td><td class="tier">tier 2</td><td class="desc">模型客户端——降级链/预算/成本记账/阶段路由/主备切换</td><td class="tier">obs, runtime, textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/toolgate">toolgate</a></td><td class="tier">tier 2</td><td class="desc">工具治理——优先级约束/并发调度/操作审计门</td><td class="tier">mcpkit</td></tr>
+<tr><td><a href="https://github.com/oagentkit/tools">tools</a></td><td class="tier">tier 2</td><td class="desc">外部工具接入——CLI 编码 agent/公开检索/git 沙箱/SAST</td><td class="tier">guardx, runtime, textx</td></tr>
+<tr><td><a href="https://github.com/oagentkit/agent">agent</a></td><td class="tier">tier 3</td><td class="desc">Agent 编排——ReAct/反思/路由/多专家黑板/派发守卫</td><td class="tier">llm, textx</td></tr>
+</tbody>
+</table>
+
+<h2>快速开始</h2>
+<p><code>go get github.com/oagentkit/llm@latest</code></p>
+<p>安装一律用上表的模块路径。<strong>不要引门面仓
+<a href="https://github.com/oagentkit/agentkit">oagentkit/agentkit</a></strong> ——
+它只是原单仓的 re-export 兼容层，v1.x 后退役。</p>
+
+<h2>基建</h2>
+<p>
+<a href="https://github.com/oagentkit/.github">.github</a> — 全 org 共享 CI 门禁（reusable workflow） ·
+<a href="https://github.com/oagentkit/matrix-tools">matrix-tools</a> — 版本矩阵生成 / 审计 / import 改写 / 建仓 ·
+<a href="/versions.json">versions.json</a> — 机器可读版本矩阵 ·
+<a href="/llms.txt">llms.txt</a> — LLM 模块索引
+</p>
+
+<h2>与 oekit 的关系</h2>
+<p>oagentkit 与 <a href="https://oekit.github.io">oekit</a>（Open Easy Kit，Go 微服务工具链）
+是<b>两套独立矩阵</b>，不是子品牌。oagentkit 依赖 oekit 的 <code>pkg</code>、
+<code>concurrency</code>、<code>logx</code>。</p>
+
+<footer>MIT License · <a href="https://github.com/oagentkit">github.com/oagentkit</a></footer>
+</main></body></html>
