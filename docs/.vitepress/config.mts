@@ -41,6 +41,8 @@ export default defineConfig({
       { text: '模块', link: '/modules/textx', activeMatch: '/modules/' },
       { text: '版本矩阵', link: '/versions.json' },
       { text: 'llms.txt', link: '/llms.txt' },
+      // 外链：VitePress 会自动加 ↗ 标记
+      { text: 'oekit', link: 'https://oekit.github.io' },
       { text: 'GitHub', link: repo }
     ],
 
@@ -65,6 +67,10 @@ export default defineConfig({
         {
           text: '参与',
           items: [{ text: 'CI 门禁与模块规则', link: '/guide/contributing' }]
+        },
+        {
+          text: '姊妹项目',
+          items: [{ text: 'oekit（Go 微服务工具链）', link: '/guide/oekit' }]
         }
       ],
 
