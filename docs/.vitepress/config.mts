@@ -17,6 +17,10 @@ export default defineConfig({
   lastUpdated: true,
   metaChunk: true,
 
+  // parts/ 下的是被 <!--@include:--> 注入首页的生成片段，不是独立页面。
+  // 不排除的话它们会各自生成 .html 并混进 sitemap，搜索引擎会索引到残缺片段。
+  srcExclude: ['parts/**'],
+
   head: [
     ['link', { rel: 'alternate', type: 'text/plain', href: '/llms.txt', title: 'llms.txt' }],
     ['meta', { property: 'og:type', content: 'website' }],
