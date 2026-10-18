@@ -76,11 +76,40 @@ jobs:
 | `gen_llms_txt.py` | 生成 [`llms.txt`](https://oagentkit.github.io/llms.txt) |
 | `gen_versions.py` | 生成 [`versions.json`](https://oagentkit.github.io/versions.json) |
 | `verify_split.py` | 校验拆分结果 |
-| `rewrite_imports.py` | import 路径改写（纯前缀映射） |
+| `rewrite_imports.py` | import 路径改写（⚠️ **不是纯前缀映射**，见下方路径规则） |
+| `matrix_paths.py` | 旧→新 import 路径构造规则的**唯一事实源**，被上面几个脚本共用 |
+| `verify_docs.py` | 防漂移：重新生成 `llms.txt` 与提交版比对，不一致 exit 1 |
 | `create_repos.py` / `publish_repo.sh` | 建仓与发布 |
 
 **`modules.json` 是唯一数据源。** 13 个仓的文档有 90% 是同构的（分层声明、硬规则、
 依赖表、「不属于本仓」表），手写必然漂移——所以生成。
+
+### import 路径规则（迁移必读）
+
+import 路径**不是纯前缀映射**：
+
+```
+新路径 = github.com/oagentkit/{仓名}/{包名末段}
+```
+
+旧单仓路径的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担：
+
+| 旧单仓 | 新路径 | 直觉会写成（错） |
+| --- | --- | --- |
+| `agentkit/knowledge/rag` | `oagentkit/rag/rag` | `oagentkit/rag/knowledge/rag` |
+| `agentkit/worker/pglease` | `oagentkit/queue/pglease` | `oagentkit/queue/worker/pglease` |
+| `agentkit/llm` | `oagentkit/llm/llm` | `oagentkit/llm` |
+
+最后一条最坑：仓名与包名末段相同时**不能省掉一段**。
+
+完整对照：
+
+```bash
+python3 ../matrix-tools/scripts/rewrite_imports.py --org oagentkit --print-rules
+```
+
+机器可读映射在 [`versions.json`](https://oagentkit.github.io/versions.json) 的
+`fromLegacy` 字段——工具做旧→新替换时读它，不必解析脚本源码。
 
 本站的模块页同理：[`oagentkit.github.io`](https://github.com/oagentkit/oagentkit.github.io)
 的 `scripts/gen_module_pages.py` 从同一份 `modules.json` 生成 13 个模块页 + 侧边栏 +

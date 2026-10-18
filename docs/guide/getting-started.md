@@ -24,7 +24,22 @@ import "github.com/oagentkit/agent/agentrun"          // ✅ 拆分后
 ```
 
 门面仓 [`oagentkit/agentkit`](https://github.com/oagentkit/agentkit) 只是 re-export 兼容层，
-46 包零逻辑转发，按 README 写死的期限在 **v1.x 后退役**。新代码一律用上表的模块路径。
+45 包零逻辑转发，按 README 写死的期限在 **v1.x 后退役**。新代码一律用上表的模块路径。
+
+::: danger import 路径不是纯前缀映射
+从旧单仓迁移时，**中间层目录会被丢掉**：
+
+```
+新路径 = github.com/oagentkit/{仓名}/{包名末段}
+
+agentkit/knowledge/rag   →  oagentkit/rag/rag       ❌ 不是 rag/knowledge/rag
+agentkit/worker/pglease  →  oagentkit/queue/pglease  ❌ 不是 queue/worker/pglease
+agentkit/llm             →  oagentkit/llm/llm       ❌ 不能省掉末尾一段
+```
+
+完整 45 条对照跑 `rewrite_imports.py --print-rules`，机器可读映射见
+[`versions.json`](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+:::
 :::
 
 ## 按需求选模块
