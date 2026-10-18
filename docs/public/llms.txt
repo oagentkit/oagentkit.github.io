@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 46 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 47 包）
 
 ## 模块
 
@@ -67,8 +67,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`llm`、`wrap`、`llmtest`
   - 依赖：[obs](https://github.com/oagentkit/obs)、[runtime](https://github.com/oagentkit/runtime)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/llm@latest`
-- [toolgate](https://github.com/oagentkit/toolgate): 工具治理——优先级三层约束/注解驱动并发调度/操作审计门
-  - 包：`toolprior`、`toolsched`、`policy`
+- [toolgate](https://github.com/oagentkit/toolgate): 工具治理——优先级三层约束/注解驱动并发调度/操作审计门/构造期不可绕过的工具调用链
+  - 包：`toolprior`、`toolsched`、`policy`、`invoke`
   - 依赖：[mcpkit](https://github.com/oagentkit/mcpkit)
   - 安装：`go get github.com/oagentkit/toolgate@latest`
 - [tools](https://github.com/oagentkit/tools): 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描
@@ -85,7 +85,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 门面仓（迁移过渡）
 
-- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，46 包 re-export，v1.x 后退役。新代码不要引它。
+- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，47 包 re-export，v1.x 后退役。新代码不要引它。
 - 完整旧→新包路径映射见该仓 [MIGRATION.md](https://github.com/oagentkit/agentkit/blob/main/MIGRATION.md)。
 
 ## 基建
@@ -103,7 +103,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/llm` → `github.com/oagentkit/llm/llm`
     - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
     - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
-  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag` 尤其坑：仓名与包名末段相同时**不能省掉一段**，直觉会以为可以合并。完整 5 条易踩对照、及全部 46 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag` 尤其坑：仓名与包名末段相同时**不能省掉一段**，直觉会以为可以合并。完整 5 条易踩对照、及全部 47 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
