@@ -1,0 +1,72 @@
+name: Pages
+
+# 文档站构建部署：VitePress（docs/ 为源）→ GitHub Pages
+#
+# 与模块仓的 CI 门禁无关——那套门禁在 oagentkit/.github 的 reusable workflow 里。
+# 本站只负责把 docs/ 编译成静态站点。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'data/modules.json'
+      - 'scripts/gen_module_pages.py'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同分支并发推送只跑最后一次，cancel 掉在等的
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build VitePress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 校验生成文件与 modules.json 同步
+        # 模块页是生成的：手改 docs/modules/*.md 会在这里被拦下，
+        # 必须改 data/modules.json 后跑 npm run gen:modules。
+        run: python3 scripts/gen_module_pages.py --check
+
+      - run: npm ci
+
+      - name: 构建
+        run: npm run docs:build
+
+      - name: 校验 /guide/ai-agent.html 已产出
+        # 这条 URL 曾长期 404（站点只有单页 index.html，没有 guide/ 子路径）。
+        # 断言它存在，防止以后重构悄悄把页面结构改掉。
+        run: test -f docs/.vitepress/dist/guide/ai-agent.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
