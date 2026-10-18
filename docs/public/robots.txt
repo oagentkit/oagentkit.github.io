@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oagentkit.github.io/sitemap.xml
