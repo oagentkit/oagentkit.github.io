@@ -33,7 +33,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
-| [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由 | <span class="matrix-tier">`textx`、`obs`</span> |
+| [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
 | [`toolgate`](/modules/toolgate.html) | 工具优先级/并发调度/操作审计门 | <span class="matrix-tier">`mcpkit`</span> |
 | [`tools`](/modules/tools.html) | CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描 | <span class="matrix-tier">`textx`、`runtime`、`guardx`</span> |
 
@@ -58,13 +58,12 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 `breaker` 已从本矩阵移出，迁往 `github.com/oekit/concurrency/breaker`。**退役是分阶段完成的**——消费方先改依赖上游、上游能力补齐，最后才删包，任何一步提前做都是构建断裂。
 
-- 消费方：llm/breaker.go（准入适配层：状态机委托上游，计数型否决本地补）
+- 消费方：llm/breaker.go —— 只做按模型名分桶 + 转发，不再有任何本地语义兜底
 - 上游需求链（全部已关闭）：
-  - [`#17`](https://github.com/oekit/concurrency/issues/17) —— 上游补三态 + 代绑定 + 探测时限 —— 已落地 v0.9.0
+  - [`#17`](https://github.com/oekit/concurrency/issues/17) —— 三态 + 代绑定 + 探测时限 —— 已落地 v0.9.0
   - [`#19`](https://github.com/oekit/concurrency/issues/19) —— 冷却期与探测时限解耦（WithCooldown）—— 已落地 v0.12.0
   - [`#20`](https://github.com/oekit/concurrency/issues/20) —— 计数型触发（WithConsecutiveFailures）—— 已落地 v0.12.0
-  - [`#25`](https://github.com/oekit/concurrency/issues/25) —— 计数型只切状态、切不了放行决策（实测阈值 3 第 12 次才拒绝）—— 已修复：上游 throttle open period to probe-level traffic（2026-10-18）
-- 后续：可删掉 `llm/breaker.go` 里的计数型准入否决段（`allow()` 中「先查本地准入否决再问上游」那段）；上游 #25 已修，代码注释里也写明「上游修好后本段可整体删除」
+  - [`#25`](https://github.com/oekit/concurrency/issues/25) —— 计数型只切状态、切不了放行决策 —— 已落地 v0.13.0，llm 侧兜底已删除
 
 退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。
 
