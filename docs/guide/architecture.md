@@ -22,21 +22,18 @@ oagentkit 的切分轴是**框架耦合度**，不是功能目录。三条硬判
 
 **tier N 不得依赖 tier > N。** 这是全矩阵唯一的结构性不变量。
 
-```
-tier 3 编排层    agent ─────────────► llm, textx
-                                    │
-tier 2 集成层    llm ──► obs, runtime, textx      toolgate ──► mcpkit
-                  tools ──► guardx, runtime, textx
-                                    │
-tier 1 能力层    mcpkit ──► runtime     skillkit ──► guardx, textx
-                  promptx ──► runtime, textx
-                  obs ──► textx          rag ──► textx
-                                    │
-tier 0 基础层    textx   runtime   guardx   queue      （零仓内依赖）
-```
+<DependencyGraph />
 
-依赖图**无环**、最深 3 跳 —— 这是当初按自底向上切仓可行性的硬证据。
-依赖图无环，意味着切仓不会产生循环 module 依赖。
+图的数据由 `data/modules.json` 生成，与下面的矩阵表共用同一份依赖声明——
+不会出现「图说 A 依赖 B、表说 A 不依赖 B」。
+
+::: tip 无环即切仓可行
+依赖图**无环**、最深 3 跳。这不是巧合，是当初按自底向上切仓可行性的硬证据：
+无环意味着切仓不会产生循环 module 依赖。
+
+`tier 3 · agent` 只有 1 个模块、零仓内被依赖——它是矩阵的顶点；
+`tier 0` 四个模块全部零仓内依赖，是整张图的地基。
+:::
 
 ### 门面层
 

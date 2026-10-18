@@ -20,6 +20,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "modules.json"
 DOCS = ROOT / "docs"
 NAV_OUT = DOCS / ".vitepress" / "modules-nav.json"
+GRAPH_OUT = DOCS / ".vitepress" / "graph-data.json"
 MODULES_OUT = DOCS / "modules"
 PARTS_OUT = DOCS / "parts"
 
@@ -233,6 +234,52 @@ def render_modules_index(data, mods):
     return "\n".join(lines)
 
 
+def render_graph_data(data, mods, rev):
+    """依赖关系图的数据源。
+
+    与页面共用 INTRA_DEPS，所以图和矩阵表永远一致 —— 手改其中一处，
+    另一处下次生成时就跟上了，不会出现「图说 A 依赖 B、表说 A 不依赖 B」。
+
+    tier 3 在顶部、tier 0 在底部：箭头由依赖方向（依赖方 → 被依赖方）向下指，
+    读起来就是「上层坐在下层之上」，与「自底向上」的口径一致。
+    """
+    nodes = []
+    for m in mods:
+        nodes.append(
+            {
+                "repo": m["repo"],
+                "tier": m["tier"],
+                "desc": m["desc"],
+                "packages": len(m["packages"]),
+                # eino 是本矩阵的「框架层」，标出来以便一眼看出耦合面
+                "eino": any("cloudwego/eino" in d for d in (m.get("heavyDeps") or [])),
+                "href": f"/modules/{m['repo']}.html",
+            }
+        )
+
+    edges = []
+    for m in mods:
+        for dep in INTRA_DEPS.get(m["repo"], []):
+            edges.append({"from": m["repo"], "to": dep})
+
+    return (
+        json.dumps(
+            {
+                "tiers": [
+                    {"tier": t, "label": TIER_LABEL[t], "desc": TIER_DESC[t]}
+                    for t in (3, 2, 1, 0)  # 渲染顺序：tier 3 在顶
+                ],
+                "nodes": nodes,
+                "edges": edges,
+                "dependents": {k: v for k, v in rev.items() if v},
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="只校验，不写文件")
@@ -253,6 +300,7 @@ def main():
         )
         + "\n"
     )
+    expected[GRAPH_OUT] = render_graph_data(data, mods, rev)
 
     stale = [
         p for p, content in expected.items()
