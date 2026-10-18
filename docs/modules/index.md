@@ -63,8 +63,8 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
   - [`#17`](https://github.com/oekit/concurrency/issues/17) —— 上游补三态 + 代绑定 + 探测时限 —— 已落地 v0.9.0
   - [`#19`](https://github.com/oekit/concurrency/issues/19) —— 冷却期与探测时限解耦（WithCooldown）—— 已落地 v0.12.0
   - [`#20`](https://github.com/oekit/concurrency/issues/20) —— 计数型触发（WithConsecutiveFailures）—— 已落地 v0.12.0
-  - [`#25`](https://github.com/oekit/concurrency/issues/25) —— 计数型只切状态、切不了放行决策（实测阈值 3 第 12 次才拒绝）—— 待修，llm 侧用本地准入否决兜底
-- 后续：上游 #25 修好后删掉 llm/breaker.go 里的计数型准入否决段
+  - [`#25`](https://github.com/oekit/concurrency/issues/25) —— 计数型只切状态、切不了放行决策（实测阈值 3 第 12 次才拒绝）—— 已修复：上游 throttle open period to probe-level traffic（2026-10-18）
+- 后续：可删掉 `llm/breaker.go` 里的计数型准入否决段（`allow()` 中「先查本地准入否决再问上游」那段）；上游 #25 已修，代码注释里也写明「上游修好后本段可整体删除」
 
 退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。
 

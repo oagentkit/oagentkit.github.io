@@ -57,9 +57,10 @@ go get github.com/oagentkit/runtime@latest
 原三态熔断器已迁到 `oekit/concurrency/breaker`，由 `llm` 仓的准入适配层消费。
 本仓不再有熔断实现 —— **不要在本仓重新实现熔断**。
 
-上游已知缺口：`WithConsecutiveFailures` 只切状态、切不了放行决策
-（实测阈值 3、第 12 次才真正拒绝），见 https://github.com/oekit/concurrency/issues/25 。
-`llm` 侧用本地计数型准入否决兜底，上游修好后删掉那段即可。
+上游缺口已修：`WithConsecutiveFailures` 曾只切状态、切不了放行决策
+（实测阈值 3、第 12 次才真正拒绝），见 https://github.com/oekit/concurrency/issues/25 ，
+已于 2026-10-18 由上游 `fix(breaker): throttle open period to probe-level traffic` 关闭。
+`llm` 侧那段本地计数型准入否决因此已冗余，可整体删除。
 
 ## 日志约定
 
