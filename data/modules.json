@@ -67,7 +67,7 @@
         "stream",
         "eventbus"
       ],
-      "agentNotes": "### `progress` 撞名但语义相反（最容易踩）\n\n- `oekit/concurrency/progress` = 长任务**阶段进度追踪器**（`NewTracker`/`PhaseConfig`/`PhaseStatus`）\n- 本仓 `progress` = 泛型**事件总线**（`Bus[T]`，发布订阅 + 慢消费者丢弃计数）\n\n**任何按包名对齐的迁移/退役判断都会做错。对齐必须按语义。**\n\n### `pacer` ≠ `ratelimit`\n\n`oekit/concurrency/ratelimit` 是**准入控制**（允许发/不允许发），本仓 `pacer` 是**聚合缓冲**\n（攒够窗口再发）。不是同一语义，不要互相替代。\n\n### `procx` 的分层硬约束\n\n`procx` 被 tier1 的 `mcpkit`、`promptx` 使用，**必须留在 tier0**。\n把它并入 tier2 的 `tools` 会造成 tier1→tier2 分层倒挂，违反矩阵不变量。\n\n### `breaker` 已退役\n\n原三态熔断器已迁到 `oekit/concurrency/breaker`，由 `llm` 仓的准入适配层消费。\n本仓不再有熔断实现 —— **不要在本仓重新实现熔断**。\n\n上游已知缺口：`WithConsecutiveFailures` 只切状态、切不了放行决策\n（实测阈值 3、第 12 次才真正拒绝），见 https://github.com/oekit/concurrency/issues/25 。\n`llm` 侧用本地计数型准入否决兜底，上游修好后删掉那段即可。",
+      "agentNotes": "### `progress` 撞名但语义相反（最容易踩）\n\n- `oekit/concurrency/progress` = 长任务**阶段进度追踪器**（`NewTracker`/`PhaseConfig`/`PhaseStatus`）\n- 本仓 `progress` = 泛型**事件总线**（`Bus[T]`，发布订阅 + 慢消费者丢弃计数）\n\n**任何按包名对齐的迁移/退役判断都会做错。对齐必须按语义。**\n\n### `pacer` ≠ `ratelimit`\n\n`oekit/concurrency/ratelimit` 是**准入控制**（允许发/不允许发），本仓 `pacer` 是**聚合缓冲**\n（攒够窗口再发）。不是同一语义，不要互相替代。\n\n### `procx` 的分层硬约束\n\n`procx` 被 tier1 的 `mcpkit`、`promptx` 使用，**必须留在 tier0**。\n把它并入 tier2 的 `tools` 会造成 tier1→tier2 分层倒挂，违反矩阵不变量。\n\n### `breaker` 已退役\n\n原三态熔断器已迁到 `oekit/concurrency/breaker`，由 `llm` 仓的准入适配层消费。\n本仓不再有熔断实现 —— **不要在本仓重新实现熔断**。\n\n上游缺口已修：`WithConsecutiveFailures` 曾只切状态、切不了放行决策\n（实测阈值 3、第 12 次才真正拒绝），见 https://github.com/oekit/concurrency/issues/25 ，\n已于 2026-10-18 由上游 `fix(breaker): throttle open period to probe-level traffic` 关闭。\n`llm` 侧那段本地计数型准入否决因此已冗余，可整体删除。",
       "loggingRule": "- **本仓不引入日志依赖。** tier0 加日志等于给所有下游抬地板；需要观测输出时返回 error 或交给调用方。",
       "pkgDesc": {
         "breaker": "三态熔断器（closed→open→half-open），带半开探针时限与陈旧探测失效（待退役）",
@@ -486,9 +486,9 @@
         "17": "上游补三态 + 代绑定 + 探测时限 —— 已落地 v0.9.0",
         "19": "冷却期与探测时限解耦（WithCooldown）—— 已落地 v0.12.0",
         "20": "计数型触发（WithConsecutiveFailures）—— 已落地 v0.12.0",
-        "25": "计数型只切状态、切不了放行决策（实测阈值 3 第 12 次才拒绝）—— 待修，llm 侧用本地准入否决兜底"
+        "25": "计数型只切状态、切不了放行决策（实测阈值 3 第 12 次才拒绝）—— 已修复：上游 throttle open period to probe-level traffic（2026-10-18）"
       },
-      "action": "上游 #25 修好后删掉 llm/breaker.go 里的计数型准入否决段"
+      "action": "可删掉 `llm/breaker.go` 里的计数型准入否决段（`allow()` 中「先查本地准入否决再问上游」那段）；上游 #25 已修，代码注释里也写明「上游修好后本段可整体删除」"
     }
   ],
   "droppedPackages": [
