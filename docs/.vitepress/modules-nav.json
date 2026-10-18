@@ -1,0 +1,54 @@
+[
+  {
+    "repo": "guardx",
+    "tier": 0
+  },
+  {
+    "repo": "queue",
+    "tier": 0
+  },
+  {
+    "repo": "runtime",
+    "tier": 0
+  },
+  {
+    "repo": "textx",
+    "tier": 0
+  },
+  {
+    "repo": "mcpkit",
+    "tier": 1
+  },
+  {
+    "repo": "obs",
+    "tier": 1
+  },
+  {
+    "repo": "promptx",
+    "tier": 1
+  },
+  {
+    "repo": "rag",
+    "tier": 1
+  },
+  {
+    "repo": "skillkit",
+    "tier": 1
+  },
+  {
+    "repo": "llm",
+    "tier": 2
+  },
+  {
+    "repo": "toolgate",
+    "tier": 2
+  },
+  {
+    "repo": "tools",
+    "tier": 2
+  },
+  {
+    "repo": "agent",
+    "tier": 3
+  }
+]
