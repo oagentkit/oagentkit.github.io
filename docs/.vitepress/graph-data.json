@@ -42,7 +42,7 @@
       "repo": "runtime",
       "tier": 0,
       "desc": "agent 进程运行时——流式节控/泛型事件总线/子进程环境/热插拔/钩子",
-      "packages": 6,
+      "packages": 5,
       "eino": false,
       "href": "/modules/runtime.html"
     },

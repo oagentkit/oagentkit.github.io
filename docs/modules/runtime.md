@@ -11,7 +11,7 @@ Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程�
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `mcpkit`、`promptx`、`llm`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 6 |
+| 包数 | 5 |
 
 ## 安装
 
@@ -25,7 +25,6 @@ go get github.com/oagentkit/runtime@latest
 
 | 包 | 说明 |
 | --- | --- |
-| `breaker` | 三态熔断器（closed→open→half-open），带半开探针时限与陈旧探测失效（待退役） |
 | `pacer` | 流式增量节流器：LLM token 分片攒够窗口再发，避免逐条发布洪泛事件通道 |
 | `progress` | 泛型事件总线 `Bus[T]`（发布订阅 + 慢消费者丢弃计数） |
 | `procx` | 子进程最小环境构造 `ChildEnv` + 执行封装，供 spawn 外部进程的包共用 |
@@ -53,11 +52,25 @@ go get github.com/oagentkit/runtime@latest
 `procx` 被 tier1 的 `mcpkit`、`promptx` 使用，**必须留在 tier0**。
 把它并入 tier2 的 `tools` 会造成 tier1→tier2 分层倒挂，违反矩阵不变量。
 
-### `breaker` 退役纪律
+### `breaker` 已退役（完整退役纪律）
 
-待退役到 `oekit/concurrency/breaker`，上游需求 https://github.com/oekit/concurrency/issues/17 。
-**在上游三项（代绑定 / 探测时限 / 冷却不被延长）落地前，不得删除本包** ——
-消费方仍在 import，删了直接构建断裂。落地后：删包 → 消费方改依赖上游 → 仓数不变，只减代码量。
+本仓不再有熔断实现。`breaker` 已迁往 `oekit/concurrency/breaker`，
+由 `llm` 仓按模型名分桶后转发调用。
+
+**退役是有前置条件的，不能跳步**——`oekit/concurrency` 的 breaker 缺代绑定、
+探测时限、独立冷却、计数型触发时，库形态消费方只能并行维护第二套熔断器。
+需求链 `#17 → #19 → #20 → #25` 全部落地后才有等价能力。
+
+四步顺序，颠倒任何一步都是构建断裂或语义丢失：
+
+1. **上游先补能力** —— `#17` v0.9.0 → `#19`/`#20` v0.12.0 → `#25` v0.13.0
+2. **消费方改依赖** —— `llm` 从 `oagentkit/runtime` 摘出，改依赖上游
+   （2026-10-18 02:08）
+3. **删本包实现** —— 本仓 `refactor!` 移除 breaker（2026-10-18 02:07）
+4. **删本地兜底** —— 上游 `#25` 修好后，`llm/breaker.go` 里的计数型准入否决段
+   已删除（2026-10-18 06:01），熔断语义全部委托上游
+
+**不要在本仓重新实现熔断。** 需要熔断能力就用 `oekit/concurrency/breaker`。
 
 ## 日志约定
 
