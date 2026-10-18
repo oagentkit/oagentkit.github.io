@@ -61,6 +61,11 @@ oagentkit **依赖** oekit 的三个包：
 - `github.com/oekit/concurrency` — goroutine 池 / 单飞 / 重试 / 令牌桶 / 滑动窗口 / 时间轮
 - `github.com/oekit/logx` — 日志门面
 
+反过来不成立。要看微服务侧的 24 个模块怎么分层，直接去
+[oekit 文档站](https://oekit.github.io)或它的[架构总览](https://oekit.github.io/about/architecture.html)。
+
+**[姊妹项目详解 →](/guide/oekit)** —— 两套矩阵的定位对比、依赖边界、24 模块分层与易混点。
+
 ::: tip 撞名提醒
 按包名对齐会做错。两边都有 `progress` 和 `breaker`，但语义相反或不同族——
 `oekit/concurrency/progress` 是长任务**阶段进度追踪器**，

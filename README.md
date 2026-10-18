@@ -11,10 +11,13 @@ docs/
 │   ├── modules-nav.json    生成物（13 模块的侧边栏数据）
 │   ├── graph-data.json     生成物（依赖图数据：tiers / nodes / edges / dependents）
 │   └── theme/
-│       ├── index.ts        主题入口（注册全局组件）
+│       ├── index.ts        主题入口（注册全局组件 + 侧栏 oekit 卡片插槽）
+│       ├── components/
+│       │   ├── DependencyGraph.vue   依赖关系图
+│       │   └── OekitCard.vue         侧栏底部的姊妹项目入口
 │       └── custom.css      品牌色覆盖（浅色 #0a58ca / 深色 #6cb6ff）
 ├── index.md                首页（模块矩阵表由 parts/matrix-table.md 注入）
-├── guide/                  7 篇指南
+├── guide/                  8 篇指南（含姊妹项目 oekit）
 ├── modules/                13 个模块页 —— 生成物，不要手改
 ├── parts/matrix-table.md   首页矩阵表 —— 生成物
 └── public/                 原样拷贝：llms.txt / versions.json / logo.svg / .nojekyll / robots.txt

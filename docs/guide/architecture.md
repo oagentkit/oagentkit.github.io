@@ -57,6 +57,8 @@ oagentkit 依赖 oekit 的三个包，这是**单向**的：
 `obs` 是矩阵里**唯一**直接做 eino callbacks 适配的仓——
 `oekit/tracing` 提供 Provider，oagentkit 提供「把 LLM 调用挂上去」的适配层，两者互补不重叠。
 
+→ 两套矩阵的定位对比、oekit 的 24 个模块分层、入口清单：**[姊妹项目 oekit](/guide/oekit)**
+
 ## 易踩的坑
 
 ### `progress` 撞名但语义相反
