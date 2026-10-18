@@ -77,27 +77,26 @@ oagentkit 依赖 oekit 的三个包，这是**单向**的：
 
 要「批量攒着发」用 pacer，要「别超过 N 次/秒」用 ratelimit。
 
-### `runtime/breaker` 待退役（阻塞中）
+### `runtime/breaker` 已退役
 
-与 `oekit/concurrency/breaker` 重叠但**非同族**：本仓是三态熔断器，
-上游是 Google SRE 式自适应概率丢弃。
+`runtime` 的 `breaker` 包**已删除**。原三态熔断器迁到
+[`oekit/concurrency/breaker`](https://github.com/oekit/concurrency/breaker)，
+由 `llm/breaker.go` 的准入适配层消费。
 
-原上游需求 [#17](https://github.com/oekit/concurrency/issues/17) **已于 2026-10-18 关闭**，
-上游 v0.9.0 落地了显式三态状态机（`stateClosed` / `stateOpen` / `stateHalfOpen`）
-与代绑定 `AllowGen` / `SuccessGen` / `FailureGen` / `AbandonGen`。
+**退役是分阶段完成的**，顺序不能颠倒：
 
-**但仍不能移出**——`llm` 现在还 import 它，且两个后续需求未落地：
+1. **上游先补能力** —— 上游 breaker 缺代绑定、探测时限、独立冷却、计数型触发，
+   库形态消费方只能并行维护第二套熔断器。需求链 `#17 → #19 → #20 → #25` 全部关闭后，
+   上游才有等价能力。
+2. **消费方改依赖** —— `llm` 从 `oagentkit/runtime` 摘出来，改依赖
+   `oekit/concurrency/breaker`（v0.9.0 → v0.12.0）。
+3. **最后才删包** —— `runtime` 在 2026-10-18 02:07 用 `refactor!` 移除实现。
 
-| Issue | 阻塞点 |
-| --- | --- |
-| [#19](https://github.com/oekit/concurrency/issues/19) | 冷却期与探测失联时限共用 `probeTimeout`，无法独立配置。业务冷却 5min 与单次 LLM 调用在途上界 60s 差一个量级，绑死后只能取大值 |
-| [#20](https://github.com/oekit/concurrency/issues/20) | 缺「连续失败 N 次即熔断」（`trip`）触发。上游只有速率型 `dropRatio>0`，而 `llm.TestResilientBreakerTrips` 钉的正是 `trip` 语义 |
+任何一步提前做都是构建断裂：消费方还 import 时删包会直接挂；上游能力没补齐就切会丢语义。
 
-两个都落地后才执行：`llm` 改用上游 `GenBreaker` → 删 `runtime/breaker` →
-`llm.ResilientConfig` 的 `BreakerTrip` / `BreakerCooldown` 标记 Deprecated。
-仓数不变，只减代码量。
+遗留：`llm` 侧还留着一段计数型准入否决作为兜底，等上游 `#25` 完全收敛后可去掉。
 
-**在那之前不要删除。** 过渡期它仍在本仓可用。
+完整 issue 链见[模块总览](/modules/index.html)。
 
 ## 相关
 

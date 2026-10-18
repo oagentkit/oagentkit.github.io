@@ -9,9 +9,9 @@ Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程�
 | 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
 | oekit 对应 | `无直接对应；并发主体已上移到 oekit/concurrency` |
 | 仓内依赖 | —（零仓内依赖） |
-| 被依赖 | `mcpkit`、`promptx`、`llm`、`tools` |
+| 被依赖 | `mcpkit`、`promptx`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 6 |
+| 包数 | 5 |
 
 ## 安装
 
@@ -25,7 +25,6 @@ go get github.com/oagentkit/runtime@latest
 
 | 包 | 说明 |
 | --- | --- |
-| `breaker` | 三态熔断器（closed→open→half-open），带半开探针时限与陈旧探测失效（待退役） |
 | `pacer` | 流式增量节流器：LLM token 分片攒够窗口再发，避免逐条发布洪泛事件通道 |
 | `progress` | 泛型事件总线 `Bus[T]`（发布订阅 + 慢消费者丢弃计数） |
 | `procx` | 子进程最小环境构造 `ChildEnv` + 执行封装，供 spawn 外部进程的包共用 |
@@ -39,7 +38,7 @@ go get github.com/oagentkit/runtime@latest
 ### `progress` 撞名但语义相反（最容易踩）
 
 - `oekit/concurrency/progress` = 长任务**阶段进度追踪器**（`NewTracker`/`PhaseConfig`/`PhaseStatus`）
-- 本仓 `progress` = 泛型**事件总线**（`NewBus[T]`，发布订阅 + 慢消费者丢弃计数）
+- 本仓 `progress` = 泛型**事件总线**（`Bus[T]`，发布订阅 + 慢消费者丢弃计数）
 
 **任何按包名对齐的迁移/退役判断都会做错。对齐必须按语义。**
 
@@ -53,11 +52,14 @@ go get github.com/oagentkit/runtime@latest
 `procx` 被 tier1 的 `mcpkit`、`promptx` 使用，**必须留在 tier0**。
 把它并入 tier2 的 `tools` 会造成 tier1→tier2 分层倒挂，违反矩阵不变量。
 
-### `breaker` 退役纪律
+### `breaker` 已退役
 
-待退役到 `oekit/concurrency/breaker`，上游需求 https://github.com/oekit/concurrency/issues/17 。
-**在上游三项（代绑定 / 探测时限 / 冷却不被延长）落地前，不得删除本包** ——
-消费方仍在 import，删了直接构建断裂。落地后：删包 → 消费方改依赖上游 → 仓数不变，只减代码量。
+原三态熔断器已迁到 `oekit/concurrency/breaker`，由 `llm` 仓的准入适配层消费。
+本仓不再有熔断实现 —— **不要在本仓重新实现熔断**。
+
+上游已知缺口：`WithConsecutiveFailures` 只切状态、切不了放行决策
+（实测阈值 3、第 12 次才真正拒绝），见 https://github.com/oekit/concurrency/issues/25 。
+`llm` 侧用本地计数型准入否决兜底，上游修好后删掉那段即可。
 
 ## 日志约定
 

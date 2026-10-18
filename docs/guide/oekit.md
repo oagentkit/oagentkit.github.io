@@ -78,11 +78,22 @@ oagentkit 依赖 oekit 的三个包，反过来不成立。**两者是两套独�
 
 | 包名 | oekit | oagentkit |
 | --- | --- | --- |
-| `progress` | 长任务**阶段进度追踪器** | 泛型**事件总线** |
-| `breaker` | 自适应三态熔断（`GenBreaker` 代绑定） | 三态熔断器（待退役，阻塞中） |
+| `progress` | 长任务**阶段进度追踪器**（`NewTracker`/`PhaseConfig`/`PhaseStatus`） | 泛型**事件总线**（`Bus[T]`，发布订阅 + 慢消费者丢弃计数） |
+| `breaker` | 三态熔断器**当前实现方** | 已退役，原实现迁到 oekit（见下） |
 
 两个仓都在你的 import 里，**按前缀逐段对**：`oekit/concurrency/progress` ≠
-`oagentkit/runtime/progress`。`runtime/breaker` 的退役状态见[架构总览](/guide/architecture)。
+`oagentkit/runtime/progress`。
+
+### `breaker` 现在归 oekit
+
+`runtime/breaker` 已删除，三态熔断器迁到了
+[`oekit/concurrency/breaker`](https://github.com/oekit/concurrency/breaker)，
+由 `llm/breaker.go` 的准入适配层消费。
+
+这正是上面那条「按语义对齐」的价值：正因为按语义判断过，才没在按包名对齐时
+做出「runtime 的 breaker 比 oekit 的语义更正、应该留在 runtime」的错误结论。
+
+退役的分阶段纪律见[架构总览](/guide/architecture)。
 
 ## 相关
 
