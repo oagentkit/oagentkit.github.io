@@ -8,7 +8,7 @@
 | --- | --- |
 | 层 | tier 1 · 能力层（依赖 tier 0） |
 | oekit 对应 | `pack` |
-| 仓内依赖 | `guardx`、`textx` |
+| 仓内依赖 | `textx`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `gopkg.in/yaml.v3`、`github.com/Masterminds/semver/v3` |
 | 包数 | 3 |

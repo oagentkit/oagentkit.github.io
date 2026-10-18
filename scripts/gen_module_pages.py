@@ -3,8 +3,8 @@
 由 data/modules.json 生成 oagentkit 文档站的模块页、侧边栏与首页矩阵表。
 
 单一数据源：data/modules.json（从 matrix-tools 仓同步而来，schema 同源）。
-仓间依赖（INTRA_DEPS）不在 modules.json 里 —— 它只记录第三方依赖地板 ——
-所以这里显式维护一份，并在 CI/提交时人工核对与 llms.txt 一致。
+仓间依赖直接读 modules.json 的 dependsOn 字段（缺字段 = 零依赖），
+不另维护第二份 —— 图、矩阵表、模块页与权威数据因此不可能漂移。
 
 用法：
     npm run gen:modules
@@ -40,23 +40,13 @@ TIER_DESC = {
     3: "依赖 llm 等 tier 2 门面",
 }
 
-# 仓间依赖（intra-matrix）。modules.json 不含此项，此表须与 llms.txt 的
-# 「依赖：」行保持一致 —— 改这里就同步改 llms.txt。
-INTRA_DEPS = {
-    "textx": [],
-    "runtime": [],
-    "guardx": [],
-    "queue": [],
-    "promptx": ["runtime", "textx"],
-    "obs": ["textx"],
-    "skillkit": ["guardx", "textx"],
-    "mcpkit": ["runtime"],
-    "rag": ["textx"],
-    "llm": ["obs", "runtime", "textx"],
-    "toolgate": ["mcpkit"],
-    "tools": ["guardx", "runtime", "textx"],
-    "agent": ["llm", "textx"],
-}
+# 仓间依赖（intra-matrix）读 modules.json 的 dependsOn 字段，不再在本文件维护。
+#
+# 之前这里硬编码过一份 INTRA_DEPS，那是手抄的第二份依赖数据 —— 退役/新增模块时
+# 极易与 modules.json 漂移（breaker 退役时就真漂了：llm 不再依赖 runtime，
+# 手抄表还留着）。dependsOn 缺字段 = 零仓内依赖（tier 0 即如此）。
+def deps_of(module):
+    return module.get("dependsOn") or []
 
 
 def load():
@@ -69,7 +59,7 @@ def reverse_deps(mods):
     """repo -> 直接依赖它的仓列表。"""
     rev = {m["repo"]: [] for m in mods}
     for m in mods:
-        for dep in INTRA_DEPS.get(m["repo"], []):
+        for dep in deps_of(m):
             if dep in rev:
                 rev[dep].append(m["repo"])
     return rev
@@ -85,7 +75,7 @@ def render_matrix_table(mods):
         "| --- | --- | --- | --- |",
     ]
     for m in mods:
-        deps = INTRA_DEPS.get(m["repo"], [])
+        deps = deps_of(m)
         deps_cell = "、".join(f"`{d}`" for d in deps) if deps else "—"
         rows.append(
             f"| [`{m['repo']}`](/modules/{m['repo']}.html) "
@@ -98,7 +88,7 @@ def render_matrix_table(mods):
 
 def render_module_page(m, rev, import_root):
     repo = m["repo"]
-    deps = INTRA_DEPS.get(repo, [])
+    deps = deps_of(m)
     rdeps = rev.get(repo, [])
     lines = []
 
@@ -197,7 +187,7 @@ def render_modules_index(data, mods):
         lines.append("| 模块 | 说明 | 仓内依赖 |")
         lines.append("| --- | --- | --- |")
         for m in group:
-            deps = INTRA_DEPS.get(m["repo"], [])
+            deps = deps_of(m)
             deps_cell = "、".join(f"`{d}`" for d in deps) if deps else "—"
             lines.append(
                 f"| [`{m['repo']}`](/modules/{m['repo']}.html) "
@@ -212,6 +202,33 @@ def render_modules_index(data, mods):
     for ir in data.get("infraRepos", []):
         lines.append(f"| [`{ir['repo']}`]({ORG}/{ir['repo']}) | {ir['role']} |")
     lines.append("")
+
+    for rp in data.get("retiringPackages") or []:
+        pkg = rp.get("pkg", "?")
+        repl = rp.get("replacement")
+        lines.append(f"## 已退役的包：{pkg}")
+        lines.append("")
+        if repl:
+            lines.append(
+                f"`{pkg}` 已从本矩阵移出，迁往 `{repl}`。**退役是分阶段完成的**——"
+                "消费方先改依赖上游、上游能力补齐，最后才删包，"
+                "任何一步提前做都是构建断裂。"
+            )
+            lines.append("")
+        if rp.get("consumedBy"):
+            lines.append(f"- 消费方：{rp['consumedBy']}")
+        chain = rp.get("issueChain") or {}
+        if chain:
+            lines.append("- 上游需求链（全部已关闭）：")
+            for num, desc in chain.items():
+                lines.append(f"  - [`#{num}`](https://github.com/oekit/concurrency/issues/{num}) —— {desc}")
+        if rp.get("action"):
+            lines.append(f"- 后续：{rp['action']}")
+        lines.append("")
+        lines.append(
+            "退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。"
+        )
+        lines.append("")
 
     if data.get("droppedPackages"):
         lines.append("## 已移除的包")
@@ -237,7 +254,7 @@ def render_modules_index(data, mods):
 def render_graph_data(data, mods, rev):
     """依赖关系图的数据源。
 
-    与页面共用 INTRA_DEPS，所以图和矩阵表永远一致 —— 手改其中一处，
+    与页面共用 modules.json 的 dependsOn，所以图和矩阵表永远一致 —— 手改其中一处，
     另一处下次生成时就跟上了，不会出现「图说 A 依赖 B、表说 A 不依赖 B」。
 
     tier 3 在顶部、tier 0 在底部：箭头由依赖方向（依赖方 → 被依赖方）向下指，
@@ -259,7 +276,7 @@ def render_graph_data(data, mods, rev):
 
     edges = []
     for m in mods:
-        for dep in INTRA_DEPS.get(m["repo"], []):
+        for dep in deps_of(m):
             edges.append({"from": m["repo"], "to": dep})
 
     return (

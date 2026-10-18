@@ -42,7 +42,7 @@
       "repo": "runtime",
       "tier": 0,
       "desc": "agent 进程运行时——流式节控/泛型事件总线/子进程环境/热插拔/钩子",
-      "packages": 6,
+      "packages": 5,
       "eino": false,
       "href": "/modules/runtime.html"
     },
@@ -150,10 +150,14 @@
     },
     {
       "from": "skillkit",
-      "to": "guardx"
+      "to": "textx"
     },
     {
       "from": "skillkit",
+      "to": "guardx"
+    },
+    {
+      "from": "llm",
       "to": "textx"
     },
     {
@@ -161,20 +165,12 @@
       "to": "obs"
     },
     {
-      "from": "llm",
-      "to": "runtime"
-    },
-    {
-      "from": "llm",
-      "to": "textx"
-    },
-    {
       "from": "toolgate",
       "to": "mcpkit"
     },
     {
       "from": "tools",
-      "to": "guardx"
+      "to": "textx"
     },
     {
       "from": "tools",
@@ -182,7 +178,7 @@
     },
     {
       "from": "tools",
-      "to": "textx"
+      "to": "guardx"
     },
     {
       "from": "agent",
@@ -201,7 +197,6 @@
     "runtime": [
       "mcpkit",
       "promptx",
-      "llm",
       "tools"
     ],
     "textx": [
