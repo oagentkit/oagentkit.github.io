@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 46 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 45 包）
 
 ## 模块
 
@@ -32,7 +32,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`worker`、`pglease`
   - 安装：`go get github.com/oagentkit/queue@latest`
 - [runtime](https://github.com/oagentkit/runtime): Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程最小环境/运行时热插拔/生命周期钩子
-  - 包：`breaker`、`pacer`、`progress`、`procx`、`hotplug`、`hookx`
+  - 包：`pacer`、`progress`、`procx`、`hotplug`、`hookx`
   - 安装：`go get github.com/oagentkit/runtime@latest`
 - [textx](https://github.com/oagentkit/textx): 文本与差异处理——增量切片/unified diff 解析/代码符号索引/会话滚动窗口与压缩/评审报告指纹
   - 包：`textutil`、`diffx`、`codeintel`、`compact`、`conversation`、`reportutil`
@@ -85,7 +85,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 门面仓（迁移过渡）
 
-- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，46 包 re-export，v1.x 后退役。新代码不要引它。
+- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，45 包 re-export，v1.x 后退役。新代码不要引它。
 - 完整旧→新包路径映射见该仓 [MIGRATION.md](https://github.com/oagentkit/agentkit/blob/main/MIGRATION.md)。
 
 ## 基建
@@ -97,12 +97,24 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 - **每仓根目录的 `AGENTS.md` 是该仓的权威规范**：分层不变量、错误处理、日志、并发安全、API 命名，以及该仓特有的工程红线。
 - 安装一律 `go get github.com/oagentkit/<mod>@latest`；不要引门面仓 `agentkit`。
+- **import 路径 = `github.com/oagentkit/{仓名}/{包名末段}`**。旧单仓 `git.enjoye.top/enjoydream/agentkit/<包>` 的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担。例如：
+    - `agentkit/worker/pglease` → `github.com/oagentkit/queue/pglease`
+    - `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag`
+    - `agentkit/llm` → `github.com/oagentkit/llm/llm`
+    - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
+    - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
+  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag` 尤其坑：仓名与包名末段相同时**不能省掉一段**，直觉会以为可以合并。完整 5 条易踩对照、及全部 45 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
 
 ## 易踩的坑
 
+- **import 路径不是纯前缀映射**：旧单仓 `agentkit/<包>` 迁到新矩阵时，中间层目录会被丢掉 —— `agentkit/worker/pglease` → `github.com/oagentkit/queue/pglease`。按「仓库名 + 完整旧路径」拼会直接构建断裂。
 - **`progress` 撞名但语义相反**：`oekit/concurrency/progress` 是长任务**阶段进度追踪器**，而 `oagentkit/runtime/progress` 是泛型**事件总线**。按包名对齐会做错。
 - **`pacer` ≠ `ratelimit`**：前者是聚合缓冲（攒够窗口再发），后者是准入控制。
 - **`runtime/breaker` 已退役**：`llm` v0.4.0 起熔断全量使用 `oekit/concurrency/breaker`（三态状态机 + 代绑定 + 冷却期/探测时限独立配置 + 计数型触发）。上游 [#17](https://github.com/oekit/concurrency/issues/17)→[#25](https://github.com/oekit/concurrency/issues/25) 已全部落地。
+- **`oekit/concurrency/breaker` 的 `0` 语义是陷阱**：`WithConsecutiveFailures(0)` 表示**关闭计数型触发**、`WithCooldown(0)` 表示**沿用 probeTimeout**；而旧 `agentkit/breaker` 的 `New(0, …)` 里 0 是「用缺省」。照抄会让熔断静默失效。
+- **`GetBreaker` 是进程级单例且 opts 只认首次创建**：同名不同参会静默沿用首次配置。需要多套配置时把参数并进 breaker 名字做命名空间隔离。
+- **上游未导出 breaker 缺省值**：需要 trip/cooldown 缺省请在调用方显式固化常量，别依赖「传 0 走默认」——上游没有这个约定。
+
