@@ -64,6 +64,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
   - [`#19`](https://github.com/oekit/concurrency/issues/19) —— 冷却期与探测时限解耦（WithCooldown）—— 已落地 v0.12.0
   - [`#20`](https://github.com/oekit/concurrency/issues/20) —— 计数型触发（WithConsecutiveFailures）—— 已落地 v0.12.0
   - [`#25`](https://github.com/oekit/concurrency/issues/25) —— 计数型只切状态、切不了放行决策 —— 已落地 v0.13.0，llm 侧兜底已删除
+- 状态：已完成：llm v0.4.0 起全量使用上游 GenBreaker
 
 退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。
 

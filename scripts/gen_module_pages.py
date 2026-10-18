@@ -222,6 +222,10 @@ def render_modules_index(data, mods):
             lines.append("- 上游需求链（全部已关闭）：")
             for num, desc in chain.items():
                 lines.append(f"  - [`#{num}`](https://github.com/oekit/concurrency/issues/{num}) —— {desc}")
+        # 退役记录有两种终局写法：退役未完成时用 action（下一步做什么），
+        # 退役完成后用 status（终局是什么）。两者都渲染，别因为换键就整段丢。
+        if rp.get("status"):
+            lines.append(f"- 状态：{rp['status']}")
         if rp.get("action"):
             lines.append(f"- 后续：{rp['action']}")
         lines.append("")
