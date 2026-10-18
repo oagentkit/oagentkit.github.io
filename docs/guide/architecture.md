@@ -75,12 +75,27 @@ oagentkit 依赖 oekit 的三个包，这是**单向**的：
 
 要「批量攒着发」用 pacer，要「别超过 N 次/秒」用 ratelimit。
 
-### `runtime/breaker` 待退役
+### `runtime/breaker` 待退役（阻塞中）
 
-与 `oekit/concurrency/breaker` 重叠但**非同族**：后者是自适应概率丢弃，
-前者是三态熔断器。上游需求见 [oekit/concurrency#17](https://github.com/oekit/concurrency/issues/17)。
+与 `oekit/concurrency/breaker` 重叠但**非同族**：本仓是三态熔断器，
+上游是 Google SRE 式自适应概率丢弃。
 
-**落地前不要删除。** 过渡期它仍在本仓可用。
+原上游需求 [#17](https://github.com/oekit/concurrency/issues/17) **已于 2026-10-18 关闭**，
+上游 v0.9.0 落地了显式三态状态机（`stateClosed` / `stateOpen` / `stateHalfOpen`）
+与代绑定 `AllowGen` / `SuccessGen` / `FailureGen` / `AbandonGen`。
+
+**但仍不能移出**——`llm` 现在还 import 它，且两个后续需求未落地：
+
+| Issue | 阻塞点 |
+| --- | --- |
+| [#19](https://github.com/oekit/concurrency/issues/19) | 冷却期与探测失联时限共用 `probeTimeout`，无法独立配置。业务冷却 5min 与单次 LLM 调用在途上界 60s 差一个量级，绑死后只能取大值 |
+| [#20](https://github.com/oekit/concurrency/issues/20) | 缺「连续失败 N 次即熔断」（`trip`）触发。上游只有速率型 `dropRatio>0`，而 `llm.TestResilientBreakerTrips` 钉的正是 `trip` 语义 |
+
+两个都落地后才执行：`llm` 改用上游 `GenBreaker` → 删 `runtime/breaker` →
+`llm.ResilientConfig` 的 `BreakerTrip` / `BreakerCooldown` 标记 Deprecated。
+仓数不变，只减代码量。
+
+**在那之前不要删除。** 过渡期它仍在本仓可用。
 
 ## 相关
 
