@@ -1,10 +1,13 @@
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
-// 站点只做品牌色覆盖，功能沿用默认主题：
-// 需要自定义组件（首页矩阵表之类）时再在这里 registerComponents。
+import DependencyGraph from './components/DependencyGraph.vue'
 import './custom.css'
 
+// 依赖关系图在 architecture.md 和首页都要用，注册成全局组件
 export default {
-  extends: DefaultTheme
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('DependencyGraph', DependencyGraph)
+  }
 } satisfies Theme

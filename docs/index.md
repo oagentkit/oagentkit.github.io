@@ -32,6 +32,8 @@ features:
 
 13 个独立发版的 Go 模块，按**框架耦合度**分四层。tier N 不得依赖 tier > N。
 
+<DependencyGraph />
+
 <!--@include: ./parts/matrix-table.md-->
 
 ::: warning 别引门面仓

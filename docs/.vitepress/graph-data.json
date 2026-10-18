@@ -1,0 +1,226 @@
+{
+  "tiers": [
+    {
+      "tier": 3,
+      "label": "tier 3 · 编排层",
+      "desc": "依赖 llm 等 tier 2 门面"
+    },
+    {
+      "tier": 2,
+      "label": "tier 2 · 集成层",
+      "desc": "依赖 tier 0/1 + 重第三方地板"
+    },
+    {
+      "tier": 1,
+      "label": "tier 1 · 能力层",
+      "desc": "依赖 tier 0"
+    },
+    {
+      "tier": 0,
+      "label": "tier 0 · 基础层",
+      "desc": "零仓内依赖或仅依赖同仓包"
+    }
+  ],
+  "nodes": [
+    {
+      "repo": "guardx",
+      "tier": 0,
+      "desc": "脱敏/出口围栏/权限判定/沙箱解析/审计",
+      "packages": 6,
+      "eino": false,
+      "href": "/modules/guardx.html"
+    },
+    {
+      "repo": "queue",
+      "tier": 0,
+      "desc": "DB 即队列 + Postgres 选主 Lease",
+      "packages": 2,
+      "eino": false,
+      "href": "/modules/queue.html"
+    },
+    {
+      "repo": "runtime",
+      "tier": 0,
+      "desc": "agent 进程运行时——流式节控/泛型事件总线/子进程环境/热插拔/钩子",
+      "packages": 6,
+      "eino": false,
+      "href": "/modules/runtime.html"
+    },
+    {
+      "repo": "textx",
+      "tier": 0,
+      "desc": "文本/差异/会话/报告纯函数集",
+      "packages": 6,
+      "eino": false,
+      "href": "/modules/textx.html"
+    },
+    {
+      "repo": "mcpkit",
+      "tier": 1,
+      "desc": "MCP 客户端/工具池/建连单飞",
+      "packages": 1,
+      "eino": true,
+      "href": "/modules/mcpkit.html"
+    },
+    {
+      "repo": "obs",
+      "tier": 1,
+      "desc": "用量观测 + Langfuse 追踪",
+      "packages": 2,
+      "eino": true,
+      "href": "/modules/obs.html"
+    },
+    {
+      "repo": "promptx",
+      "tier": 1,
+      "desc": "system prompt 分段组装/运行中转向/文件读后写一致性",
+      "packages": 3,
+      "eino": false,
+      "href": "/modules/promptx.html"
+    },
+    {
+      "repo": "rag",
+      "tier": 1,
+      "desc": "知识检索——向量化/混合召回/重排",
+      "packages": 1,
+      "eino": true,
+      "href": "/modules/rag.html"
+    },
+    {
+      "repo": "skillkit",
+      "tier": 1,
+      "desc": "SKILL.md 渐进披露 + 领域包契约 + 装配血缘",
+      "packages": 3,
+      "eino": false,
+      "href": "/modules/skillkit.html"
+    },
+    {
+      "repo": "llm",
+      "tier": 2,
+      "desc": "模型客户端/降级链/预算/成本/阶段路由",
+      "packages": 3,
+      "eino": true,
+      "href": "/modules/llm.html"
+    },
+    {
+      "repo": "toolgate",
+      "tier": 2,
+      "desc": "工具优先级/并发调度/操作审计门",
+      "packages": 3,
+      "eino": true,
+      "href": "/modules/toolgate.html"
+    },
+    {
+      "repo": "tools",
+      "tier": 2,
+      "desc": "CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描",
+      "packages": 4,
+      "eino": true,
+      "href": "/modules/tools.html"
+    },
+    {
+      "repo": "agent",
+      "tier": 3,
+      "desc": "ReAct 运行样板/反思循环/意图路由/多专家黑板/派发守卫/澄清",
+      "packages": 6,
+      "eino": true,
+      "href": "/modules/agent.html"
+    }
+  ],
+  "edges": [
+    {
+      "from": "mcpkit",
+      "to": "runtime"
+    },
+    {
+      "from": "obs",
+      "to": "textx"
+    },
+    {
+      "from": "promptx",
+      "to": "runtime"
+    },
+    {
+      "from": "promptx",
+      "to": "textx"
+    },
+    {
+      "from": "rag",
+      "to": "textx"
+    },
+    {
+      "from": "skillkit",
+      "to": "guardx"
+    },
+    {
+      "from": "skillkit",
+      "to": "textx"
+    },
+    {
+      "from": "llm",
+      "to": "obs"
+    },
+    {
+      "from": "llm",
+      "to": "runtime"
+    },
+    {
+      "from": "llm",
+      "to": "textx"
+    },
+    {
+      "from": "toolgate",
+      "to": "mcpkit"
+    },
+    {
+      "from": "tools",
+      "to": "guardx"
+    },
+    {
+      "from": "tools",
+      "to": "runtime"
+    },
+    {
+      "from": "tools",
+      "to": "textx"
+    },
+    {
+      "from": "agent",
+      "to": "llm"
+    },
+    {
+      "from": "agent",
+      "to": "textx"
+    }
+  ],
+  "dependents": {
+    "guardx": [
+      "skillkit",
+      "tools"
+    ],
+    "runtime": [
+      "mcpkit",
+      "promptx",
+      "llm",
+      "tools"
+    ],
+    "textx": [
+      "obs",
+      "promptx",
+      "rag",
+      "skillkit",
+      "llm",
+      "tools",
+      "agent"
+    ],
+    "mcpkit": [
+      "toolgate"
+    ],
+    "obs": [
+      "llm"
+    ],
+    "llm": [
+      "agent"
+    ]
+  }
+}
