@@ -10,7 +10,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
-| [`guardx`](/modules/guardx.html) | 脱敏/出口围栏/权限判定/沙箱解析/审计 | <span class="matrix-tier">—</span> |
+| [`guardx`](/modules/guardx.html) | 脱敏/出口围栏/权限判定 | <span class="matrix-tier">—</span> |
 | [`queue`](/modules/queue.html) | DB 即队列 + Postgres 选主 Lease | <span class="matrix-tier">—</span> |
 | [`runtime`](/modules/runtime.html) | agent 进程运行时——流式节控/泛型事件总线/子进程环境/热插拔/钩子 | <span class="matrix-tier">—</span> |
 | [`textx`](/modules/textx.html) | 文本/差异/会话/报告纯函数集 | <span class="matrix-tier">—</span> |
@@ -22,7 +22,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
 | [`mcpkit`](/modules/mcpkit.html) | MCP 客户端/工具池/建连单飞 | <span class="matrix-tier">`runtime`</span> |
-| [`obs`](/modules/obs.html) | 用量观测 + Langfuse 追踪 | <span class="matrix-tier">`textx`</span> |
+| [`obs`](/modules/obs.html) | 用量观测 + Langfuse 追踪 + 审计留痕 | <span class="matrix-tier">`guardx`、`textx`</span> |
 | [`promptx`](/modules/promptx.html) | system prompt 分段组装/运行中转向/文件读后写一致性 | <span class="matrix-tier">`runtime`、`textx`</span> |
 | [`rag`](/modules/rag.html) | 知识检索——向量化/混合召回/重排 | <span class="matrix-tier">`textx`</span> |
 | [`skillkit`](/modules/skillkit.html) | SKILL.md 渐进披露 + 领域包契约 + 装配血缘 | <span class="matrix-tier">`textx`、`guardx`</span> |
@@ -35,7 +35,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 | --- | --- | --- |
 | [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
 | [`toolgate`](/modules/toolgate.html) | 工具优先级/并发调度/操作审计门/不可绕过的调用链 | <span class="matrix-tier">`mcpkit`</span> |
-| [`tools`](/modules/tools.html) | CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描 | <span class="matrix-tier">`textx`、`runtime`、`guardx`</span> |
+| [`tools`](/modules/tools.html) | CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描/Shell 静态裁决 | <span class="matrix-tier">`textx`、`runtime`、`guardx`</span> |
 
 ## tier 3 · 编排层
 

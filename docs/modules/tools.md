@@ -1,6 +1,6 @@
 # tools
 
-外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描
+外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描/Shell 命令静态裁决
 
 ## 概况
 
@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx`、`runtime`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino` |
-| 包数 | 4 |
+| 包数 | 5 |
 
 ## 安装
 
@@ -29,6 +29,7 @@ go get github.com/oagentkit/tools@latest
 | `websearch` | 公开资料检索抽象，接口可插拔（缺省 SearXNG 自建实例） |
 | `workcopy` | Git 工作副本沙箱：隔离环境 + merge-base 校验 |
 | `sast` | 确定性 SAST 前置扫描（不执行被扫代码） |
+| `bashguard` | Shell 命令静态风险裁决（自 guardx/bashguard 迁入）：经真 shell AST 判定只读性，不执行命令 |
 
 ## 本仓硬规则
 
@@ -39,6 +40,7 @@ go get github.com/oagentkit/tools@latest
 - `workcopy` 的 git 操作必须限制在沙箱目录内，`EnsureMergeBase` 失败要显式报错，
   不得跳过继续。
 - SAST 扫描是**确定性前置扫描**，不执行被扫代码。
+- **`bashguard` 自 `guardx/bashguard` 迁入**（v0.10.0）：它依赖 `mvdan.cc/sh/v3`（真 shell AST 解析），而 guardx 是 tier 0 零依赖底层。语义不变（静态解析、不执行命令），只是 import 路径变了。
 
 ## 日志约定
 

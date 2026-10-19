@@ -25,8 +25,8 @@
     {
       "repo": "guardx",
       "tier": 0,
-      "desc": "脱敏/出口围栏/权限判定/沙箱解析/审计",
-      "packages": 7,
+      "desc": "脱敏/出口围栏/权限判定",
+      "packages": 5,
       "eino": false,
       "href": "/modules/guardx.html"
     },
@@ -65,8 +65,8 @@
     {
       "repo": "obs",
       "tier": 1,
-      "desc": "用量观测 + Langfuse 追踪",
-      "packages": 2,
+      "desc": "用量观测 + Langfuse 追踪 + 审计留痕",
+      "packages": 3,
       "eino": true,
       "href": "/modules/obs.html"
     },
@@ -113,8 +113,8 @@
     {
       "repo": "tools",
       "tier": 2,
-      "desc": "CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描",
-      "packages": 4,
+      "desc": "CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描/Shell 静态裁决",
+      "packages": 5,
       "eino": true,
       "href": "/modules/tools.html"
     },
@@ -131,6 +131,10 @@
     {
       "from": "mcpkit",
       "to": "runtime"
+    },
+    {
+      "from": "obs",
+      "to": "guardx"
     },
     {
       "from": "obs",
@@ -195,6 +199,7 @@
   ],
   "dependents": {
     "guardx": [
+      "obs",
       "skillkit",
       "tools"
     ],

@@ -41,8 +41,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ### 基础层 · 零仓内依赖或仅依赖同仓包
 
-- [guardx](https://github.com/oagentkit/guardx): 安全围栏——凭据脱敏/URL 出口 SSRF 防护/工具许可判定链/Shell 沙箱解析/审计日志
-  - 包：`fence`、`logredact`、`egress`、`permgate`、`bashguard`、`audit`、`injectband`
+- [guardx](https://github.com/oagentkit/guardx): 安全围栏——凭据脱敏/URL 出口 SSRF 防护/工具许可判定链/提示注入卫生（tier0 零外部依赖底座）
+  - 包：`fence`、`logredact`、`egress`、`permgate`、`injectband`
   - 安装：`go get github.com/oagentkit/guardx@latest`
 - [queue](https://github.com/oagentkit/queue): DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备单活回调
   - 包：`worker`、`pglease`
@@ -60,9 +60,9 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`mcp`
   - 依赖：[runtime](https://github.com/oagentkit/runtime)
   - 安装：`go get github.com/oagentkit/mcpkit@latest`
-- [obs](https://github.com/oagentkit/obs): LLM 可观测——eino callbacks 埋点/token 用量采集/分阶段打标/Langfuse 追踪客户端
-  - 包：`obsx`、`langfuse`
-  - 依赖：[textx](https://github.com/oagentkit/textx)
+- [obs](https://github.com/oagentkit/obs): LLM 可观测与审计——eino callbacks 埋点/token 用量采集/分阶段打标/Langfuse 追踪客户端/敏感操作结构化审计
+  - 包：`obsx`、`langfuse`、`audit`
+  - 依赖：[guardx](https://github.com/oagentkit/guardx)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/obs@latest`
 - [promptx](https://github.com/oagentkit/promptx): 提示词上下文——system prompt 分段组装/运行中转向队列/文件读后写一致性状态
   - 包：`sysprompt`、`steering`、`filestate`
@@ -87,8 +87,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`toolprior`、`toolsched`、`policy`、`invoke`
   - 依赖：[mcpkit](https://github.com/oagentkit/mcpkit)
   - 安装：`go get github.com/oagentkit/toolgate@latest`
-- [tools](https://github.com/oagentkit/tools): 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描
-  - 包：`acpx`、`websearch`、`workcopy`、`sast`
+- [tools](https://github.com/oagentkit/tools): 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描/Shell 命令静态裁决
+  - 包：`acpx`、`websearch`、`workcopy`、`sast`、`bashguard`
   - 依赖：[guardx](https://github.com/oagentkit/guardx)、[runtime](https://github.com/oagentkit/runtime)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/tools@latest`
 
