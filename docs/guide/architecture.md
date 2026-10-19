@@ -63,16 +63,17 @@ oagentkit 依赖 oekit 的三个包，这是**单向**的：
 
 ### import 路径不是纯前缀映射
 
-新路径 = `github.com/oagentkit/{仓名}/{包名末段}`。旧单仓路径的**中间层目录会被丢掉**，
-因为新矩阵里那层组织职责由**仓**承担：
+新路径 = `github.com/oagentkit/{仓名}/{包名末段}`；末段与仓名相同时收口成 `github.com/oagentkit/{仓名}`。
+旧单仓路径的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担：
 
 | 旧单仓 | 新路径 | 直觉会写成（错） |
 | --- | --- | --- |
-| `agentkit/knowledge/rag` | `oagentkit/rag/rag` | `oagentkit/rag/knowledge/rag` |
+| `agentkit/knowledge/rag` | `oagentkit/rag` | `oagentkit/rag/knowledge/rag` |
 | `agentkit/worker/pglease` | `oagentkit/queue/pglease` | `oagentkit/queue/worker/pglease` |
-| `agentkit/llm` | `oagentkit/llm/llm` | `oagentkit/llm` |
+| `agentkit/llm` | `oagentkit/llm` | `oagentkit/llm/llm` |
 
-最后一条最坑：仓名与包名末段相同时**不能省掉一段**。
+最后一条最坑：**包名末段与仓名相同时，包直接住在 module 根，路径不重复末段**。
+直觉会照着通用公式补一段，写成 `llm/llm`。Go 的惯例本就是包名不重复 import 路径末段。
 机器可读映射见 [`versions.json`](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 
 ### `progress` 撞名但语义相反

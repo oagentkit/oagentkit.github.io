@@ -97,13 +97,13 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 - **每仓根目录的 `AGENTS.md` 是该仓的权威规范**：分层不变量、错误处理、日志、并发安全、API 命名，以及该仓特有的工程红线。
 - 安装一律 `go get github.com/oagentkit/<mod>@latest`；不要引门面仓 `agentkit`。
-- **import 路径 = `github.com/oagentkit/{仓名}/{包名末段}`**。旧单仓 `git.enjoye.top/enjoydream/agentkit/<包>` 的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担。例如：
+- **import 路径 = `github.com/oagentkit/{仓名}/{包名末段}`**；**末段与仓名相同**时收口成 `github.com/oagentkit/{仓名}`（不重复末段）。旧单仓 `git.enjoye.top/enjoydream/agentkit/<包>` 的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担。例如：
     - `agentkit/worker/pglease` → `github.com/oagentkit/queue/pglease`
-    - `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag`
-    - `agentkit/llm` → `github.com/oagentkit/llm/llm`
+    - `agentkit/knowledge/rag` → `github.com/oagentkit/rag`
+    - `agentkit/llm` → `github.com/oagentkit/llm`
     - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
     - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
-  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag/rag` 尤其坑：仓名与包名末段相同时**不能省掉一段**，直觉会以为可以合并。完整 5 条易踩对照、及全部 47 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 5 条易踩对照、及全部 47 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。

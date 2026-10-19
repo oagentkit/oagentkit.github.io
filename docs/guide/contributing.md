@@ -96,11 +96,11 @@ import 路径**不是纯前缀映射**：
 
 | 旧单仓 | 新路径 | 直觉会写成（错） |
 | --- | --- | --- |
-| `agentkit/knowledge/rag` | `oagentkit/rag/rag` | `oagentkit/rag/knowledge/rag` |
+| `agentkit/knowledge/rag` | `oagentkit/rag` | `oagentkit/rag/knowledge/rag` |
 | `agentkit/worker/pglease` | `oagentkit/queue/pglease` | `oagentkit/queue/worker/pglease` |
-| `agentkit/llm` | `oagentkit/llm/llm` | `oagentkit/llm` |
+| `agentkit/llm` | `oagentkit/llm` | `oagentkit/llm/llm` |
 
-最后一条最坑：仓名与包名末段相同时**不能省掉一段**。
+最后一条最坑：**包名末段与仓名相同时收口到 module 根**，路径不重复末段。
 
 完整对照：
 

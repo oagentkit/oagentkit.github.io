@@ -31,13 +31,14 @@ import "github.com/oagentkit/agent/agentrun"          // ✅ 拆分后
 
 ```
 新路径 = github.com/oagentkit/{仓名}/{包名末段}
+        末段与仓名相同 → 收口成 github.com/oagentkit/{仓名}
 
-agentkit/knowledge/rag   →  oagentkit/rag/rag       ❌ 不是 rag/knowledge/rag
+agentkit/knowledge/rag   →  oagentkit/rag           ❌ 不是 rag/knowledge/rag
 agentkit/worker/pglease  →  oagentkit/queue/pglease  ❌ 不是 queue/worker/pglease
-agentkit/llm             →  oagentkit/llm/llm       ❌ 不能省掉末尾一段
+agentkit/llm             →  oagentkit/llm           ❌ 不能重复成 llm/llm
 ```
 
-完整 45 条对照跑 `rewrite_imports.py --print-rules`，机器可读映射见
+完整 47 条对照跑 `rewrite_imports.py --print-rules`，机器可读映射见
 [`versions.json`](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 :::
 :::
