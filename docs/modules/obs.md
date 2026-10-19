@@ -6,7 +6,7 @@ LLM 可观测与审计——eino callbacks 埋点/token 用量采集/分阶段�
 
 | 项 | 值 |
 | --- | --- |
-| 层 | tier 1 · 能力层（依赖 tier 0） |
+| 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `metrics` |
 | 仓内依赖 | `guardx`、`textx` |
 | 被依赖 | `llm` |
@@ -44,6 +44,7 @@ go get github.com/oagentkit/obs@latest
 本仓是**矩阵里唯一直接做 eino callbacks 适配**的仓 —— oekit 作为微服务工具链不会做 LLM 场景。
 `oekit/tracing`（3 个导出）提供 Provider，本仓提供「把 LLM 调用挂上去」的适配层。两者互补，不重叠。
 - **`audit` 自 `guardx/audit` 迁入**（v0.8.0）：它依赖 `oekit/logx`，而 guardx 是 tier 0 零依赖底层，依赖面按 module 结算。包名与职责不变，只是 import 路径变了。
+- **层位 t1 → t2**：带 `eino` 地板（obsx 是 eino callbacks 适配层）——属集成层。重定位后 tier0/tier1 = 零重量级第三方地板的层（可被零依赖核心安全依赖）。
 
 ## 日志约定
 

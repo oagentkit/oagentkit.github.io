@@ -6,7 +6,7 @@
 
 | 项 | 值 |
 | --- | --- |
-| 层 | tier 1 · 能力层（依赖 tier 0） |
+| 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `data` |
 | 仓内依赖 | `textx` |
 | 被依赖 | —（矩阵叶子） |
@@ -34,6 +34,7 @@ go get github.com/oagentkit/rag@latest
 - **单路召回失败不得降级为 `(nil, nil)`。** 混合召回中任一路 panic 或失败
   要作为该路失败参与裁决；全部路失败时**返回 panic 错误而非静默空结果**。
 - 向量后端可插拔，新增后端不得改 `Embedding`/`Retriever` 接口形状 —— 那会让所有后端同时 breaking。
+- **层位 t1 → t2**：带 `eino` + `milvus-sdk` 地板（向量化/混合召回本身绑 SDK）——属集成层。重定位后 tier0/tier1 = 零重量级第三方地板的层（可被零依赖核心安全依赖）。
 
 ## 日志约定
 

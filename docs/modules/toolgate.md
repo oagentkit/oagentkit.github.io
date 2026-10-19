@@ -8,10 +8,10 @@
 | --- | --- |
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `middleware` |
-| 仓内依赖 | `mcpkit` |
+| 仓内依赖 | `guardx`、`mcpkit` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino`、`gopkg.in/yaml.v3` |
-| 包数 | 4 |
+| 包数 | 3 |
 
 ## 安装
 
@@ -28,7 +28,6 @@ go get github.com/oagentkit/toolgate@latest
 | `toolprior` | 工具优先级三层约束（收紧语义，下层已设的限制不得放宽） |
 | `toolsched` | 注解驱动的工具并发调度与去重 |
 | `policy` | 操作审计门：敏感工具调用的策略判定 |
-| `invoke` | 不可绕过的工具调用链：门禁由**构造**保证而非调用点自觉——Handler 按值收进私有字段，绕过链的代码在类型层面就写不出来 |
 
 ## 本仓硬规则
 
@@ -36,6 +35,7 @@ go get github.com/oagentkit/toolgate@latest
 
 - 优先级三层约束是**收紧**语义：上层只能进一步限制，**不得放宽**下层已设的限制。
 - 并发调度的去重键必须包含全部影响结果的参数，否则会错误合并不等价调用。
+- **`invoke` 已迁至 `github.com/oagentkit/guardx/invoke`**（v0.12.0）：框架无关的原语不该被本仓的 eino 地板拖住。`policy` 改为依赖 guardx/invoke（tier2 → tier0，方向合法）。
 
 ## 日志约定
 

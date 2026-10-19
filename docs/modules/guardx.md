@@ -9,9 +9,9 @@
 | 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
 | oekit 对应 | `core` |
 | 仓内依赖 | —（零仓内依赖） |
-| 被依赖 | `obs`、`skillkit`、`tools` |
+| 被依赖 | `obs`、`skillkit`、`toolgate`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 5 |
+| 包数 | 6 |
 
 ## 安装
 
@@ -30,6 +30,7 @@ go get github.com/oagentkit/guardx@latest
 | `egress` | 出口围栏：LLM 可控 URL 的字面量层 SSRF 防护 |
 | `permgate` | 工具调用许可判定链：谁在什么模式下对什么输入得到什么许可 |
 | `injectband` | 系统带外注入的防伪包裹通道：给系统提示打来源标记，并转义 body 内伪造的同形标签（含大小写/空白变体），防身份伪造。与 fence 互补——fence 封数据侧越权，injectband 封系统侧伪造 |
+| `invoke` | 工具调用统一契约 + 不可绕过的调用链（构造即保证）；框架无关，不携带 eino / policy 类型 |
 
 ## 本仓硬规则
 
@@ -44,6 +45,7 @@ go get github.com/oagentkit/guardx@latest
 - 安全相关路径**禁止吞 error** —— 判定失败必须阻断而非放行。
 - **本仓必须保持零外部依赖**（go.mod 的 require 段为空）。Go 的依赖面按 **module** 结算：只 import logredact 的下游，模块图里也会多出本仓的整条 require。带重依赖的能力属于重仓——`audit` 已迁至 `obs/audit`（依赖 oekit/logx），`bashguard` 已迁至 `tools/bashguard`（依赖 mvdan.cc/sh）。
 - **`audit` / `bashguard` 已迁出**（v0.7.0）：`github.com/oagentkit/guardx/audit` → `github.com/oagentkit/obs/audit`，`github.com/oagentkit/guardx/bashguard` → `github.com/oagentkit/tools/bashguard`。旧路径的嵌套 module tag 仍在但**已冻结**，不再有后续版本。
+- **`invoke` 自 `toolgate/invoke` 迁入**（v0.8.0）：它自身只 import `oekit/pkg/errors`，却在 eino 重仓里让消费方白吃 34 个第三方模块。框架无关的原语属于零依赖底座。
 
 ## 日志约定
 

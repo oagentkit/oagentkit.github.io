@@ -6,7 +6,7 @@ DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备�
 
 | 项 | 值 |
 | --- | --- |
-| 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
+| 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `k8s` |
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | —（矩阵叶子） |
@@ -44,6 +44,7 @@ go get github.com/oagentkit/queue@latest
 `github.com/lib/pq` 仅用于 `pglease` 的 DSN 门控集成测试驱动，
 **生产代码禁止 import**。仓内零生产依赖是刻意设计，不要引入。
 集成测试在未设 `postgres://…` DSN 时自动跳过。
+- **层位 t0 → t2**：带 `lib/pq` 驱动地板（PG 选主 Lease 的集成测试也要驱动）——属集成层，不是基础层。重定位后 tier0/tier1 = 零重量级第三方地板的层（可被零依赖核心安全依赖）。
 
 ## 日志约定
 
