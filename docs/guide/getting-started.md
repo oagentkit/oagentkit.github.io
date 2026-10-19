@@ -24,7 +24,9 @@ import "github.com/oagentkit/agent/agentrun"          // ✅ 拆分后
 ```
 
 门面仓 [`oagentkit/agentkit`](https://github.com/oagentkit/agentkit) 只是 re-export 兼容层，
-45 包零逻辑转发，按 README 写死的期限在 **v1.x 后退役**。新代码一律用上表的模块路径。
+47 包零逻辑转发，按 README 写死的期限在 **v1.x 后退役**。新代码一律用上表的模块路径。
+
+:::
 
 ::: danger import 路径不是纯前缀映射
 从旧单仓迁移时，**中间层目录会被丢掉**：
@@ -41,6 +43,29 @@ agentkit/llm             →  oagentkit/llm           ❌ 不能重复成 llm/ll
 完整 47 条对照跑 `rewrite_imports.py --print-rules`，机器可读映射见
 [`versions.json`](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 :::
+
+### 一键改写 import
+
+三个文件放同一目录后即可运行（`rewrite_imports.py` 依赖同目录的 `matrix_paths.py`，
+矩阵定义用 `--modules` 显式指定）：
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/rewrite_imports.py -o rewrite_imports.py
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/scripts/matrix_paths.py -o matrix_paths.py
+curl -sSfL https://raw.githubusercontent.com/oagentkit/matrix-tools/main/modules.json -o modules.json
+
+# 看映射表（不动文件）
+python3 rewrite_imports.py --org oagentkit --modules ./modules.json --print-rules
+
+# 真改写（--root 指向你的工程根；只改 import 块内的引号字符串，改完自动 gofmt）
+python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --apply
+```
+
+改写后收尾：`go mod tidy && go build ./... && gofmt -l .`。
+
+::: warning 不要用 `python3 -c "exec(urlopen(...).read())"` 的写法
+那样执行时脚本里没有 `__file__`，定位同目录依赖与 spawn 子进程都会炸
+（`NameError: name '__file__' is not defined`）。脚本必须作为文件运行。
 :::
 
 ## 按需求选模块
@@ -69,10 +94,23 @@ agentkit/llm             →  oagentkit/llm           ❌ 不能重复成 llm/ll
 ```go
 import "github.com/oekit/pkg/errors"
 
+// 包装底层错误，附带结构化上下文
 if err := doIt(); err != nil {
-    return errors.WrapBiz(err, "解析用户输入失败")
+    return errors.Wrap(err, "解析用户输入失败", "uid", uid)
+}
+
+// 业务错误用 BizError：第一个参数是业务码（int），不是 err
+if err := doIt(); err != nil {
+    return errors.WrapBizError(40010, "解析用户输入失败", err)
 }
 ```
+
+::: tip 没有 `errors.WrapBiz`
+`oekit/pkg/errors` 里没有 `WrapBiz`。实际导出是 `Wrap(err, msg, kv...)`、
+`NewBizError(code, msg)`、`WrapBizError(code, msg, cause)`、
+`WrapBizErrorWithStatus(bizCode, httpCode, msg, cause)`。
+业务码是 `int`，别把 `err` 传到第一个参数位。
+:::
 
 所有 error 禁止 `_` 忽略。
 
