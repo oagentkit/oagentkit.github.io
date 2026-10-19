@@ -34,7 +34,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
 | [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
-| [`toolgate`](/modules/toolgate.html) | 工具优先级/并发调度/操作审计门 | <span class="matrix-tier">`mcpkit`</span> |
+| [`toolgate`](/modules/toolgate.html) | 工具优先级/并发调度/操作审计门/不可绕过的调用链 | <span class="matrix-tier">`mcpkit`</span> |
 | [`tools`](/modules/tools.html) | CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描 | <span class="matrix-tier">`textx`、`runtime`、`guardx`</span> |
 
 ## tier 3 · 编排层

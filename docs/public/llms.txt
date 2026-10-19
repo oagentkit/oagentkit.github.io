@@ -19,6 +19,22 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
 - 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 47 包）
 
+## 破坏性变更
+
+登记在册的破坏性变更共 6 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+
+- **runtime v0.5.0** — 重构：移除本仓的 breaker 实现，迁到 oekit/concurrency/breaker
+  github.com/oagentkit/runtime/breaker 不再存在。迁移方 import github.com/oagentkit/runtime/breaker -> github.com/oekit/concurrency/breaker 注意语义差异：上游三态由「窗口丢弃概率>0 或连续失败达阈值」触发， 而本仓原实现是纯计数型；且 Breakers 多实例注册表改为按 name 取 NewBreaker/GetBreaker。 已知上游缺口：计数型触发只切状态、切不了放行决策 （https://github.com/oekit/concurrency/issues/25），由 llm 仓的准入适配层兜底。 门禁：go build / go vet / go test -race 5 包全绿，gofmt 干净。
+- **guardx v0.6.0** — 新增(logredact)!：规则表可组合 + 保定位线索掩码档；audit/bashguard 拆嵌套模块
+- **rag v0.6.0** — 重构(rag)!：包上移至 module 根，import 路径不再重复末段
+  import 路径 github.com/oagentkit/rag/rag → github.com/oagentkit/rag。 包名 rag 恰好等于仓名 rag，留在 rag/ 子目录会产出 stutter 的公开路径 （Go 惯例：包名不重复 import 路径末段）。 矩阵 import 规则随之收敛：matrix_paths.new_import_path 在「包名末段 == 仓名」时 收口到 module 根，不再拼末段。这是该规则的**唯一例外**，写在唯一构造点里， gen_versions / gen_llms_txt / rewrite_imports / test_matrix_paths 全部随之生效。 与 oagentkit/llm 同批：全矩阵 47 个包中只有这两处仓名=包名。
+- **llm v0.9.0** — 重构(llm)!：包上移至 module 根，import 路径不再重复末段
+  import 路径 github.com/oagentkit/llm/llm → github.com/oagentkit/llm。 包名 llm 恰好等于仓名 llm，留在 llm/ 子目录会产出 stutter 的公开路径 （Go 惯例：包名不重复 import 路径末段）。 矩阵 import 规则随之收敛：matrix_paths.new_import_path 在「包名末段 == 仓名」时 收口到 module 根，不再拼末段。这是该规则的**唯一例外**，写在唯一构造点里， gen_versions / gen_llms_txt / rewrite_imports / test_matrix_paths 全部随之生效。 llmtest 与 wrap 的末段 ≠ 仓名，路径不变（oagentkit/llm/llmtest、oagentkit/llm/wrap）。
+- **agent v0.8.0** — 重构(agent)!：import 跟随 llm 包上移，依赖地板升到 v0.9.0
+  依赖 github.com/oagentkit/llm v0.9.0（该版起 import 路径为 github.com/oagentkit/llm，原 oagentkit/llm/llm 已移除）。
+- **agentkit v1.8.0** — 重构(agentkit)!：门面地板跟到 llm v0.9.0 / rag v0.6.0 / agent v0.8.0
+  上游三个仓本轮为破坏性发布（包上移至 module 根），门面的 re-export 必须指向新版本，否则消费方从门面仓装走的是旧实现。
+
 ## 模块
 
 依赖严格自底向上，四个能力层：

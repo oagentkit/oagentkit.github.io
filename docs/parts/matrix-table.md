@@ -10,6 +10,6 @@
 | [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 1</span> | 知识检索——向量化/混合召回/重排，向量后端可插拔 | <span class="matrix-tier">`textx`</span> |
 | [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 1</span> | 技能与资产契约——SKILL.md 渐进披露/领域包布局契约/装配血缘图 | <span class="matrix-tier">`textx`、`guardx`</span> |
 | [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 模型客户端——多模型降级链/任务级预算/成本记账/分阶段模型路由/主备切换 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
-| [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 工具治理——优先级三层约束/注解驱动并发调度/操作审计门 | <span class="matrix-tier">`mcpkit`</span> |
+| [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 工具治理——优先级三层约束/注解驱动并发调度/操作审计门/构造期不可绕过的工具调用链 | <span class="matrix-tier">`mcpkit`</span> |
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描 | <span class="matrix-tier">`textx`、`runtime`、`guardx`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多专家黑板/派发守卫 | <span class="matrix-tier">`llm`、`textx`</span> |

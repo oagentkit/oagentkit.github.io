@@ -10,8 +10,8 @@
 | oekit 对应 | `core` |
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `skillkit`、`tools` |
-| 第三方地板 | `mvdan.cc/sh/v3` |
-| 包数 | 6 |
+| 第三方地板 | 零 |
+| 包数 | 7 |
 
 ## 安装
 
@@ -31,6 +31,7 @@ go get github.com/oagentkit/guardx@latest
 | `permgate` | 工具调用许可判定链：谁在什么模式下对什么输入得到什么许可 |
 | `bashguard` | bash 命令静态风险解析：不执行命令，经真 shell AST 判定 |
 | `audit` | 审计日志：对敏感操作留结构化审计痕迹，与业务日志分离 |
+| `injectband` | 系统带外注入的防伪包裹通道：给系统提示打来源标记，并转义 body 内伪造的同形标签（含大小写/空白变体），防身份伪造。与 fence 互补——fence 封数据侧越权，injectband 封系统侧伪造 |
 
 ## 本仓硬规则
 
@@ -45,6 +46,7 @@ go get github.com/oagentkit/guardx@latest
 - 安全相关路径**禁止吞 error** —— 判定失败必须阻断而非放行。
 - `audit` 的 `log` 为 nil 时回退 `logx.NewAuditLogger`（级别锁 `Info`、不受 `LOG_LEVEL` 降级）——
   这是刻意设计，别改回普通 logger。
+- **本仓含 3 个 Go module**：主模块（fence/injectband/logredact/egress/permgate，**零外部依赖**） + 两个嵌套子模块 `guardx/audit`（依赖 oekit/logx）与 `guardx/bashguard`（依赖 mvdan.cc/sh）。import 路径不变，但**版本线独立**（嵌套模块各自打 `audit/vX.Y.Z` / `bashguard/vX.Y.Z` tag）。 主模块必须保持零外部依赖——import logredact 不该把第三方库拖进下游的模块图。
 
 ## 日志约定
 
