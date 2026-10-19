@@ -28,9 +28,9 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
-| [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
+| [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由/调用观测 | <span class="matrix-tier">`textx`、`obs`、`runtime`</span> |
 | [`mcpkit`](/modules/mcpkit.html) | MCP 客户端/工具池/建连单飞 | <span class="matrix-tier">`runtime`</span> |
-| [`obs`](/modules/obs.html) | 用量观测 + Langfuse 追踪 + 审计留痕 | <span class="matrix-tier">`guardx`、`textx`</span> |
+| [`obs`](/modules/obs.html) | 观测客户端 + 审计留痕 | <span class="matrix-tier">`guardx`、`textx`</span> |
 | [`queue`](/modules/queue.html) | DB 即队列 + Postgres 选主 Lease | <span class="matrix-tier">—</span> |
 | [`rag`](/modules/rag.html) | 知识检索——向量化/混合召回/重排 | <span class="matrix-tier">`textx`</span> |
 | [`skillkit`](/modules/skillkit.html) | SKILL.md 渐进披露 + 领域包契约 + 装配血缘 | <span class="matrix-tier">`textx`、`guardx`</span> |

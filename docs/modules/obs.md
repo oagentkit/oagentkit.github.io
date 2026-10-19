@@ -1,6 +1,6 @@
 # obs
 
-LLM 可观测与审计——eino callbacks 埋点/token 用量采集/分阶段打标/Langfuse 追踪客户端/敏感操作结构化审计
+观测与审计——Langfuse 追踪客户端/敏感操作结构化审计（不引 eino 框架）
 
 ## 概况
 
@@ -11,7 +11,7 @@ LLM 可观测与审计——eino callbacks 埋点/token 用量采集/分阶段�
 | 仓内依赖 | `guardx`、`textx` |
 | 被依赖 | `llm` |
 | 第三方地板 | `github.com/cloudwego/eino` |
-| 包数 | 3 |
+| 包数 | 2 |
 
 ## 安装
 
@@ -25,7 +25,6 @@ go get github.com/oagentkit/obs@latest
 
 | 包 | 说明 |
 | --- | --- |
-| `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标 |
 | `langfuse` | Langfuse Public API 只读客户端（v3 self-hosted 契约面） |
 | `audit` | 敏感操作的结构化审计留痕（自 guardx/audit 迁入）：字段值统一经 logredact 打码 |
 
@@ -45,6 +44,7 @@ go get github.com/oagentkit/obs@latest
 `oekit/tracing`（3 个导出）提供 Provider，本仓提供「把 LLM 调用挂上去」的适配层。两者互补，不重叠。
 - **`audit` 自 `guardx/audit` 迁入**（v0.8.0）：它依赖 `oekit/logx`，而 guardx 是 tier 0 零依赖底层，依赖面按 module 结算。包名与职责不变，只是 import 路径变了。
 - **层位 t1 → t2**：带 `eino` 地板（obsx 是 eino callbacks 适配层）——属集成层。重定位后 tier0/tier1 = 零重量级第三方地板的层（可被零依赖核心安全依赖）。
+- **`obsx` 已迁至 `github.com/oagentkit/llm/obsx`**（v0.9.0）：它是 eino callbacks 适配层，在本仓时把 langfuse / audit 这两个轻包拖进 27 个第三方模块。迁走后本仓的 eino 依赖消失。
 
 ## 日志约定
 

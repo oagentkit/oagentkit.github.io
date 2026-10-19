@@ -21,13 +21,15 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 破坏性变更
 
-登记在册的破坏性变更共 10 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+登记在册的破坏性变更共 12 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
 
 - **runtime v0.5.0** — 重构：移除本仓的 breaker 实现，迁到 oekit/concurrency/breaker
   github.com/oagentkit/runtime/breaker 不再存在。迁移方 import github.com/oagentkit/runtime/breaker -> github.com/oekit/concurrency/breaker 注意语义差异：上游三态由「窗口丢弃概率>0 或连续失败达阈值」触发， 而本仓原实现是纯计数型；且 Breakers 多实例注册表改为按 name 取 NewBreaker/GetBreaker。 已知上游缺口：计数型触发只切状态、切不了放行决策 （https://github.com/oekit/concurrency/issues/25），由 llm 仓的准入适配层兜底。 门禁：go build / go vet / go test -race 5 包全绿，gofmt 干净。
 - **guardx v0.7.0** — 重构：audit / bashguard 迁出本仓，回到单 module 零依赖
   github.com/oagentkit/guardx/audit 与 github.com/oagentkit/guardx/bashguard 不再属于本仓模块。 迁往：
 - **guardx v0.6.0** — 新增(logredact)!：规则表可组合 + 保定位线索掩码档；audit/bashguard 拆嵌套模块
+- **obs v0.9.0** — 重构：obsx 迁出本仓 —— eino 耦合的观测适配层该待在重仓
+  github.com/oagentkit/obs/obsx → github.com/oagentkit/llm/obsx obsx 是 eino callbacks 适配层（intrinsically 绑 eino 框架）。它在本仓时， **langfuse 与 audit 这两个轻包被白拖 27 个第三方模块**（eino + sonic 全家）—— Go 的依赖面按 module 结算。 迁到 llm（本仓早已 import obsx 做成本记账与阶段打标，同一关注点）后：
 - **rag v0.6.0** — 重构(rag)!：包上移至 module 根，import 路径不再重复末段
   import 路径 github.com/oagentkit/rag/rag → github.com/oagentkit/rag。 包名 rag 恰好等于仓名 rag，留在 rag/ 子目录会产出 stutter 的公开路径 （Go 惯例：包名不重复 import 路径末段）。 矩阵 import 规则随之收敛：matrix_paths.new_import_path 在「包名末段 == 仓名」时 收口到 module 根，不再拼末段。这是该规则的**唯一例外**，写在唯一构造点里， gen_versions / gen_llms_txt / rewrite_imports / test_matrix_paths 全部随之生效。 与 oagentkit/llm 同批：全矩阵 47 个包中只有这两处仓名=包名。
 - **llm v0.9.0** — 重构(llm)!：包上移至 module 根，import 路径不再重复末段
@@ -36,6 +38,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   github.com/oagentkit/toolgate/invoke → github.com/oagentkit/guardx/invoke invoke 的包文档自证「刻意不携带任何框架类型：本包与 policy/toolegate 无耦合」—— 它是框架无关的原语，自身 import 面只有 oekit/pkg/errors，却在带 eino 家族的重仓里 让消费方白吃 34 个第三方模块。 policy 改为依赖 guardx/invoke（tier2 → tier0，方向合法，无环）。 关联 oagentkit/guardx#3
 - **agent v0.8.0** — 重构(agent)!：import 跟随 llm 包上移，依赖地板升到 v0.9.0
   依赖 github.com/oagentkit/llm v0.9.0（该版起 import 路径为 github.com/oagentkit/llm，原 oagentkit/llm/llm 已移除）。
+- **agentkit v1.8.9** — 重构：obsx 的转发改指 llm（obsx 已迁仓）
+  github.com/oagentkit/obs/obsx → github.com/oagentkit/llm/obsx 门面的公共路径不变。地板跟到 obs v0.9.0 / llm v0.12.0。
 - **agentkit v1.8.8** — 重构：invoke 的转发改指 guardx
   github.com/oagentkit/toolgate/invoke → github.com/oagentkit/guardx/invoke invoke 是框架无关的原语（自身只 import oekit/pkg/errors），迁到零依赖底座后， 消费它不会再被拖进 eino 家族的 34 个第三方模块。 门面的公共路径（github.com/oagentkit/agentkit/invoke）不变。 依赖地板跟到 guardx v0.8.0 / toolgate v0.12.0。
 - **agentkit v1.8.7** — 重构：audit / bashguard 的转发改指 obs / tools
@@ -56,9 +60,9 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 带地板的集成层（tier2+）——用它们的包要接受这些依赖：
 
-- `llm`（tier2）：`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`golang.org/x/time`
+- `llm`（tier2）：`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/oekit/logx`、`golang.org/x/time`
 - `mcpkit`（tier2）：`github.com/cloudwego/eino`、`github.com/eino-contrib/jsonschema`、`github.com/mark3labs/mcp-go`
-- `obs`（tier2）：`github.com/cloudwego/eino`、`github.com/oekit/logx`
+- `obs`（tier2）：`github.com/oekit/logx`
 - `queue`（tier2）：`github.com/lib/pq`、`github.com/oekit/logx`
 - `rag`（tier2）：`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`github.com/oekit/logx`
 - `skillkit`（tier2）：`github.com/Masterminds/semver/v3`、`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`
@@ -91,16 +95,16 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ### 集成层 · 依赖 tier0/tier1 + 重第三方地板
 
-- [llm](https://github.com/oagentkit/llm): 模型客户端——多模型降级链/任务级预算/成本记账/分阶段模型路由/主备切换
-  - 包：`llm`、`wrap`、`llmtest`
+- [llm](https://github.com/oagentkit/llm): 模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测
+  - 包：`llm`、`wrap`、`llmtest`、`obsx`
   - 依赖：[obs](https://github.com/oagentkit/obs)、[runtime](https://github.com/oagentkit/runtime)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/llm@latest`
 - [mcpkit](https://github.com/oagentkit/mcpkit): MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管理
   - 包：`mcp`
   - 依赖：[runtime](https://github.com/oagentkit/runtime)
   - 安装：`go get github.com/oagentkit/mcpkit@latest`
-- [obs](https://github.com/oagentkit/obs): LLM 可观测与审计——eino callbacks 埋点/token 用量采集/分阶段打标/Langfuse 追踪客户端/敏感操作结构化审计
-  - 包：`obsx`、`langfuse`、`audit`
+- [obs](https://github.com/oagentkit/obs): 观测与审计——Langfuse 追踪客户端/敏感操作结构化审计（不引 eino 框架）
+  - 包：`langfuse`、`audit`
   - 依赖：[guardx](https://github.com/oagentkit/guardx)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/obs@latest`
 - [queue](https://github.com/oagentkit/queue): DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备单活回调

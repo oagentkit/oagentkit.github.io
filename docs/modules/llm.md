@@ -1,6 +1,6 @@
 # llm
 
-模型客户端——多模型降级链/任务级预算/成本记账/分阶段模型路由/主备切换
+模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测
 
 ## 概况
 
@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx`、`obs`、`runtime` |
 | 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext`、`golang.org/x/time` |
-| 包数 | 3 |
+| 包数 | 4 |
 
 ## 安装
 
@@ -28,6 +28,7 @@ go get github.com/oagentkit/llm@latest
 | `llm` | 模型客户端：多模型降级链、任务级预算、成本记账、分阶段路由、主备切换 |
 | `llm/wrap` | 调用包装与限流适配 |
 | `llm/llmtest` | 模型层契约测试套件 |
+| `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入） |
 
 ## 本仓硬规则
 
@@ -38,6 +39,7 @@ go get github.com/oagentkit/llm@latest
 - **panic 不能只转成 error。** `RunSafe*` 系列会把 panic 收进全局 `PanicHandler`
   （库不接 `SetPanicHandler`，默认 `log.Printf`）且返回的 `panic: X` 无哨兵类型，
   无法挂回领域上下文。用 `RunSafeErr` 前先确认丢掉的结构化上下文可接受。
+- **`obsx` 自 `obs/obsx` 迁入**（v0.12.0）：它绑 eino 框架（callbacks 适配层），而本仓早已 import 它做成本记账与阶段打标——同一关注点，两个包住一起更顺。
 
 ## 日志约定
 

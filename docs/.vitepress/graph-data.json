@@ -57,8 +57,8 @@
     {
       "repo": "llm",
       "tier": 2,
-      "desc": "模型客户端/降级链/预算/成本/阶段路由",
-      "packages": 3,
+      "desc": "模型客户端/降级链/预算/成本/阶段路由/调用观测",
+      "packages": 4,
       "eino": true,
       "href": "/modules/llm.html"
     },
@@ -73,8 +73,8 @@
     {
       "repo": "obs",
       "tier": 2,
-      "desc": "用量观测 + Langfuse 追踪 + 审计留痕",
-      "packages": 3,
+      "desc": "观测客户端 + 审计留痕",
+      "packages": 2,
       "eino": true,
       "href": "/modules/obs.html"
     },
