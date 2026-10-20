@@ -21,8 +21,10 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 破坏性变更
 
-登记在册的破坏性变更共 15 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+登记在册的破坏性变更共 16 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
 
+- **textx v0.6.1** — 修复(agents)：审计日志归属改为 obs/audit（guardx/audit 已迁出）
+  包在模块之间搬家：audit → guardx/obs
 - **runtime v0.5.0** — 重构：移除本仓的 breaker 实现，迁到 oekit/concurrency/breaker
   github.com/oagentkit/runtime/breaker 不再存在。迁移方 import github.com/oagentkit/runtime/breaker -> github.com/oekit/concurrency/breaker 注意语义差异：上游三态由「窗口丢弃概率>0 或连续失败达阈值」触发， 而本仓原实现是纯计数型；且 Breakers 多实例注册表改为按 name 取 NewBreaker/GetBreaker。 已知上游缺口：计数型触发只切状态、切不了放行决策 （https://github.com/oekit/concurrency/issues/25），由 llm 仓的准入适配层兜底。 门禁：go build / go vet / go test -race 5 包全绿，gofmt 干净。
 - **guardx v0.7.0** — 重构：audit / bashguard 迁出本仓，回到单 module 零依赖
