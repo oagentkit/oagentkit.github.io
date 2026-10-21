@@ -26,7 +26,7 @@
       "repo": "guardx",
       "tier": 0,
       "desc": "脱敏/出口围栏/权限判定",
-      "packages": 6,
+      "packages": 8,
       "eino": false,
       "href": "/modules/guardx.html"
     },
@@ -58,7 +58,7 @@
       "repo": "llm",
       "tier": 2,
       "desc": "模型客户端/降级链/预算/成本/阶段路由/调用观测",
-      "packages": 4,
+      "packages": 5,
       "eino": true,
       "href": "/modules/llm.html"
     },

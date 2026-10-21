@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx`、`obs`、`runtime` |
 | 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext`、`golang.org/x/time` |
-| 包数 | 4 |
+| 包数 | 5 |
 
 ## 安装
 
@@ -26,6 +26,7 @@ go get github.com/oagentkit/llm@latest
 | 包 | 说明 |
 | --- | --- |
 | `llm` | 模型客户端：多模型降级链、任务级预算、成本记账、分阶段路由、主备切换 |
+| `llm/port` | 窄接口层（不引 eino）：Complete(ctx,req) 形态的降级链/预算/成本记账；无 eino 的内核（预算/成本/价表/熔断）由根包下沉而来，两条路径共用同一份实现 |
 | `llm/wrap` | 调用包装与限流适配 |
 | `llm/llmtest` | 模型层契约测试套件 |
 | `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入） |

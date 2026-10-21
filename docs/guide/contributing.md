@@ -75,10 +75,11 @@ jobs:
 | `gen_docs.py` | 从 `modules.json` 生成**各仓**的 `README.md` 与 `AGENTS.md` |
 | `gen_llms_txt.py` | 生成 [`llms.txt`](https://oagentkit.github.io/llms.txt) |
 | `gen_versions.py` | 生成 [`versions.json`](https://oagentkit.github.io/versions.json) |
-| `verify_split.py` | 校验拆分结果 |
+| `verify_split.py` | ⚠️ **已退役**（2026-10-21）——原职责「覆盖度 / 分层方向 / 依赖闭包」分别由 `verify_ghost_packages.py`、`verify_import_direction.py`、`verify_import_paths.py` 接手 |
 | `rewrite_imports.py` | import 路径改写（⚠️ **不是纯前缀映射**，见下方路径规则） |
 | `matrix_paths.py` | 旧→新 import 路径构造规则的**唯一事实源**，被上面几个脚本共用 |
 | `verify_docs.py` | 防漂移：重新生成 `llms.txt` 与提交版比对，不一致 exit 1 |
+| `verify_inventory.py` | 不变量登记表：每条不变量的**判据脚本 + CI 接线**缺一即红 |
 | `create_repos.py` / `publish_repo.sh` | 建仓与发布 |
 
 **`modules.json` 是唯一数据源。** 13 个仓的文档有 90% 是同构的（分层声明、硬规则、

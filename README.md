@@ -66,9 +66,11 @@ CI 里跑的就是 `--check`，手改生成物会被直接拦下。
 
 ## 矩阵数据源
 
-`data/modules.json` 从 agentkit 源的 `docs/split-matrix/modules.json` 同步而来，
-schema 与 [`oagentkit/matrix-tools`](https://github.com/oagentkit/matrix-tools) 一致——
+`data/modules.json` 从 [`oagentkit/matrix-tools`](https://github.com/oagentkit/matrix-tools)
+的 `matrix-tools/modules.json` 同步而来，schema 与之完全一致——
 那边用它生成各仓的 README / AGENTS.md，本仓用它生成站点页面。
+**源里的模块/包/分层有变动时，先同步源再改本仓副本**，两边必须逐字段一致，
+否则会出现「AI Agent 读的 `llms.txt` 有、人类读的模块页没有」这类自相矛盾的清单。
 
 ⚠️ 生成器里的 `INTRA_DEPS`（仓间依赖）是显式维护的，
 `modules.json` 只记录第三方依赖地板。**改仓间依赖时要同步 `llms.txt`**
