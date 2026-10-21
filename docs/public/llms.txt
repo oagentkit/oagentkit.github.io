@@ -105,7 +105,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 - [llm](https://github.com/oagentkit/llm): 模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测
   - 包：`llm`、`port`、`wrap`、`llmtest`、`obsx`
-  - 依赖：[obs](https://github.com/oagentkit/obs)、[runtime](https://github.com/oagentkit/runtime)、[textx](https://github.com/oagentkit/textx)
+  - 依赖：[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/llm@latest`
 - [mcpkit](https://github.com/oagentkit/mcpkit): MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管理
   - 包：`mcp`
@@ -113,7 +113,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 安装：`go get github.com/oagentkit/mcpkit@latest`
 - [obs](https://github.com/oagentkit/obs): 观测与审计——Langfuse 追踪客户端/敏感操作结构化审计（不引 eino 框架）
   - 包：`langfuse`、`audit`
-  - 依赖：[guardx](https://github.com/oagentkit/guardx)、[textx](https://github.com/oagentkit/textx)
+  - 依赖：[guardx](https://github.com/oagentkit/guardx)
   - 安装：`go get github.com/oagentkit/obs@latest`
 - [queue](https://github.com/oagentkit/queue): DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备单活回调
   - 包：`worker`、`pglease`

@@ -249,10 +249,6 @@
         {
           "repo": "guardx",
           "url": "https://github.com/oagentkit/guardx"
-        },
-        {
-          "repo": "textx",
-          "url": "https://github.com/oagentkit/textx"
         }
       ],
       "breakingIndex": [
@@ -405,14 +401,6 @@
         }
       ],
       "matrixDeps": [
-        {
-          "repo": "obs",
-          "url": "https://github.com/oagentkit/obs"
-        },
-        {
-          "repo": "runtime",
-          "url": "https://github.com/oagentkit/runtime"
-        },
         {
           "repo": "textx",
           "url": "https://github.com/oagentkit/textx"
