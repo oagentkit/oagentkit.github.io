@@ -9,7 +9,7 @@
 | 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
 | oekit 对应 | `pkg` |
 | 仓内依赖 | —（零仓内依赖） |
-| 被依赖 | `promptx`、`llm`、`obs`、`rag`、`skillkit`、`tools`、`agent` |
+| 被依赖 | `promptx`、`llm`、`rag`、`skillkit`、`tools`、`agent` |
 | 第三方地板 | 零 |
 | 包数 | 6 |
 

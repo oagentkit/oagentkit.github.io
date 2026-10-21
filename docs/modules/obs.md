@@ -8,8 +8,8 @@
 | --- | --- |
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `metrics` |
-| 仓内依赖 | `guardx`、`textx` |
-| 被依赖 | `llm` |
+| 仓内依赖 | `guardx` |
+| 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino` |
 | 包数 | 2 |
 

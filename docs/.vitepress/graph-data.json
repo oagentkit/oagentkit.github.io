@@ -25,8 +25,8 @@
     {
       "repo": "guardx",
       "tier": 0,
-      "desc": "脱敏/出口围栏/权限判定",
-      "packages": 8,
+      "desc": "脱敏/出口围栏/权限判定/沙箱档位/跨进程协议",
+      "packages": 9,
       "eino": false,
       "href": "/modules/guardx.html"
     },
@@ -141,24 +141,12 @@
       "to": "textx"
     },
     {
-      "from": "llm",
-      "to": "obs"
-    },
-    {
-      "from": "llm",
-      "to": "runtime"
-    },
-    {
       "from": "mcpkit",
       "to": "runtime"
     },
     {
       "from": "obs",
       "to": "guardx"
-    },
-    {
-      "from": "obs",
-      "to": "textx"
     },
     {
       "from": "rag",
@@ -210,14 +198,12 @@
     ],
     "runtime": [
       "promptx",
-      "llm",
       "mcpkit",
       "tools"
     ],
     "textx": [
       "promptx",
       "llm",
-      "obs",
       "rag",
       "skillkit",
       "tools",
@@ -228,9 +214,6 @@
     ],
     "mcpkit": [
       "toolgate"
-    ],
-    "obs": [
-      "llm"
     ]
   }
 }
