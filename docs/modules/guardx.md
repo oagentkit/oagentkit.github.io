@@ -11,7 +11,7 @@
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `obs`、`skillkit`、`toolgate`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 6 |
+| 包数 | 8 |
 
 ## 安装
 
@@ -31,6 +31,8 @@ go get github.com/oagentkit/guardx@latest
 | `permgate` | 工具调用许可判定链：谁在什么模式下对什么输入得到什么许可 |
 | `injectband` | 系统带外注入的防伪包裹通道：给系统提示打来源标记，并转义 body 内伪造的同形标签（含大小写/空白变体），防身份伪造。与 fence 互补——fence 封数据侧越权，injectband 封系统侧伪造 |
 | `invoke` | 工具调用统一契约 + 不可绕过的调用链（构造即保证）；框架无关，不携带 eino / policy 类型 |
+| `toolfail` | 工具调用失败的分类与处置契约：类别 → 可重试性/退避/需人工/重发安全/面向模型的处置指引。不可分类即不可重试；重发安全与重试价值是两个正交维度 |
+| `sandbox` | 执行沙箱的档位语义与后端协议：Level（none/process/os/machine，序即强弱）+ Provider + Registry。要求档位是下限，选不到满足者即拒绝、绝不降级 |
 
 ## 本仓硬规则
 
