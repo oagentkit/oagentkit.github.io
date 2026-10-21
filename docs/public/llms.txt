@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 50 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 51 包）
 
 ## 破坏性变更
 
@@ -85,7 +85,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 基础层 · 零重量级第三方地板（纯 stdlib / 第一方基座）
 
 - [guardx](https://github.com/oagentkit/guardx): 安全围栏——凭据脱敏/URL 出口 SSRF 防护/工具许可判定链/提示注入卫生（tier0 零外部依赖底座）
-  - 包：`fence`、`logredact`、`egress`、`permgate`、`injectband`、`invoke`、`toolfail`、`sandbox`
+  - 包：`fence`、`logredact`、`egress`、`permgate`、`injectband`、`invoke`、`toolfail`、`sandbox`、`wire`
   - 安装：`go get github.com/oagentkit/guardx@latest`
 - [runtime](https://github.com/oagentkit/runtime): Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程最小环境/运行时热插拔/生命周期钩子
   - 包：`pacer`、`progress`、`procx`、`hotplug`、`hookx`
@@ -144,7 +144,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 门面仓（迁移过渡 · 已废弃）
 
-- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，50 包 re-export。**已废弃**：v1.x 退役条件已满足，只保留兼容转发、不接受新功能，**新代码不要引它**。归档待旧单仓 `git.enjoye.top/enjoydream/agentkit` 下线后执行；在此之前本仓继续可用，已有 tag 的 `go get` 照常解析。
+- [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，51 包 re-export。**已废弃**：v1.x 退役条件已满足，只保留兼容转发、不接受新功能，**新代码不要引它**。归档待旧单仓 `git.enjoye.top/enjoydream/agentkit` 下线后执行；在此之前本仓继续可用，已有 tag 的 `go get` 照常解析。
 - 完整旧→新包路径映射见该仓 [MIGRATION.md](https://github.com/oagentkit/agentkit/blob/main/MIGRATION.md)。
 - 门面**包集合已冻结**：矩阵新增的包不再要求门面跟上（见 `scripts/facade_package_baseline.json` 与 `scripts/verify_facade_frozen.py`）。
 
@@ -164,7 +164,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/llm/port` → `github.com/oagentkit/llm/port`
     - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
     - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
-  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 6 条易踩对照、及全部 50 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 6 条易踩对照、及全部 51 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
