@@ -9,7 +9,7 @@ Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程�
 | 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
 | oekit 对应 | `无直接对应；并发主体已上移到 oekit/concurrency` |
 | 仓内依赖 | —（零仓内依赖） |
-| 被依赖 | `promptx`、`llm`、`mcpkit`、`tools` |
+| 被依赖 | `promptx`、`mcpkit`、`tools` |
 | 第三方地板 | 零 |
 | 包数 | 5 |
 

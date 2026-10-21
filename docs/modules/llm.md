@@ -8,7 +8,7 @@
 | --- | --- |
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `httpx` |
-| 仓内依赖 | `textx`、`obs`、`runtime` |
+| 仓内依赖 | `textx` |
 | 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext`、`golang.org/x/time` |
 | 包数 | 5 |
