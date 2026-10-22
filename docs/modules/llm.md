@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx` |
 | 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext`、`golang.org/x/time` |
-| 包数 | 5 |
+| 包数 | 6 |
 
 ## 安装
 
@@ -30,6 +30,7 @@ go get github.com/oagentkit/llm@latest
 | `llm/wrap` | 调用包装与限流适配 |
 | `llm/llmtest` | 模型层契约测试套件 |
 | `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入） |
+| `llm/decision` | System One 协议判定面客户端（非自回归判定模型）：choice/score/noul 三原语 + 校准置信口径（本地算，两端同义） |
 
 ## 本仓硬规则
 
