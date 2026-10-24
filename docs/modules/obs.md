@@ -10,7 +10,7 @@
 | oekit 对应 | `metrics` |
 | 仓内依赖 | `guardx` |
 | 被依赖 | —（矩阵叶子） |
-| 第三方地板 | `github.com/cloudwego/eino` |
+| 第三方地板 | 零 |
 | 包数 | 2 |
 
 ## 安装
