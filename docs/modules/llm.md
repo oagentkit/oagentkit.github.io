@@ -10,7 +10,7 @@
 | oekit 对应 | `httpx` |
 | 仓内依赖 | `textx` |
 | 被依赖 | `agent` |
-| 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext`、`golang.org/x/time` |
+| 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext/components/model/openai`、`golang.org/x/time` |
 | 包数 | 6 |
 
 ## 安装

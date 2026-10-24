@@ -10,7 +10,7 @@
 | oekit 对应 | `kitex-examples` |
 | 仓内依赖 | `textx`、`runtime`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
-| 第三方地板 | `github.com/cloudwego/eino` |
+| 第三方地板 | `github.com/cloudwego/eino`、`mvdan.cc/sh/v3` |
 | 包数 | 5 |
 
 ## 安装

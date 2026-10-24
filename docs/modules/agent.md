@@ -10,7 +10,7 @@ Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多�
 | oekit 对应 | `workflow` |
 | 仓内依赖 | `llm`、`textx` |
 | 被依赖 | —（矩阵叶子） |
-| 第三方地板 | `github.com/cloudwego/eino` |
+| 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3` |
 | 包数 | 6 |
 
 ## 安装

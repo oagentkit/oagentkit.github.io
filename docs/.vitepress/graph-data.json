@@ -75,7 +75,7 @@
       "tier": 2,
       "desc": "观测客户端 + 审计留痕",
       "packages": 2,
-      "eino": true,
+      "eino": false,
       "href": "/modules/obs.html"
     },
     {
@@ -99,7 +99,7 @@
       "tier": 2,
       "desc": "SKILL.md 渐进披露 + 领域包契约 + 装配血缘",
       "packages": 3,
-      "eino": false,
+      "eino": true,
       "href": "/modules/skillkit.html"
     },
     {
