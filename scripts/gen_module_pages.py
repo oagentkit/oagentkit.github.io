@@ -65,6 +65,40 @@ def reverse_deps(mods):
     return rev
 
 
+def compat_by_repo(data):
+    """账本里 kind == "compat" 的条目按仓归组（过渡期兼容镜像）。
+
+    账本（data/modules.json 的 retiringPackages）混着两种东西：
+      - kind == "retired"：已退役的包（breaker）—— 那条路径已经没了；
+      - kind == "compat" ：过渡期兼容镜像（llm/llm）—— **路径仍然可用**。
+
+    两者必须分开渲染。把「活着的」按「已退役」渲染，会在**对外公开的站点**上
+    写出假陈述：「已从本矩阵移出」/ issue 链指向别的仓 / 交叉引用指向别的模块。
+    """
+    out = {}
+    for entry in data.get("retiringPackages") or []:
+        if entry.get("kind") == "compat" and entry.get("repo"):
+            out.setdefault(entry["repo"], []).append(entry)
+    return out
+
+
+def issue_links(entry):
+    """账本条目的需求链 → Markdown 列表行。
+
+    issue 仓**必须由数据决定**：以前这里硬编码成 oekit/concurrency ——
+    换个仓的需求链（如 llm/llm 的需求链在 oagentkit/llm）就会渲染出
+    指向别处的假链接。缺字段时回落到旧硬编码值，老记录的渲染逐字节不变。
+    """
+    chain = entry.get("issueChain") or {}
+    if not chain:
+        return []
+    repo = entry.get("issueRepo") or "oekit/concurrency"
+    rows = []
+    for num, desc in chain.items():
+        rows.append(f"  - [`#{num}`](https://github.com/{repo}/issues/{num}) —— {desc}")
+    return rows
+
+
 def mod_link(repo, text=None):
     return f"[`{repo}`](/modules/{repo}.html){text or ''}"
 
@@ -86,7 +120,7 @@ def render_matrix_table(mods):
     return "\n".join(rows) + "\n"
 
 
-def render_module_page(m, rev, import_root):
+def render_module_page(m, rev, import_root, compat=()):
     repo = m["repo"]
     deps = deps_of(m)
     rdeps = rev.get(repo, [])
@@ -132,6 +166,29 @@ def render_module_page(m, rev, import_root):
         lines.append(f"| `{p}` | {pkg_desc.get(p, '')} |")
     lines.append("")
 
+    # 过渡期兼容镜像：**不在**上面的规范包清单里（它进清单会让 versions.json
+    # 给两个包登记同一个 importPath），但路径仍然可用 —— 存量下游还钉在上面。
+    if compat:
+        lines.append("## 过渡期兼容镜像")
+        lines.append("")
+        for cp in compat:
+            lines.append(f"- `{cp.get('pkg', '?')}`")
+            if cp.get("impl"):
+                lines.append(f"  - 实现：{cp['impl']}")
+            if cp.get("importPath"):
+                lines.append(
+                    f"  - 可用 import 路径：`{cp['importPath']}`（{cp.get('availableIn', '—')}）"
+                )
+            if cp.get("canonicalPath"):
+                lines.append(f"  - 规范路径：`{cp['canonicalPath']}` —— 新代码用它")
+            if cp.get("whyNotInPackages"):
+                lines.append(f"  - 不进规范包清单的原因：{cp['whyNotInPackages']}")
+            if cp.get("status"):
+                lines.append(f"  - 状态：{cp['status']}")
+            if cp.get("plan"):
+                lines.append(f"  - 下一步：{cp['plan']}")
+        lines.append("")
+
     lines.append("## 本仓硬规则")
     lines.append("")
     lines.append(
@@ -161,6 +218,49 @@ def render_module_page(m, rev, import_root):
     lines.append("")
 
     return "\n".join(lines)
+
+
+def render_compat_section(cp):
+    """账本里 kind == "compat" 的条目 → 索引页的一段。
+
+    这一段的每句话都必须为真：它是**活着的**兼容镜像，
+    不是「已从本矩阵移出」的包 —— 存量下游还钉在这条路径上。
+    """
+    pkg = cp.get("pkg", "?")
+    repo = cp.get("repo", "?")
+    lines = []
+    lines.append(f"## 过渡期兼容镜像：{pkg}")
+    lines.append("")
+    lines.append(
+        f"`{pkg}` 是 `{repo}` 仓的**过渡期兼容镜像**——把根包的导出符号镜像过来"
+        "（类型别名 / 函数转发 / 常量转发），**不含任何自己的实现**，只为存量下游存在。"
+    )
+    lines.append("")
+    if cp.get("impl"):
+        lines.append(f"- 实现：{cp['impl']}")
+    if cp.get("importPath"):
+        lines.append(
+            f"- 可用 import 路径：`{cp['importPath']}`（{cp.get('availableIn', '—')}）"
+        )
+    if cp.get("canonicalPath"):
+        lines.append(f"- 规范路径：`{cp['canonicalPath']}` —— 矩阵的规范包清单只登记它")
+    if cp.get("whyNotInPackages"):
+        lines.append(f"- 不进规范包清单的原因：{cp['whyNotInPackages']}")
+    if cp.get("issueChain"):
+        lines.append("- 相关 issue（已关闭）：")
+        lines.extend(issue_links(cp))
+    if cp.get("status"):
+        lines.append(f"- 状态：{cp['status']}")
+    if cp.get("plan"):
+        lines.append(f"- 下一步：{cp['plan']}")
+    lines.append("")
+    # 交叉引用的模块由数据决定（缺字段回落到该条目所属仓）
+    timeline = cp.get("timelineModule") or repo
+    lines.append(
+        f"完整说明见 [`{timeline}` 模块页](/modules/{timeline}.html) 的「过渡期兼容镜像」段。"
+    )
+    lines.append("")
+    return lines
 
 
 def render_modules_index(data, mods):
@@ -203,7 +303,14 @@ def render_modules_index(data, mods):
         lines.append(f"| [`{ir['repo']}`]({ORG}/{ir['repo']}) | {ir['role']} |")
     lines.append("")
 
-    for rp in data.get("retiringPackages") or []:
+    # 账本（retiringPackages）里混着两种东西，必须分开渲染：
+    #   kind == "compat" → 过渡期兼容镜像：**路径仍然可用**；
+    #   其它             → 已退役的包（那条路径已经没了）。
+    # 兼容镜像排前面：扫索引的人先看到「还能用的路径」，再看到历史。
+    ledger = data.get("retiringPackages") or []
+    for cp in [e for e in ledger if e.get("kind") == "compat"]:
+        lines.extend(render_compat_section(cp))
+    for rp in [e for e in ledger if e.get("kind") != "compat"]:
         pkg = rp.get("pkg", "?")
         repl = rp.get("replacement")
         lines.append(f"## 已退役的包：{pkg}")
@@ -220,8 +327,7 @@ def render_modules_index(data, mods):
         chain = rp.get("issueChain") or {}
         if chain:
             lines.append("- 上游需求链（全部已关闭）：")
-            for num, desc in chain.items():
-                lines.append(f"  - [`#{num}`](https://github.com/oekit/concurrency/issues/{num}) —— {desc}")
+            lines.extend(issue_links(rp))
         # 退役记录有两种终局写法：退役未完成时用 action（下一步做什么），
         # 退役完成后用 status（终局是什么）。两者都渲染，别因为换键就整段丢。
         if rp.get("status"):
@@ -229,8 +335,10 @@ def render_modules_index(data, mods):
         if rp.get("action"):
             lines.append(f"- 后续：{rp['action']}")
         lines.append("")
+        # 交叉引用的模块由数据决定（缺字段回落旧硬编码值 ⇒ 老记录逐字节不变）
+        timeline = rp.get("timelineModule") or "runtime"
         lines.append(
-            "退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。"
+            f"退役完整时间线见 [`{timeline}` 模块页](/modules/{timeline}.html) 的「本仓硬规则」。"
         )
         lines.append("")
 
@@ -311,8 +419,11 @@ def main():
     import_root = data["importRoot"].format(org=data["defaultOrg"])
 
     expected = {}
+    compat = compat_by_repo(data)
     for m in mods:
-        expected[MODULES_OUT / f"{m['repo']}.md"] = render_module_page(m, rev, import_root)
+        expected[MODULES_OUT / f"{m['repo']}.md"] = render_module_page(
+            m, rev, import_root, compat.get(m["repo"], [])
+        )
     expected[MODULES_OUT / "index.md"] = render_modules_index(data, mods)
     expected[PARTS_OUT / "matrix-table.md"] = render_matrix_table(mods)
     expected[NAV_OUT] = (
