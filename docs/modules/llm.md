@@ -32,6 +32,16 @@ go get github.com/oagentkit/llm@latest
 | `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入） |
 | `llm/decision` | System One 协议判定面客户端（非自回归判定模型）：choice/score/noul 三原语 + 校准置信口径（本地算，两端同义） |
 
+## 过渡期兼容镜像
+
+- `llm/llm`
+  - 实现：llm/llm/compat.go —— 镜像根包全部 71 个导出符号（31 type / 31 func / 2 var / 7 const）；类型用 type 别名、函数用 var 转发、常量原样转发，一致性由 llm/llm/compat_test.go 的 AST 比对强制
+  - 可用 import 路径：`github.com/oagentkit/llm/llm`（llm v0.18.0 起）
+  - 规范路径：`github.com/oagentkit/llm` —— 新代码用它
+  - 不进规范包清单的原因：规范包清单的 import 路径规则把「包名末段 == 仓名」收口到 module 根（matrix_paths.new_import_path）；登记它会让 versions.json 给根包与它登记同一个 importPath
+  - 状态：过渡期兼容镜像 —— 包是活的（v0.18.0 起可 import），只为存量下游存在
+  - 下一步：新代码一律直接 import github.com/oagentkit/llm；本镜像随 0.x 版本线退役
+
 ## 本仓硬规则
 
 以下约束出自该仓 `AGENTS.md`。**改代码前先读仓库根目录的 `AGENTS.md`**，此处是摘要，不是替代。

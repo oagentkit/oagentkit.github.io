@@ -54,6 +54,22 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 | [`matrix-tools`](https://github.com/oagentkit/matrix-tools) | 版本矩阵生成/审计/巡检（照抄 oekit/matrix-tools：gen_versions.py、ekit2oekit.py 同源思路） |
 | [`oagentkit.github.io`](https://github.com/oagentkit/oagentkit.github.io) | llms.txt 模块索引 + 文档站点 |
 
+## 过渡期兼容镜像：llm/llm
+
+`llm/llm` 是 `llm` 仓的**过渡期兼容镜像**——把根包的导出符号镜像过来（类型别名 / 函数转发 / 常量转发），**不含任何自己的实现**，只为存量下游存在。
+
+- 实现：llm/llm/compat.go —— 镜像根包全部 71 个导出符号（31 type / 31 func / 2 var / 7 const）；类型用 type 别名、函数用 var 转发、常量原样转发，一致性由 llm/llm/compat_test.go 的 AST 比对强制
+- 可用 import 路径：`github.com/oagentkit/llm/llm`（llm v0.18.0 起）
+- 规范路径：`github.com/oagentkit/llm` —— 矩阵的规范包清单只登记它
+- 不进规范包清单的原因：规范包清单的 import 路径规则把「包名末段 == 仓名」收口到 module 根（matrix_paths.new_import_path）；登记它会让 versions.json 给根包与它登记同一个 importPath
+- 相关 issue（已关闭）：
+  - [`#47`](https://github.com/oagentkit/llm/issues/47) —— 需求：llm/llm 扁平化后缺兼容子包 —— 跨大版本升级的下游需整仓改 import 路径（已关闭）
+  - [`#48`](https://github.com/oagentkit/llm/issues/48) —— 实现：补 llm/llm 兼容层 —— 恢复 v0.7.0~v0.8.0 的历史 import 路径（已合入 llm v0.18.0）
+- 状态：过渡期兼容镜像 —— 包是活的（v0.18.0 起可 import），只为存量下游存在
+- 下一步：新代码一律直接 import github.com/oagentkit/llm；本镜像随 0.x 版本线退役
+
+完整说明见 [`llm` 模块页](/modules/llm.html) 的「过渡期兼容镜像」段。
+
 ## 已退役的包：breaker
 
 `breaker` 已从本矩阵移出，迁往 `github.com/oekit/concurrency/breaker`。**退役是分阶段完成的**——消费方先改依赖上游、上游能力补齐，最后才删包，任何一步提前做都是构建断裂。
