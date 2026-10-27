@@ -42,7 +42,8 @@ scripts/gen_module_pages.py     页面 + 依赖图数据生成器
 ### 生成物不许手改
 
 以下 **17 个文件**由 `data/modules.json` 生成，**手改会被 CI 直接拦下**
-（`.github/workflows/pages.yml` 里跑 `python3 scripts/gen_module_pages.py --check`）：
+（`python3 scripts/gen_module_pages.py --check`，在两个 workflow 里各跑一次：
+`.github/workflows/build.yml` 拦 **PR**、`.github/workflows/pages.yml` 拦 **push main**）：
 
 ```
 docs/modules/*.md（13 个模块页 + docs/modules/index.md）
@@ -72,8 +73,8 @@ npm run gen:modules                          # 如上一步报不同步，改数
 ```
 
 `--check` 必须输出 `OK：17 个生成文件均与 modules.json 同步` 才算通过。
-CI（Pages workflow）还会跑 `npm ci` + `npm run docs:build`，
-并断言 `docs/.vitepress/dist/guide/ai-agent.html` 存在。
+CI 还会跑 `npm ci` + `npm run docs:build`，并断言 `docs/.vitepress/dist/guide/ai-agent.html` 存在 ——
+在 **PR**（`build.yml`，只构建不部署）与 **push main**（`pages.yml`，构建后部署）两条路径上都跑。
 
 ### 站内链接
 
@@ -97,4 +98,5 @@ CI（Pages workflow）还会跑 `npm ci` + `npm run docs:build`，
 | 模块实现（13 个 Go 模块） | `github.com/oagentkit/{模块名}` 各自独立仓 |
 | 矩阵数据源与生成脚本 | `github.com/oagentkit/matrix-tools` |
 | 各仓 CI 门禁 | `github.com/oagentkit/.github`（reusable workflow） |
-| Pages 部署 | 本仓 `.github/workflows/pages.yml`（GitHub Actions Source） |
+| PR 构建门禁 | 本仓 `.github/workflows/build.yml`（**只构建、不部署**，权限只有 `contents: read`） |
+| Pages 部署 | 本仓 `.github/workflows/pages.yml`（GitHub Actions Source，仅 push main 触发） |
