@@ -1,0 +1,58 @@
+name: Build (PR 门禁)
+
+# 站点 PR 的**构建证据**：只构建、**不部署**。
+#
+# 为什么要有这个（issue oagentkit.github.io#62）：
+# 本仓原本只有 `pages.yml`，触发条件是 `push` 到 main ⇒ **开 PR 时 GitHub 上根本不会
+# 产生 run** ⇒ 合并前那一道门是空的。实测 2026-10-26（PR #61）：PR 阶段零 run，
+# 合并后 pages run 40215631975 才第一次绿 ⇒ 那一版的正确性只由人工确认兜着。
+# 站点是对外公开的入口（llms.txt / 13 个模块页 / 矩阵表），构建失败的影响面比模块仓大。
+#
+# 为什么**不给** pages.yml 直接加 `pull_request` 触发：
+# pages.yml 里有 `permissions: pages: write` + `id-token: write` + `configure-pages` +
+# `upload-pages-artifact` + `deploy-pages` —— 那条链路会**真的把产物发布到线上**。
+# 给它加 PR 触发等于「PR 分支的产物会被发到 GitHub Pages」⇒ 线上会被 PR 内容覆盖。
+# 部署路径与构建门禁必须分开：**部署只属于 main 的 push**。
+#
+# 本 workflow 的权限只给 `contents: read`（没有 pages: write、没有 id-token: write）
+# ⇒ 即使将来有人在这里加部署步骤也**部署不出去** ⇒ 这条「PR 不会发到线上」是
+# 权限层面的硬保证，不是靠约定。
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 同一个 PR 多次推送只跑最后一次
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build VitePress (no deploy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 校验生成文件与 modules.json 同步
+        # 模块页是生成的：手改 docs/modules/*.md 会在这里被拦下，
+        # 必须改 data/modules.json 后跑 npm run gen:modules。
+        run: python3 scripts/gen_module_pages.py --check
+
+      - run: npm ci
+
+      - name: 构建
+        run: npm run docs:build
+
+      - name: 校验 /guide/ai-agent.html 已产出
+        # 这条 URL 曾长期 404（站点只有单页 index.html，没有 guide/ 子路径）。
+        # 断言它存在，防止以后重构悄悄把页面结构改掉。
+        run: test -f docs/.vitepress/dist/guide/ai-agent.html
