@@ -69,6 +69,10 @@ export default defineConfig({
           ]
         },
         {
+          text: '升级',
+          items: [{ text: '破坏性变更与升级指南', link: '/guide/breaking-changes' }]
+        },
+        {
           text: '参与',
           items: [{ text: 'CI 门禁与模块规则', link: '/guide/contributing' }]
         },
