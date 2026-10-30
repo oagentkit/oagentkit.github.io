@@ -49,7 +49,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 仓 | 角色 |
 | --- | --- |
-| [`agentkit`](https://github.com/oagentkit/agentkit) | 门面仓——46 包 re-export 零逻辑，发 v1.0.0 后按 README 写死的期限退役 |
+| [`agentkit`](https://github.com/oagentkit/agentkit) | 门面仓——只做 re-export 零逻辑（转发包集合已冻结，见 matrix-tools/scripts/facade_package_baseline.json），发 v1.0.0 后按 README 写死的期限退役 |
 | [`.github`](https://github.com/oagentkit/.github) | org profile + 共享 reusable workflow（照抄 oekit/.github，改 org 与域名） |
 | [`matrix-tools`](https://github.com/oagentkit/matrix-tools) | 版本矩阵生成/审计/巡检（照抄 oekit/matrix-tools：gen_versions.py、ekit2oekit.py 同源思路） |
 | [`oagentkit.github.io`](https://github.com/oagentkit/oagentkit.github.io) | llms.txt 模块索引 + 文档站点 |

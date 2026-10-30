@@ -38,7 +38,7 @@ features:
 
 ::: warning 别引门面仓
 安装一律用上表的模块路径。**不要引门面仓 [`oagentkit/agentkit`](https://github.com/oagentkit/agentkit)** ——
-它只是原单仓的 re-export 兼容层（46 包零逻辑转发），按 README 写死的期限在 v1.x 后退役。
+它只是原单仓的 re-export 兼容层（转发包集合已冻结，零逻辑转发），按 README 写死的期限在 v1.x 后退役。
 :::
 
 ## 基建
@@ -48,7 +48,7 @@ features:
 | [`.github`](https://github.com/oagentkit/.github) | org profile + 全 org 共享 CI 门禁（reusable workflow） |
 | [`matrix-tools`](https://github.com/oagentkit/matrix-tools) | 版本矩阵生成 / 依赖方向审计 / import 改写 / 建仓 |
 | [`versions.json`](https://oagentkit.github.io/versions.json) | 机器可读版本矩阵（由 `matrix-tools/scripts/gen_versions.py` 生成） |
-| [`llms.txt`](https://oagentkit.github.io/llms.txt) | LLM 模块索引，46 包映射 |
+| [`llms.txt`](https://oagentkit.github.io/llms.txt) | LLM 模块索引，旧→新包路径映射 |
 
 ## 与 oekit 的关系
 
