@@ -82,7 +82,7 @@
       "repo": "queue",
       "tier": 2,
       "desc": "DB 即队列 + Postgres 选主 Lease",
-      "packages": 2,
+      "packages": 4,
       "eino": false,
       "href": "/modules/queue.html"
     },

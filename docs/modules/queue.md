@@ -10,8 +10,8 @@ DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备�
 | oekit 对应 | `k8s` |
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | —（矩阵叶子） |
-| 第三方地板 | `github.com/lib/pq` |
-| 包数 | 2 |
+| 第三方地板 | `github.com/lib/pq`、`modernc.org/sqlite` |
+| 包数 | 4 |
 
 ## 安装
 
@@ -25,8 +25,10 @@ go get github.com/oagentkit/queue@latest
 
 | 包 | 说明 |
 | --- | --- |
-| `worker` | 任务表驱动的工作池（DB 即队列）+ `LeaseStore` 选主存储接口 |
+| `worker` | 任务表驱动的工作池（DB 即队列）+ `LeaseStore`/`TaskQueue` 存储接口与参考实现 re-export |
 | `worker/pglease` | `worker.LeaseStore` 的 PostgreSQL 实现（条件 UPSERT 一行即成） |
+| `sqllease` | `worker.LeaseStore` 的 database/sql 参考实现（PG/MySQL/SQLite 三方言） |
+| `sqlqueue` | `worker.TaskQueue` 的 database/sql 参考实现（三方言） |
 
 ## 本仓硬规则
 
