@@ -9,7 +9,7 @@
   "sourceMatrix": "git.enjoye.top/enjoydream/agentkit",
   "tierCount": 4,
   "moduleCount": 13,
-  "packageCount": 52,
+  "packageCount": 54,
   "modules": [
     {
       "repo": "textx",
@@ -415,6 +415,16 @@
           "pkg": "worker/pglease",
           "importPath": "github.com/oagentkit/queue/pglease",
           "fromLegacy": "agentkit/worker/pglease"
+        },
+        {
+          "pkg": "sqllease",
+          "importPath": "github.com/oagentkit/queue/sqllease",
+          "fromLegacy": "agentkit/sqllease"
+        },
+        {
+          "pkg": "sqlqueue",
+          "importPath": "github.com/oagentkit/queue/sqlqueue",
+          "fromLegacy": "agentkit/sqlqueue"
         }
       ],
       "matrixDeps": [],
@@ -2979,7 +2989,7 @@
     {
       "repo": "agentkit",
       "url": "https://github.com/oagentkit/agentkit",
-      "latest": "v1.8.61",
+      "latest": "v1.8.62",
       "retiring": true,
       "breakingIndex": [
         {
