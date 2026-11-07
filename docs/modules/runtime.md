@@ -11,7 +11,7 @@ Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程�
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `promptx`、`mcpkit`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 5 |
+| 包数 | 7 |
 
 ## 安装
 
@@ -30,6 +30,8 @@ go get github.com/oagentkit/runtime@latest
 | `procx` | 子进程最小环境构造 `ChildEnv` + 执行封装，供 spawn 外部进程的包共用 |
 | `hotplug` | 运行时插拔与原子热替换：`Plugboard` 启停视图 + `Holder[T]` 快照持有点 |
 | `hookx` | 外部 hook 拦截协议：在关键拦截点派生子进程，stdin 喂 JSON |
+| `notifyx` | 生命周期事件通知出口（notify sink）：归一化事件契约可靠外发（webhook/HTTP），Emit 永不阻塞主流程，丢弃计数 + OnDrop 可观测 |
+| `notifyx/hook` | 挂点侧官方 shim：平台 shell 协议载荷归一化为 notifyx.Payload，映射表/ack 轮询/跨进程节流单源，cmd/notifyx-hook 供 hooks 一行接入 |
 
 ## 本仓硬规则
 

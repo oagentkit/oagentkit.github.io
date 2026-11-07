@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - /Users/zhangyi/XiaomiMiMoProjects/oagentkit-matrix/oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 54 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 56 包）
 
 ## 破坏性变更
 
@@ -94,7 +94,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`fence`、`logredact`、`egress`、`permgate`、`injectband`、`invoke`、`toolfail`、`sandbox`、`wire`
   - 安装：`go get github.com/oagentkit/guardx@latest`
 - [runtime](https://github.com/oagentkit/runtime): Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程最小环境/运行时热插拔/生命周期钩子
-  - 包：`pacer`、`progress`、`procx`、`hotplug`、`hookx`
+  - 包：`pacer`、`progress`、`procx`、`hotplug`、`hookx`、`notifyx`、`hook`
   - 安装：`go get github.com/oagentkit/runtime@latest`
 - [textx](https://github.com/oagentkit/textx): 文本与差异处理——增量切片/unified diff 解析/代码符号索引/会话滚动窗口与压缩/评审报告指纹
   - 包：`textutil`、`diffx`、`codeintel`、`compact`、`conversation`、`reportutil`
@@ -154,10 +154,12 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - [agentkit](https://github.com/oagentkit/agentkit): 原单仓 `git.enjoye.top/enjoydream/agentkit` 的兼容门面，48 包 re-export。**已废弃**：v1.x 退役条件已满足，只保留兼容转发、不接受新功能，**新代码不要引它**。归档待旧单仓 `git.enjoye.top/enjoydream/agentkit` 下线后执行；在此之前本仓继续可用，已有 tag 的 `go get` 照常解析。
 - 完整旧→新包路径映射见该仓 [MIGRATION.md](https://github.com/oagentkit/agentkit/blob/main/MIGRATION.md)。
 - 门面**包集合已冻结**：矩阵新增的包不再要求门面跟上（见 `scripts/facade_package_baseline.json` 与 `scripts/verify_facade_frozen.py`）。
-- **以下 6 个矩阵包没有门面等价物**（门面冻结在它们之前，不转发新包是正确行为）：
+- **以下 8 个矩阵包没有门面等价物**（门面冻结在它们之前，不转发新包是正确行为）：
   - `github.com/oagentkit/guardx/toolfail` —— 直接依赖真实模块，**不要**去门面 import
   - `github.com/oagentkit/guardx/sandbox` —— 直接依赖真实模块，**不要**去门面 import
   - `github.com/oagentkit/guardx/wire` —— 直接依赖真实模块，**不要**去门面 import
+  - `github.com/oagentkit/runtime/notifyx` —— 直接依赖真实模块，**不要**去门面 import
+  - `github.com/oagentkit/runtime/hook` —— 直接依赖真实模块，**不要**去门面 import
   - `github.com/oagentkit/llm/decision` —— 直接依赖真实模块，**不要**去门面 import
   - `github.com/oagentkit/queue/sqllease` —— 直接依赖真实模块，**不要**去门面 import
   - `github.com/oagentkit/queue/sqlqueue` —— 直接依赖真实模块，**不要**去门面 import
@@ -172,6 +174,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - **每仓根目录的 `AGENTS.md` 是该仓的权威规范**：分层不变量、错误处理、日志、并发安全、API 命名，以及该仓特有的工程红线。
 - 安装一律 `go get github.com/oagentkit/<mod>@latest`；不要引门面仓 `agentkit`。
 - **import 路径 = `github.com/oagentkit/{仓名}/{包名末段}`**；**末段与仓名相同**时收口成 `github.com/oagentkit/{仓名}`（不重复末段）。旧单仓 `git.enjoye.top/enjoydream/agentkit/<包>` 的**中间层目录会被丢掉**，因为新矩阵里那层组织职责由**仓**承担。例如：
+    - `agentkit/notifyx/hook` → `github.com/oagentkit/runtime/hook`
     - `agentkit/worker/pglease` → `github.com/oagentkit/queue/pglease`
     - `agentkit/knowledge/rag` → `github.com/oagentkit/rag`
     - `agentkit/llm` → `github.com/oagentkit/llm`
@@ -179,14 +182,14 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
     - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
     - `agentkit/llm/decision` → `github.com/oagentkit/llm/decision`
-  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 7 条易踩对照、及全部 55 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/knowledge/rag` → `github.com/oagentkit/rag` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 8 条易踩对照、及全部 57 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
 
 ## 易踩的坑
 
-- **import 路径不是纯前缀映射**：旧单仓 `agentkit/<包>` 迁到新矩阵时，中间层目录会被丢掉 —— `agentkit/worker/pglease` → `github.com/oagentkit/queue/pglease`。按「仓库名 + 完整旧路径」拼会直接构建断裂。
+- **import 路径不是纯前缀映射**：旧单仓 `agentkit/<包>` 迁到新矩阵时，中间层目录会被丢掉 —— `agentkit/notifyx/hook` → `github.com/oagentkit/runtime/hook`。按「仓库名 + 完整旧路径」拼会直接构建断裂。
 - **`guardx/audit` 与 `guardx/bashguard` 已迁出**（guardx v0.7.0）：`github.com/oagentkit/obs/audit`（依赖 oekit/logx）、`github.com/oagentkit/tools/bashguard`（依赖 mvdan.cc/sh/v3）。guardx 回到**一个 module、一条版本线、零外部依赖**的 tier0 底座 —— Go 的依赖面按 module 结算：只 import `guardx/logredact` 的下游，模块图里不该多出任何第三方依赖。旧路径的嵌套 module tag 仍在但**已冻结**。
 - **`progress` 撞名但语义相反**：`oekit/concurrency/progress` 是长任务**阶段进度追踪器**，而 `oagentkit/runtime/progress` 是泛型**事件总线**。按包名对齐会做错。
 - **`pacer` ≠ `ratelimit`**：前者是聚合缓冲（攒够窗口再发），后者是准入控制。
