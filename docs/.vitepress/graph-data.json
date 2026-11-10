@@ -26,7 +26,7 @@
       "repo": "guardx",
       "tier": 0,
       "desc": "脱敏/出口围栏/权限判定/沙箱档位/跨进程协议",
-      "packages": 9,
+      "packages": 10,
       "eino": false,
       "href": "/modules/guardx.html"
     },
@@ -114,7 +114,7 @@
       "repo": "tools",
       "tier": 2,
       "desc": "CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描/Shell 静态裁决",
-      "packages": 5,
+      "packages": 6,
       "eino": true,
       "href": "/modules/tools.html"
     },

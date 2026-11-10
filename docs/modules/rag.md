@@ -38,7 +38,8 @@ go get github.com/oagentkit/rag@latest
 
 ## 日志约定
 
-- **本仓不引入日志依赖。** tier0 加日志等于给所有下游抬地板；需要观测输出时返回 error 或交给调用方。
+- 日志走 `oekit/logx`，组件 logger 用 `logx.Delegating("oagentkit-rag")`。
+  - 索引/检索路径不得把原始文档内容整段落日志。
 
 ## 相关
 
