@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx`、`runtime`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino`、`mvdan.cc/sh/v3` |
-| 包数 | 5 |
+| 包数 | 6 |
 
 ## 安装
 
@@ -30,6 +30,7 @@ go get github.com/oagentkit/tools@latest
 | `workcopy` | Git 工作副本沙箱：隔离环境 + merge-base 校验 |
 | `sast` | 确定性 SAST 前置扫描（不执行被扫代码） |
 | `bashguard` | Shell 命令静态风险裁决（自 guardx/bashguard 迁入）：经真 shell AST 判定只读性，不执行命令 |
+| `bgjob` | 远程后台作业 marker 协议原语：经宿主既有 SSH 会话起「脱离会话的长任务」，退出码走 marker 文件做终态探测与收尾（tools#106） |
 
 ## 本仓硬规则
 
