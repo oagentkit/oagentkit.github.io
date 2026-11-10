@@ -47,6 +47,11 @@ jobs:
         # 必须改 data/modules.json 后跑 npm run gen:modules。
         run: python3 scripts/gen_module_pages.py --check
 
+      - name: 对外产物形态（llms.txt 不得含本机绝对路径 / 非 https 链接——matrix-tools#199）
+        run: |
+          ! grep -nE '/Users/|/home/[a-z0-9_]+/|file:///|C:\\' docs/public/llms.txt
+          grep -q 'https://oagentkit.github.io/versions.json' docs/public/llms.txt
+
       - run: npm ci
 
       - name: 构建

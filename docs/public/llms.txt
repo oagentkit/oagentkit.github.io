@@ -16,12 +16,12 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 版本矩阵（机器可读）
 
-- /Users/zhangyi/XiaomiMiMoProjects/oagentkit-matrix/oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
+- https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
 - 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（13 模块 / 56 包）
 
 ## 破坏性变更
 
-登记在册的破坏性变更共 19 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+登记在册的破坏性变更共 20 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
 
 - **textx v0.6.1** — 修复(agents)：审计日志归属改为 obs/audit（guardx/audit 已迁出）
   包在模块之间搬家：audit → guardx/obs
@@ -44,6 +44,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   包在模块之间搬家：obsx → llm/obs
 - **llm v0.9.0** — 重构(llm)!：包上移至 module 根，import 路径不再重复末段
   import 路径 github.com/oagentkit/llm/llm → github.com/oagentkit/llm。 包名 llm 恰好等于仓名 llm，留在 llm/ 子目录会产出 stutter 的公开路径 （Go 惯例：包名不重复 import 路径末段）。 矩阵 import 规则随之收敛：matrix_paths.new_import_path 在「包名末段 == 仓名」时 收口到 module 根，不再拼末段。这是该规则的**唯一例外**，写在唯一构造点里， gen_versions / gen_llms_txt / rewrite_imports / test_matrix_paths 全部随之生效。 llmtest 与 wrap 的末段 ≠ 仓名，路径不变（oagentkit/llm/llmtest、oagentkit/llm/wrap）。
+- **toolgate v0.15.0** — 新增(invoke)：补搬迁兼容壳——Deprecated 转发 guardx/invoke,旧 import 路径恢复编译（agent#68）
+  包在模块之间搬家：invoke → guardx/toolgate
 - **toolgate v0.12.0** — 重构：invoke 迁出本仓 —— 框架无关的原语不该被 eino 重仓的地板拖住
   github.com/oagentkit/toolgate/invoke → github.com/oagentkit/guardx/invoke invoke 的包文档自证「刻意不携带任何框架类型：本包与 policy/toolegate 无耦合」—— 它是框架无关的原语，自身 import 面只有 oekit/pkg/errors，却在带 eino 家族的重仓里 让消费方白吃 34 个第三方模块。 policy 改为依赖 guardx/invoke（tier2 → tier0，方向合法，无环）。 关联 oagentkit/guardx#3
 - **toolgate v0.9.1** — 重构：invoke 迁出本仓 —— 框架无关的原语不该被 eino 重仓的地板拖住
