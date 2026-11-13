@@ -220,7 +220,7 @@
       "repo": "runtime",
       "url": "https://github.com/oagentkit/runtime",
       "tier": 0,
-      "latest": "v0.12.9",
+      "latest": "v0.13.0",
       "packages": [
         {
           "pkg": "pacer",
@@ -260,6 +260,13 @@
       ],
       "matrixDeps": [],
       "breakingIndex": [
+        {
+          "version": "v0.13.0",
+          "date": "2026-11-13",
+          "title": "重构(pacer)!：导出 Option → StreamOption——AGENTS.md 明禁裸 Option（#110）",
+          "summary": "pacer.Option 改名 StreamOption，WithClock/NewStream 签名\n同步更新。下游用别名一行适配：type Option = pacer.StreamOption。",
+          "detail": "仓内其余三包（NotifierOption/PollAckOption/ThrottlerOption）均为 XxxOption，\npacer 是唯一漏项；裸 Option + WithClock 与 pkg/cache 等 dot-import 场景的\n同名冲突当下即发生（issue 内 probe 实证）。\nBREAKING CHANGE: pacer.Option 改名 StreamOption，WithClock/NewStream 签名\n同步更新。下游用别名一行适配：type Option = pacer.StreamOption。\n\n- 杂务(deps)：依赖地板追到最新——github.com/oekit/concurrency v0.35.0\n\n| 依赖 | 现地板 | 抬到 |\n|---|---|---|\n| `github.com/oekit/concurrency` | `v0.34.0` | `v0.35.0` |\n| `github.com/oekit/pkg` | `v0.46.0` | `v0.47.1` |\n## 为什么\n矩阵的**发版时刻地板时效**门禁（`verify_tag_floor --ref HEAD`）要求：各仓 HEAD\n（= 下次发版会发出去的内容）的依赖地板，相对那一刻的依赖最新版本，不能已落后。\noekit 基座与矩阵模块都在高频发版 ⇒ 地板是**跑步机**，落后一格就会判红。\n## 兼容性实测\n本工具在提交前跑完 `go build` / `go vet` / `go test -race -count=1 ./...`（全绿才提交）\n与 `go mod tidy -diff`（无漂移）⇒ 改动**只影响依赖版本**，零行为差异。\n只改 `go.mod` / `go.sum` ⇒ 不需要 CHANGELOG 条目（版本段由下次发版的 `prewrite` 生成）。\n\n- 杂务(deps)：依赖地板追到最新——concurrency v0.34.0 + pkg v0.46.0（#211）\n\n| 依赖 | 现地板 | 抬到 |\n|---|---|---|\n| github.com/oekit/concurrency | v0.33.0 | v0.34.0 |\n| github.com/oekit/pkg | v0.45.0 | v0.46.0 |\nprocx 依赖地板白名单随合同放行 oekit/pkg：concurrency v0.34.0 的 async\npanic 收编消费 pkg/errors，procx 闭包新增第一方基座 pkg（depsfloor_test\n白名单两基座化 + README 两处同步）。ci.yml go-version 已是 1.26（v0.45 bump\n时同步过），无需再动。\n\n- 杂务(deps)：依赖地板追到最新——github.com/oekit/pkg v0.45.0\n\nci: go-version 1.24 → 1.26——go 指令已被 oekit/pkg v0.45.0 顶至 1.26.0，薄调用层同步（matrix-tools#210）"
+        },
         {
           "version": "v0.5.0",
           "date": "2026-10-18",
@@ -482,6 +489,22 @@
               "dep": "github.com/oekit/pkg",
               "from": "v0.43.0",
               "to": "v0.44.0"
+            }
+          ]
+        },
+        {
+          "version": "v0.13.0",
+          "date": "2026-11-13",
+          "bumps": [
+            {
+              "dep": "github.com/oekit/concurrency",
+              "from": "v0.33.0",
+              "to": "v0.35.0"
+            },
+            {
+              "dep": "github.com/oekit/pkg",
+              "from": "v0.44.0",
+              "to": "v0.47.1"
             }
           ]
         }
@@ -1499,7 +1522,7 @@
       "repo": "obs",
       "url": "https://github.com/oagentkit/obs",
       "tier": 2,
-      "latest": "v0.9.17",
+      "latest": "v0.9.18",
       "packages": [
         {
           "pkg": "langfuse",
@@ -1883,6 +1906,32 @@
               "dep": "github.com/oekit/pkg",
               "from": "v0.43.0",
               "to": "v0.44.0"
+            }
+          ]
+        },
+        {
+          "version": "v0.9.18",
+          "date": "2026-11-13",
+          "bumps": [
+            {
+              "dep": "github.com/oagentkit/guardx",
+              "from": "v0.24.3",
+              "to": "v0.24.6"
+            },
+            {
+              "dep": "github.com/oekit/concurrency",
+              "from": "v0.33.0",
+              "to": "v0.35.0"
+            },
+            {
+              "dep": "github.com/oekit/logx",
+              "from": "v0.9.2",
+              "to": "v0.10.0"
+            },
+            {
+              "dep": "github.com/oekit/pkg",
+              "from": "v0.44.0",
+              "to": "v0.47.1"
             }
           ]
         }
@@ -4948,7 +4997,7 @@
       "repo": "agent",
       "url": "https://github.com/oagentkit/agent",
       "tier": 3,
-      "latest": "v0.14.10",
+      "latest": "v0.14.11",
       "packages": [
         {
           "pkg": "agentrun",
@@ -5586,6 +5635,37 @@
               "dep": "github.com/oagentkit/textx",
               "from": "v0.10.8",
               "to": "v0.10.9"
+            }
+          ]
+        },
+        {
+          "version": "v0.14.11",
+          "date": "2026-11-13",
+          "bumps": [
+            {
+              "dep": "github.com/oagentkit/llm",
+              "from": "v0.21.9",
+              "to": "v0.21.12"
+            },
+            {
+              "dep": "github.com/oagentkit/textx",
+              "from": "v0.10.9",
+              "to": "v0.11.0"
+            },
+            {
+              "dep": "github.com/oekit/concurrency",
+              "from": "v0.33.0",
+              "to": "v0.35.0"
+            },
+            {
+              "dep": "github.com/oekit/logx",
+              "from": "v0.9.2",
+              "to": "v0.10.0"
+            },
+            {
+              "dep": "github.com/oekit/pkg",
+              "from": "v0.44.0",
+              "to": "v0.47.1"
             }
           ]
         }
