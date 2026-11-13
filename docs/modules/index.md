@@ -49,26 +49,10 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 仓 | 角色 |
 | --- | --- |
-| [`agentkit`](https://github.com/oagentkit/agentkit) | 门面仓——只做 re-export 零逻辑（转发包集合已冻结，见 matrix-tools/scripts/facade_package_baseline.json）。退役条件机器化为 retireWhen（matrix-tools#196）：notAfter 期限已过 ⇒ verify_facade_retirement 判红，须归档或再次改期并更新理由 |
+| [`agentkit`](https://github.com/oagentkit/agentkit) | 门面仓——已退役（v1.9.0）：48 个 re-export 转发包全部删除，module 保留声明 + 零依赖 go.mod 作墓碑与迁移指引。退役条件机器化为 retireWhen（matrix-tools#196）并已提前执行（见 retired 字段）；门面族守卫（verify_facade_retirement / packages / symbols / tier_table / release）对 retired 状态全部豁免或改判墓碑形状 |
 | [`.github`](https://github.com/oagentkit/.github) | org profile + 共享 reusable workflow（照抄 oekit/.github，改 org 与域名） |
 | [`matrix-tools`](https://github.com/oagentkit/matrix-tools) | 版本矩阵生成/审计/巡检（照抄 oekit/matrix-tools：gen_versions.py、ekit2oekit.py 同源思路） |
 | [`oagentkit.github.io`](https://github.com/oagentkit/oagentkit.github.io) | llms.txt 模块索引 + 文档站点 |
-
-## 过渡期兼容镜像：llm/llm
-
-`llm/llm` 是 `llm` 仓的**过渡期兼容镜像**——把根包的导出符号镜像过来（类型别名 / 函数转发 / 常量转发），**不含任何自己的实现**，只为存量下游存在。
-
-- 实现：llm/llm/compat.go —— 镜像根包全部 71 个导出符号（31 type / 31 func / 2 var / 7 const）；类型用 type 别名、函数用 var 转发、常量原样转发，一致性由 llm/llm/compat_test.go 的 AST 比对强制
-- 可用 import 路径：`github.com/oagentkit/llm/llm`（llm v0.18.0 起）
-- 规范路径：`github.com/oagentkit/llm` —— 矩阵的规范包清单只登记它
-- 不进规范包清单的原因：规范包清单的 import 路径规则把「包名末段 == 仓名」收口到 module 根（matrix_paths.new_import_path）；登记它会让 versions.json 给根包与它登记同一个 importPath
-- 相关 issue（已关闭）：
-  - [`#47`](https://github.com/oagentkit/llm/issues/47) —— 需求：llm/llm 扁平化后缺兼容子包 —— 跨大版本升级的下游需整仓改 import 路径（已关闭）
-  - [`#48`](https://github.com/oagentkit/llm/issues/48) —— 实现：补 llm/llm 兼容层 —— 恢复 v0.7.0~v0.8.0 的历史 import 路径（已合入 llm v0.18.0）
-- 状态：过渡期兼容镜像 —— 包是活的（v0.18.0 起可 import），只为存量下游存在
-- 下一步：新代码一律直接 import github.com/oagentkit/llm；本镜像随 0.x 版本线退役
-
-完整说明见 [`llm` 模块页](/modules/llm.html) 的「过渡期兼容镜像」段。
 
 ## 已退役的包：breaker
 
@@ -83,6 +67,15 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 - 状态：已完成：llm v0.4.0 起全量使用上游 GenBreaker
 
 退役完整时间线见 [`runtime` 模块页](/modules/runtime.html) 的「本仓硬规则」。
+
+## 已退役的包：llm/llm
+
+- 上游需求链（全部已关闭）：
+  - [`#47`](https://github.com/oagentkit/llm/issues/47) —— 需求：llm/llm 扁平化后缺兼容子包 —— 跨大版本升级的下游需整仓改 import 路径（已关闭）
+  - [`#48`](https://github.com/oagentkit/llm/issues/48) —— 实现：补 llm/llm 兼容层 —— 恢复 v0.7.0~v0.8.0 的历史 import 路径（已合入 llm v0.18.0）
+- 状态：已完成：llm v0.22.0 删除兼容镜像（BREAKING，llm#181）——旧路径 import 一律改根包 github.com/oagentkit/llm（符号同名，调用点零改动）
+
+退役完整时间线见 [`llm` 模块页](/modules/llm.html) 的「本仓硬规则」。
 
 ## 已移除的包
 
