@@ -11,7 +11,7 @@
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `obs`、`skillkit`、`toolgate`、`tools` |
 | 第三方地板 | 零 |
-| 包数 | 10 |
+| 包数 | 13 |
 
 ## 安装
 
@@ -35,6 +35,9 @@ go get github.com/oagentkit/guardx@latest
 | `toolfail` | 工具调用失败的分类与处置契约：类别 → 可重试性/退避/需人工/重发安全/面向模型的处置指引。不可分类即不可重试；重发安全与重试价值是两个正交维度 |
 | `sandbox` | 执行沙箱的档位语义与后端协议：Level（none/process/os/machine，序即强弱）+ Provider + Registry。要求档位是下限，选不到满足者即拒绝、绝不降级 |
 | `wire` | 跨进程调用协议：帧格式（4B 大端长度 + JSON 负载，不用行分隔——工具输出可能含换行）+ 两条通道（启动通道 Starter/Runner 一次执行、调用通道 Server/Client N 次工具调用）；失败分类跨进程同源（取 toolfail 的分类）、预算权威在父侧、在途调用有硬上限、取消传播靠管道关闭 |
+| `netguard` | 出站 URL 守卫（SSRF 防护）：凡服务端代发 HTTP 的出口统一判定；IP 策略依据单源 egress，不私补网段表 |
+| `rbac` | 角色能力矩阵机制：角色→能力集查表、只读档由矩阵推导、授权面指纹；词表是宿主数据，本包只收机制 |
+| `ticket` | 一次性短时授权票据：签发/消费/过期/用途绑定，消费即作废（用过即焚）；机制与策略分离 |
 
 ## 本仓硬规则
 
@@ -49,9 +52,12 @@ go get github.com/oagentkit/guardx@latest
 - **`toolfail`** —— **不可分类 = 不可重试**（保守缺省）：判据缺失时两种误判成本不对称，误判可重试会把一次失败放大成 N 次，还可能重复施加副作用。**重发安全与重试价值是两个正交维度**：超时值得重试但服务端可能已执行，原样重发即重复施加副作用——只看「可重试」的调用方必然在这两种误判里选一个。
 - **`sandbox`** —— **选不到满足档位的后端即拒绝，绝不降级**：降级会让「宿主声明的强度」与「实际执行的强度」之间没有信号，档位整套机制就成了装饰。**档位序即强弱**，要求档位是下限，满足下限者取最弱（够用且最省）。
 - 安全相关路径**禁止吞 error** —— 判定失败必须阻断而非放行。
-- **本仓必须保持零外部依赖**（go.mod 的 require 段为空）。Go 的依赖面按 **module** 结算：只 import logredact 的下游，模块图里也会多出本仓的整条 require。带重依赖的能力属于重仓——`audit` 已迁至 `obs/audit`（依赖 oekit/logx），`bashguard` 已迁至 `tools/bashguard`（依赖 mvdan.cc/sh）。
+- **本仓必须保持零第三方依赖**（允许第一方基座 github.com/oekit/*；不是「一条 require 都没有」）。Go 的依赖面按 **module** 结算：只 import logredact 的下游，模块图里也会多出本仓的整条 require。带重依赖的能力属于重仓——`audit` 已迁至 `obs/audit`（依赖 oekit/logx），`bashguard` 已迁至 `tools/bashguard`（依赖 mvdan.cc/sh）。
 - **`audit` / `bashguard` 已迁出**（v0.7.0）：`github.com/oagentkit/guardx/audit` → `github.com/oagentkit/obs/audit`，`github.com/oagentkit/guardx/bashguard` → `github.com/oagentkit/tools/bashguard`。旧路径的嵌套 module tag 仍在但**已冻结**，不再有后续版本。
 - **`invoke` 自 `toolgate/invoke` 迁入**（v0.8.0）：它自身只 import `oekit/pkg/errors`，却在 eino 重仓里让消费方白吃 34 个第三方模块。框架无关的原语属于零依赖底座。
+- **`netguard` / `ticket` 自 `goagent-kernel` 迁入**（v0.29.0）：出站守卫与一次性授权票据属**执行安全域**，
+  与 egress / permgate / rbac / fence 同族。判据与导出面逐字不变（迁入即等价）；
+  netguard 的 IP 判定仍**单源 egress**，与 oekit/pkg/urlguard 的已知差异由本仓用例钉住。
 - **`wire`** —— 跨进程调用协议。**两条通道必须是两条连接**（共用一条则「这帧是 Start 还是 Response」只能靠猜，两者 JSON 形状不同，猜错就是「字段读成了另一个意思」）。**失败分类不得退化成自由字符串**（父侧要靠它分「可重试」与「永久拒绝」）。**取消传播靠管道关闭**——管道关闭本身就是最强的取消信号，不需要单独的取消帧。
 
 ## 日志约定

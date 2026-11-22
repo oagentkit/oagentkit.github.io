@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2` |
-| 包数 | 1 |
+| 包数 | 3 |
 
 ## 安装
 
@@ -26,6 +26,8 @@ go get github.com/oagentkit/rag@latest
 | 包 | 说明 |
 | --- | --- |
 | `knowledge/rag` | 知识检索：Embedding 接口、向量后端可插拔、混合召回与重排 |
+| `wiki` | 持久 wiki 的写入面：页面 upsert/删除/乐观版本 + 增量摄取与结构检查；不做检索（读侧索引由宿主交给 Indexer 接缝） |
+| `wiki/fsstore` | wiki.Store 的文件系统参考实现：一页一个 markdown（元数据 YAML front-matter），同目录临时文件 + Rename 原子替换 |
 
 ## 本仓硬规则
 

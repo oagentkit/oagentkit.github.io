@@ -11,7 +11,7 @@ DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备�
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/lib/pq`、`modernc.org/sqlite` |
-| 包数 | 4 |
+| 包数 | 5 |
 
 ## 安装
 
@@ -29,6 +29,7 @@ go get github.com/oagentkit/queue@latest
 | `worker/pglease` | `worker.LeaseStore` 的 PostgreSQL 实现（条件 UPSERT 一行即成） |
 | `sqllease` | `worker.LeaseStore` 的 database/sql 参考实现（PG/MySQL/SQLite 三方言） |
 | `sqlqueue` | `worker.TaskQueue` 的 database/sql 参考实现（三方言） |
+| `outbox` | 统一副作用 outbox 队列：宿主按 kind 注册退避规格与处理器，机制面只认规格不认业务（与 sqlqueue 的任务认领划清边界） |
 
 ## 本仓硬规则
 
