@@ -20,7 +20,7 @@ hero:
       link: /llms.txt
 
 features:
-  - title: 13 个独立发版模块
+  - title: 14 个独立发版模块
     details: 每仓独立 SemVer + 独立 CI，依赖严格自底向上。不用被最慢的那个依赖拖住升级节奏。
   - title: 每仓都有 AGENTS.md
     details: 面向 AI Agent 的权威规范——分层不变量、错误处理、日志、并发安全、该仓特有的工程红线。
@@ -30,7 +30,7 @@ features:
 
 ## 模块矩阵
 
-13 个独立发版的 Go 模块，按**框架耦合度**分四层。tier N 不得依赖 tier > N。
+14 个独立发版的 Go 模块，按**框架耦合度**分四层。tier N 不得依赖 tier > N。
 
 <DependencyGraph />
 

@@ -167,7 +167,7 @@ const focusDetail = computed(() => {
         :width="width"
         :height="height"
         role="img"
-        aria-label="oagentkit 模块依赖关系图：13 个模块按 tier 0 到 3 分四层，箭头指向被依赖的模块"
+        aria-label="oagentkit 模块依赖关系图：14 个模块按 tier 0 到 3 分四层，箭头指向被依赖的模块"
       >
         <defs>
           <marker id="dg-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

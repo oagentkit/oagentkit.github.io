@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 
-// 13 个模块页的侧边栏由 scripts/gen_module_pages.py 依据 modules.json 生成，
+// 14 个模块页的侧边栏由 scripts/gen_module_pages.py 依据 modules.json 生成，
 // 矩阵变更后跑 `npm run gen:modules` 即可重建，避免两处手工维护漂移。
 import modulesNav from './modules-nav.json'
 
@@ -9,7 +9,7 @@ const repo = 'https://github.com/oagentkit'
 export default defineConfig({
   lang: 'zh-CN',
   title: 'oagentkit',
-  description: 'Agent / LLM 编排工具链模块矩阵 —— 13 个独立发版的 Go 模块',
+  description: 'Agent / LLM 编排工具链模块矩阵 —— 14 个独立发版的 Go 模块',
 
   // 关闭 cleanUrls：站内链接一律带 .html，保证 /guide/ai-agent.html 这类
   // 完整文件名 URL 可直接命中（GitHub Pages 走静态文件，无 rewrite 兜底）。
@@ -29,7 +29,7 @@ export default defineConfig({
       'meta',
       {
         property: 'og:description',
-        content: '13 个独立发版的 Go 模块，依赖严格自底向上，每仓独立 SemVer + 独立 CI。'
+        content: '14 个独立发版的 Go 模块，依赖严格自底向上，每仓独立 SemVer + 独立 CI。'
       }
     ]
   ],
