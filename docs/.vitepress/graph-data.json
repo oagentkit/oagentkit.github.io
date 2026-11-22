@@ -74,7 +74,7 @@
       "repo": "mcpkit",
       "tier": 2,
       "desc": "MCP 客户端/工具池/建连单飞",
-      "packages": 1,
+      "packages": 2,
       "eino": true,
       "href": "/modules/mcpkit.html"
     },
@@ -138,19 +138,11 @@
   "edges": [
     {
       "from": "promptx",
-      "to": "runtime"
-    },
-    {
-      "from": "promptx",
       "to": "textx"
     },
     {
       "from": "llm",
       "to": "textx"
-    },
-    {
-      "from": "mcpkit",
-      "to": "runtime"
     },
     {
       "from": "obs",
@@ -182,10 +174,6 @@
     },
     {
       "from": "tools",
-      "to": "runtime"
-    },
-    {
-      "from": "tools",
       "to": "guardx"
     },
     {
@@ -202,11 +190,6 @@
       "obs",
       "skillkit",
       "toolgate",
-      "tools"
-    ],
-    "runtime": [
-      "promptx",
-      "mcpkit",
       "tools"
     ],
     "textx": [

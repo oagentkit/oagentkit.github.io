@@ -8,7 +8,7 @@
 | --- | --- |
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `kitex-examples` |
-| 仓内依赖 | `textx`、`runtime`、`guardx` |
+| 仓内依赖 | `textx`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino`、`mvdan.cc/sh/v3` |
 | 包数 | 7 |
