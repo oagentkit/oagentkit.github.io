@@ -10,7 +10,7 @@
 | oekit 对应 | `httpx` |
 | 仓内依赖 | `textx` |
 | 被依赖 | `agent` |
-| 第三方地板 | `github.com/cloudwego/eino`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/cloudwego/eino-ext/components/model/openai` |
+| 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace` |
 | 包数 | 6 |
 
 ## 安装

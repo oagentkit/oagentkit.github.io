@@ -10,7 +10,7 @@
 | oekit 对应 | `data` |
 | 仓内依赖 | `textx` |
 | 被依赖 | —（矩阵叶子） |
-| 第三方地板 | `github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2` |
+| 第三方地板 | `github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3` |
 | 包数 | 3 |
 
 ## 安装
