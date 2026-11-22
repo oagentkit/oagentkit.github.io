@@ -8,10 +8,10 @@ MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管�
 | --- | --- |
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `registry` |
-| 仓内依赖 | `runtime` |
+| 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `toolgate` |
 | 第三方地板 | `github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino` |
-| 包数 | 1 |
+| 包数 | 2 |
 
 ## 安装
 
@@ -26,6 +26,7 @@ go get github.com/oagentkit/mcpkit@latest
 | 包 | 说明 |
 | --- | --- |
 | `mcp` | MCP 客户端/工具池：工具目录、建连单飞、自愈与租约管理 |
+| `iface` | MCP 工具调用面的协议中立声明：失败分类学（ErrorKind）、结果分类载体（ClassifiedError）与工具能力接口（RawNamer/OutputSchemer）——只依赖标准库，供不要 mcp-go 的消费方使用 |
 
 ## 本仓硬规则
 
