@@ -6,7 +6,7 @@ name: Build (PR 门禁)
 # 本仓原本只有 `pages.yml`，触发条件是 `push` 到 main ⇒ **开 PR 时 GitHub 上根本不会
 # 产生 run** ⇒ 合并前那一道门是空的。实测 2026-10-26（PR #61）：PR 阶段零 run，
 # 合并后 pages run 40215631975 才第一次绿 ⇒ 那一版的正确性只由人工确认兜着。
-# 站点是对外公开的入口（llms.txt / 13 个模块页 / 矩阵表），构建失败的影响面比模块仓大。
+# 站点是对外公开的入口（llms.txt / 14 个模块页 / 矩阵表），构建失败的影响面比模块仓大。
 #
 # 为什么**不给** pages.yml 直接加 `pull_request` 触发：
 # pages.yml 里有 `permissions: pages: write` + `id-token: write` + `configure-pages` +

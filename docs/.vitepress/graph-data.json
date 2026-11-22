@@ -47,6 +47,14 @@
       "href": "/modules/textx.html"
     },
     {
+      "repo": "toolname",
+      "tier": 0,
+      "desc": "工具名 → 程序内标识符的单一真相（规范名判定 + 规整）",
+      "packages": 1,
+      "eino": false,
+      "href": "/modules/toolname.html"
+    },
+    {
       "repo": "promptx",
       "tier": 1,
       "desc": "system prompt 分段组装/运行中转向/文件读后写一致性",

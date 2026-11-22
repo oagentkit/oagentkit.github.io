@@ -2,7 +2,7 @@
 
 > oagentkit 文档站 —— VitePress 源（`docs/`），GitHub Pages 线上站
 > 线上地址：[https://oagentkit.github.io](https://oagentkit.github.io)
-> 定位：**本仓只有文档，没有 Go 代码** —— 矩阵里 13 个模块仓各自独立发版，
+> 定位：**本仓只有文档，没有 Go 代码** —— 矩阵里 14 个模块仓各自独立发版，
 > 本仓负责把它们讲清楚（模块页、架构指南、依赖图、AI Agent 入口 `llms.txt`）。
 
 ## 本仓包含
@@ -10,11 +10,11 @@
 ```
 docs/
 ├── .vitepress/config.mts      站点配置：导航、侧边栏、主题色、editLink
-├── .vitepress/modules-nav.json 生成物（13 模块的侧边栏数据）
+├── .vitepress/modules-nav.json 生成物（14 模块的侧边栏数据）
 ├── .vitepress/graph-data.json  生成物（依赖图数据：tiers / nodes / edges / dependents）
 ├── index.md                    首页（矩阵表由 parts/matrix-table.md 注入）
 ├── guide/                      8 篇指南（手写，不受生成物约束）
-├── modules/                    13 个模块页 —— 生成物
+├── modules/                    14 个模块页 —— 生成物
 ├── parts/matrix-table.md       首页矩阵表 —— 生成物
 └── public/                     原样拷贝：llms.txt / versions.json / logo.svg / robots.txt
 data/modules.json               站点侧模块数据源（matrix-tools 的副本）
@@ -26,7 +26,7 @@ scripts/gen_module_pages.py     页面 + 依赖图数据生成器
 ### 数据来源：单一数据源 + 站点侧副本
 
 - **权威源在 `matrix-tools` 仓**：[oagentkit/matrix-tools](https://github.com/oagentkit/matrix-tools)
-  的 `matrix-tools/modules.json` 定义了 13 个模块及其 `packages` / `pkgDesc` / `tier` /
+  的 `matrix-tools/modules.json` 定义了 14 个模块及其 `packages` / `pkgDesc` / `tier` /
   `dependsOn` / `heavyDeps` / `agentNotes` / `loggingRule` 等字段。
   那边用它生成各仓的 README / AGENTS.md 与 `llms.txt`。
 - **本仓 `data/modules.json` 是该文件的副本**，schema 相同、内容必须**逐字段一致**。
@@ -46,7 +46,7 @@ scripts/gen_module_pages.py     页面 + 依赖图数据生成器
 `.github/workflows/build.yml` 拦 **PR**、`.github/workflows/pages.yml` 拦 **push main**）：
 
 ```
-docs/modules/*.md（13 个模块页 + docs/modules/index.md）
+docs/modules/*.md（14 个模块页 + docs/modules/index.md）
 docs/parts/matrix-table.md
 docs/.vitepress/modules-nav.json
 docs/.vitepress/graph-data.json
@@ -95,7 +95,7 @@ CI 还会跑 `npm ci` + `npm run docs:build`，并断言 `docs/.vitepress/dist/g
 
 | 能力 | 归属 |
 |---|---|
-| 模块实现（13 个 Go 模块） | `github.com/oagentkit/{模块名}` 各自独立仓 |
+| 模块实现（14 个 Go 模块） | `github.com/oagentkit/{模块名}` 各自独立仓 |
 | 矩阵数据源与生成脚本 | `github.com/oagentkit/matrix-tools` |
 | 各仓 CI 门禁 | `github.com/oagentkit/.github`（reusable workflow） |
 | PR 构建门禁 | 本仓 `.github/workflows/build.yml`（**只构建、不部署**，权限只有 `contents: read`） |

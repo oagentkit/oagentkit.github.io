@@ -3,6 +3,7 @@
 | [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 安全围栏——凭据脱敏/URL 出口 SSRF 防护/工具许可判定链/提示注入卫生（tier0 零外部依赖底座） | <span class="matrix-tier">—</span> |
 | [`runtime`](/modules/runtime.html) | <span class="matrix-tier">tier 0</span> | Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程最小环境/运行时热插拔/生命周期钩子 | <span class="matrix-tier">—</span> |
 | [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 文本与差异处理——增量切片/unified diff 解析/代码符号索引/会话滚动窗口与压缩/评审报告指纹 | <span class="matrix-tier">—</span> |
+| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 工具名净化原语——工具名→程序内标识符的单一真相（JS 标识符判定 + 规整），装配两侧必须逐字一致 | <span class="matrix-tier">—</span> |
 | [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 提示词上下文——system prompt 分段组装/运行中转向队列/文件读后写一致性状态 | <span class="matrix-tier">`runtime`、`textx`</span> |
 | [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测 | <span class="matrix-tier">`textx`</span> |
 | [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管理 | <span class="matrix-tier">`runtime`</span> |

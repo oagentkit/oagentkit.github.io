@@ -8,7 +8,7 @@ oagentkit 文档站 —— VitePress 源。线上：[https://oagentkit.github.io
 docs/
 ├── .vitepress/
 │   ├── config.mts          站点配置：导航、侧边栏、主题色、editLink
-│   ├── modules-nav.json    生成物（13 模块的侧边栏数据）
+│   ├── modules-nav.json    生成物（14 模块的侧边栏数据）
 │   ├── graph-data.json     生成物（依赖图数据：tiers / nodes / edges / dependents）
 │   └── theme/
 │       ├── index.ts        主题入口（注册全局组件 + 侧栏 oekit 卡片插槽）
@@ -18,7 +18,7 @@ docs/
 │       └── custom.css      品牌色覆盖（浅色 #0a58ca / 深色 #6cb6ff）
 ├── index.md                首页（模块矩阵表由 parts/matrix-table.md 注入）
 ├── guide/                  8 篇指南（含姊妹项目 oekit）
-├── modules/                13 个模块页 —— 生成物，不要手改
+├── modules/                14 个模块页 —— 生成物，不要手改
 ├── parts/matrix-table.md   首页矩阵表 —— 生成物
 └── public/                 原样拷贝：llms.txt / versions.json / logo.svg / .nojekyll / robots.txt
 data/modules.json           矩阵数据源（与 matrix-tools 同源）

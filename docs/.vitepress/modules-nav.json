@@ -12,6 +12,10 @@
     "tier": 0
   },
   {
+    "repo": "toolname",
+    "tier": 0
+  },
+  {
     "repo": "promptx",
     "tier": 1
   },

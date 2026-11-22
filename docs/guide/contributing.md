@@ -82,7 +82,7 @@ jobs:
 | `verify_inventory.py` | 不变量登记表：每条不变量的**判据脚本 + CI 接线**缺一即红 |
 | `create_repos.py` / `publish_repo.sh` | 建仓与发布 |
 
-**`modules.json` 是唯一数据源。** 13 个仓的文档有 90% 是同构的（分层声明、硬规则、
+**`modules.json` 是唯一数据源。** 14 个仓的文档有 90% 是同构的（分层声明、硬规则、
 依赖表、「不属于本仓」表），手写必然漂移——所以生成。
 
 ### import 路径规则（迁移必读）
@@ -113,7 +113,7 @@ python3 ../matrix-tools/scripts/rewrite_imports.py --org oagentkit --print-rules
 `fromLegacy` 字段——工具做旧→新替换时读它，不必解析脚本源码。
 
 本站的模块页同理：[`oagentkit.github.io`](https://github.com/oagentkit/oagentkit.github.io)
-的 `scripts/gen_module_pages.py` 从同一份 `modules.json` 生成 13 个模块页 + 侧边栏 +
+的 `scripts/gen_module_pages.py` 从同一份 `modules.json` 生成 14 个模块页 + 侧边栏 +
 首页矩阵表。
 
 ```bash

@@ -1,6 +1,6 @@
 # 模块总览
 
-oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，每仓独立 SemVer + 独立 CI。
+oagentkit 是 **14 个独立发版的 Go 模块**，依赖严格自底向上，每仓独立 SemVer + 独立 CI。
 
 > 每个仓库根目录都有 `AGENTS.md` —— 面向 AI Agent 的权威规范与硬规则。
 
@@ -13,6 +13,7 @@ oagentkit 是 **13 个独立发版的 Go 模块**，依赖严格自底向上，�
 | [`guardx`](/modules/guardx.html) | 脱敏/出口围栏/权限判定/沙箱档位/跨进程协议 | <span class="matrix-tier">—</span> |
 | [`runtime`](/modules/runtime.html) | agent 进程运行时——流式节控/泛型事件总线/子进程环境/热插拔/钩子 | <span class="matrix-tier">—</span> |
 | [`textx`](/modules/textx.html) | 文本/差异/会话/报告纯函数集 | <span class="matrix-tier">—</span> |
+| [`toolname`](/modules/toolname.html) | 工具名 → 程序内标识符的单一真相（规范名判定 + 规整） | <span class="matrix-tier">—</span> |
 
 ## tier 1 · 能力层
 

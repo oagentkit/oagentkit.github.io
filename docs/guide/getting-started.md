@@ -74,16 +74,17 @@ python3 rewrite_imports.py --org oagentkit --modules ./modules.json --root . --a
 | --- | --- | --- |
 | 调模型、降级、控预算、算成本 | [`llm`](/modules/llm) | tier 2 |
 | ReAct / 反思 / 路由 / 多专家协作 | [`agent`](/modules/agent) | tier 3 |
-| 接 MCP server、拿工具目录 | [`mcpkit`](/modules/mcpkit) | tier 1 |
+| 接 MCP server、拿工具目录 | [`mcpkit`](/modules/mcpkit) | tier 2 |
 | 治理工具优先级、并发调度、敏感操作审计 | [`toolgate`](/modules/toolgate) | tier 2 |
 | 组装 system prompt、运行中转向 | [`promptx`](/modules/promptx) | tier 1 |
-| token 用量、trace、分阶段打标 | [`obs`](/modules/obs) | tier 1 |
+| token 用量、trace、分阶段打标 | [`obs`](/modules/obs) | tier 2 |
 | 脱敏、SSRF 防护、Shell 沙箱解析 | [`guardx`](/modules/guardx) | tier 0 |
+| 工具名净化、JS 标识符规整（装配两侧必须一致） | [`toolname`](/modules/toolname) | tier 0 |
 | 会话压缩、diff 解析、代码符号索引 | [`textx`](/modules/textx) | tier 0 |
 | 事件总线、流控、子进程、热插拔、钩子 | [`runtime`](/modules/runtime) | tier 0 |
-| 任务队列、主备选主 | [`queue`](/modules/queue) | tier 0 |
+| 任务队列、主备选主 | [`queue`](/modules/queue) | tier 2 |
 
-完整 13 个模块见[模块总览](/modules/)。
+完整 14 个模块见[模块总览](/modules/)。
 
 ## 矩阵通用规约
 
