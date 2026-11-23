@@ -53,7 +53,8 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: '模块', link: '/modules/textx', activeMatch: '/modules/' },
-      { text: '版本矩阵', link: '/versions.json' },
+      // 坑速查提到顶栏一级：三站主导航同层（与 kernel 站 / runtime 站同一形状）。
+      { text: '坑速查', link: '/reference/pitfalls' },
       // 站群配套链接：与 kernel 站 / runtime 站同一个入口、同一个标题。
       {
         text: 'AI 直读',
@@ -67,7 +68,10 @@ export default defineConfig({
         text: '参考',
         items: [
           { text: '机器事实（模块 × 包 × 版本）', link: '/reference/packages' },
-          { text: '坑速查', link: '/reference/pitfalls' }
+          // 版本矩阵是**机器可读 JSON**：人读的那一面在「机器事实」页，
+          // 这里只留原始文件入口（.json 不在 VitePress 的已知扩展名里 ⇒
+          // 客户端路由不拦截它，走整页导航拿到静态文件）。
+          { text: '版本矩阵（机器可读 JSON）', link: '/versions.json' }
         ]
       },
       // 外链：VitePress 会自动加 ↗ 标记
