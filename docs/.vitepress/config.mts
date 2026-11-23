@@ -17,6 +17,16 @@ export default defineConfig({
   lastUpdated: true,
   metaChunk: true,
 
+  // 白 / 暗 / 自动三态（2026-11-23 改，与 kernel 站 / runtime 站同一套）。
+  //
+  // 写成对象而不是 true：valueLight 必须是显式的 'light'——默认值是空串，
+  // 而空串在 VitePress 的预渲染脚本里等于「跟随系统」，表达不了「显式亮色」。
+  // 三态入口由 theme/index.ts 挂在 nav-bar-content-after 槽位上。
+  appearance: {
+    valueDark: 'dark',
+    valueLight: 'light'
+  },
+
   // parts/ 下的是被 <!--@include:--> 注入首页的生成片段，不是独立页面。
   // 不排除的话它们会各自生成 .html 并混进 sitemap，搜索引擎会索引到残缺片段。
   srcExclude: ['parts/**'],
@@ -44,7 +54,22 @@ export default defineConfig({
       { text: '指南', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: '模块', link: '/modules/textx', activeMatch: '/modules/' },
       { text: '版本矩阵', link: '/versions.json' },
-      { text: 'llms.txt', link: '/llms.txt' },
+      // 站群配套链接：与 kernel 站 / runtime 站同一个入口、同一个标题。
+      {
+        text: 'AI 直读',
+        items: [
+          { text: '本站 llms.txt', link: '/llms.txt' },
+          { text: 'kernel llms.txt', link: 'https://yi-nology.github.io/goagent-kernel/llms.txt' },
+          { text: 'oekit llms.txt', link: 'https://oekit.github.io/llms.txt' }
+        ]
+      },
+      {
+        text: '参考',
+        items: [
+          { text: '机器事实（模块 × 包 × 版本）', link: '/reference/packages' },
+          { text: '坑速查', link: '/reference/pitfalls' }
+        ]
+      },
       // 外链：VitePress 会自动加 ↗ 标记
       { text: 'oekit', link: 'https://oekit.github.io' },
       { text: 'GitHub', link: repo }
@@ -82,6 +107,15 @@ export default defineConfig({
         }
       ],
 
+      '/reference/': [
+        {
+          text: '参考',
+          items: [
+            { text: '机器事实（模块 × 包 × 版本）', link: '/reference/packages' },
+            { text: '坑速查', link: '/reference/pitfalls' }
+          ]
+        }
+      ],
       '/modules/': [
         { text: '模块总览', link: '/modules/' },
         {
