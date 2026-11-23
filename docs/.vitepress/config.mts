@@ -61,6 +61,7 @@ export default defineConfig({
         items: [
           { text: '本站 llms.txt', link: '/llms.txt' },
           { text: 'kernel llms.txt', link: 'https://yi-nology.github.io/goagent-kernel/llms.txt' },
+          { text: 'goagent-runtime llms.txt', link: 'https://yi-nology.github.io/goagent-runtime/llms.txt' },
           { text: 'oekit llms.txt', link: 'https://oekit.github.io/llms.txt' }
         ]
       },
