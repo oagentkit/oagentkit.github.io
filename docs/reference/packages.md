@@ -1,0 +1,122 @@
+# 机器事实：模块 × 包 × 版本
+
+这一页是**机器可读事实的人读投影**：模块数、包数、import 路径、旧单仓路径、最新版本全部来自 `data/modules.json` 与 `docs/public/versions.json`，由 `scripts/gen_module_pages.py` 生成——**手改会在下次生成时消失**。
+
+同一份事实的机器可读形态：[`versions.json`](/versions.json) 与 [`llms.txt`](/llms.txt)。
+
+## 总计
+
+| 项 | 值 |
+| --- | --- |
+| 模块 | 14 |
+| 包 | 67 |
+| 层 | 4（tier 0 – tier 3） |
+| 组织 | `oagentkit` |
+| 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |
+
+## 逐模块
+
+| 模块 | 层 | 包数 | 最新版 | 仓内依赖 | 第三方地板 |
+| --- | --- | --- | --- | --- | --- |
+| [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 13 | `v0.29.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`runtime`](/modules/runtime.html) | <span class="matrix-tier">tier 0</span> | 7 | `v0.14.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 6 | `v0.12.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `v0.2.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 3 | `v0.10.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">零</span> |
+| [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 6 | `v0.27.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
+| [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.15.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
+| [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.9.18` | <span class="matrix-tier">`guardx`</span> | <span class="matrix-tier">零</span> |
+| [`queue`](/modules/queue.html) | <span class="matrix-tier">tier 2</span> | 5 | `v0.13.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/lib/pq`、`modernc.org/sqlite`</span> |
+| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.12.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3`</span> |
+| [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.10.7` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/Masterminds/semver/v3`</span> |
+| [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.17.5` | <span class="matrix-tier">`guardx`、`mcpkit`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
+| [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.17.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
+| [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 6 | `v0.15.0` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
+
+## 全包清单
+
+「旧单仓路径」是单仓时代（`git.enjoye.top/enjoydream/agentkit`）的包位置，改写工具据此做纯前缀映射——消费方改 import 时只需要替换前缀。
+
+| 模块 | 包 | import 路径 | 旧单仓路径 |
+| --- | --- | --- | --- |
+| `guardx` | `fence` | `github.com/oagentkit/guardx/fence` | `agentkit/fence` |
+| `guardx` | `logredact` | `github.com/oagentkit/guardx/logredact` | `agentkit/logredact` |
+| `guardx` | `egress` | `github.com/oagentkit/guardx/egress` | `agentkit/egress` |
+| `guardx` | `egressproxy` | `github.com/oagentkit/guardx/egressproxy` | `agentkit/egressproxy` |
+| `guardx` | `permgate` | `github.com/oagentkit/guardx/permgate` | `agentkit/permgate` |
+| `guardx` | `injectband` | `github.com/oagentkit/guardx/injectband` | `agentkit/injectband` |
+| `guardx` | `invoke` | `github.com/oagentkit/guardx/invoke` | `agentkit/invoke` |
+| `guardx` | `toolfail` | `github.com/oagentkit/guardx/toolfail` | `agentkit/toolfail` |
+| `guardx` | `sandbox` | `github.com/oagentkit/guardx/sandbox` | `agentkit/sandbox` |
+| `guardx` | `wire` | `github.com/oagentkit/guardx/wire` | `agentkit/wire` |
+| `guardx` | `netguard` | `github.com/oagentkit/guardx/netguard` | `agentkit/netguard` |
+| `guardx` | `rbac` | `github.com/oagentkit/guardx/rbac` | `agentkit/rbac` |
+| `guardx` | `ticket` | `github.com/oagentkit/guardx/ticket` | `agentkit/ticket` |
+| `runtime` | `pacer` | `github.com/oagentkit/runtime/pacer` | `agentkit/pacer` |
+| `runtime` | `progress` | `github.com/oagentkit/runtime/progress` | `agentkit/progress` |
+| `runtime` | `procx` | `github.com/oagentkit/runtime/procx` | `agentkit/procx` |
+| `runtime` | `hotplug` | `github.com/oagentkit/runtime/hotplug` | `agentkit/hotplug` |
+| `runtime` | `hookx` | `github.com/oagentkit/runtime/hookx` | `agentkit/hookx` |
+| `runtime` | `notifyx` | `github.com/oagentkit/runtime/notifyx` | `agentkit/notifyx` |
+| `runtime` | `notifyx/hook` | `github.com/oagentkit/runtime/hook` | `agentkit/notifyx/hook` |
+| `textx` | `textutil` | `github.com/oagentkit/textx/textutil` | `agentkit/textutil` |
+| `textx` | `diffx` | `github.com/oagentkit/textx/diffx` | `agentkit/diffx` |
+| `textx` | `codeintel` | `github.com/oagentkit/textx/codeintel` | `agentkit/codeintel` |
+| `textx` | `compact` | `github.com/oagentkit/textx/compact` | `agentkit/compact` |
+| `textx` | `conversation` | `github.com/oagentkit/textx/conversation` | `agentkit/conversation` |
+| `textx` | `reportutil` | `github.com/oagentkit/textx/reportutil` | `agentkit/reportutil` |
+| `toolname` | `toolname` | `github.com/oagentkit/toolname` | `oekit/pkg/toolname` |
+| `promptx` | `sysprompt` | `github.com/oagentkit/promptx/sysprompt` | `agentkit/sysprompt` |
+| `promptx` | `steering` | `github.com/oagentkit/promptx/steering` | `agentkit/steering` |
+| `promptx` | `filestate` | `github.com/oagentkit/promptx/filestate` | `agentkit/filestate` |
+| `llm` | `llm` | `github.com/oagentkit/llm` | `agentkit/llm` |
+| `llm` | `llm/port` | `github.com/oagentkit/llm/port` | `agentkit/llm/port` |
+| `llm` | `llm/wrap` | `github.com/oagentkit/llm/wrap` | `agentkit/llm/wrap` |
+| `llm` | `llm/llmtest` | `github.com/oagentkit/llm/llmtest` | `agentkit/llm/llmtest` |
+| `llm` | `obsx` | `github.com/oagentkit/llm/obsx` | `agentkit/obsx` |
+| `llm` | `llm/decision` | `github.com/oagentkit/llm/decision` | `agentkit/llm/decision` |
+| `mcpkit` | `mcp` | `github.com/oagentkit/mcpkit/mcp` | `agentkit/mcp` |
+| `mcpkit` | `iface` | `github.com/oagentkit/mcpkit/iface` | `agentkit/iface` |
+| `obs` | `langfuse` | `github.com/oagentkit/obs/langfuse` | `agentkit/langfuse` |
+| `obs` | `audit` | `github.com/oagentkit/obs/audit` | `agentkit/audit` |
+| `queue` | `worker` | `github.com/oagentkit/queue/worker` | `agentkit/worker` |
+| `queue` | `worker/pglease` | `github.com/oagentkit/queue/pglease` | `agentkit/worker/pglease` |
+| `queue` | `sqllease` | `github.com/oagentkit/queue/sqllease` | `agentkit/sqllease` |
+| `queue` | `sqlqueue` | `github.com/oagentkit/queue/sqlqueue` | `agentkit/sqlqueue` |
+| `queue` | `outbox` | `github.com/oagentkit/queue/outbox` | `agentkit/outbox` |
+| `rag` | `knowledge/rag` | `github.com/oagentkit/rag` | `agentkit/knowledge/rag` |
+| `rag` | `wiki` | `github.com/oagentkit/rag/wiki` | `agentkit/wiki` |
+| `rag` | `wiki/fsstore` | `github.com/oagentkit/rag/fsstore` | `agentkit/wiki/fsstore` |
+| `skillkit` | `skill` | `github.com/oagentkit/skillkit/skill` | `agentkit/skill` |
+| `skillkit` | `pack` | `github.com/oagentkit/skillkit/pack` | `agentkit/pack` |
+| `skillkit` | `lineage` | `github.com/oagentkit/skillkit/lineage` | `agentkit/lineage` |
+| `toolgate` | `toolprior` | `github.com/oagentkit/toolgate/toolprior` | `agentkit/toolprior` |
+| `toolgate` | `toolsched` | `github.com/oagentkit/toolgate/toolsched` | `agentkit/toolsched` |
+| `toolgate` | `policy` | `github.com/oagentkit/toolgate/policy` | `agentkit/policy` |
+| `tools` | `acpx` | `github.com/oagentkit/tools/acpx` | `agentkit/acpx` |
+| `tools` | `websearch` | `github.com/oagentkit/tools/websearch` | `agentkit/websearch` |
+| `tools` | `workcopy` | `github.com/oagentkit/tools/workcopy` | `agentkit/workcopy` |
+| `tools` | `sast` | `github.com/oagentkit/tools/sast` | `agentkit/sast` |
+| `tools` | `bashguard` | `github.com/oagentkit/tools/bashguard` | `agentkit/bashguard` |
+| `tools` | `bgjob` | `github.com/oagentkit/tools/bgjob` | `agentkit/bgjob` |
+| `tools` | `cmdpolicy` | `github.com/oagentkit/tools/cmdpolicy` | `agentkit/cmdpolicy` |
+| `agent` | `agentrun` | `github.com/oagentkit/agent/agentrun` | `agentkit/agentrun` |
+| `agent` | `reflection` | `github.com/oagentkit/agent/reflection` | `agentkit/reflection` |
+| `agent` | `router` | `github.com/oagentkit/agent/router` | `agentkit/router` |
+| `agent` | `blackboard` | `github.com/oagentkit/agent/blackboard` | `agentkit/blackboard` |
+| `agent` | `dispatch` | `github.com/oagentkit/agent/dispatch` | `agentkit/dispatch` |
+| `agent` | `clarify` | `github.com/oagentkit/agent/clarify` | `agentkit/clarify` |
+
+## 装机
+
+```bash
+go get github.com/oagentkit/textx@latest
+```
+
+装**模块**（`github.com/oagentkit/<仓名>`），不要装**包路径**——包路径只是模块里的一个目录，单独装拿不到版本。
+
+## 相关
+
+- [模块总览](/modules/)
+- [坑速查](/reference/pitfalls.html) —— 已退役的包、兼容壳期限、层地板
+- [架构总览](/guide/architecture.html)

@@ -28,6 +28,20 @@ features:
     details: llms.txt 模块索引、versions.json 版本矩阵，还有 matrix-tools 仓的生成 / 审计 / import 改写脚本。
 ---
 
+<div class="home-punch"><strong>「这么多仓，为什么不是一个仓？」</strong>各自独立发版、独立 CI —— 你不被最慢的那个依赖拖住升级节奏。</div>
+
+<div class="home-install"><span class="prompt">▸</span>go get github.com/oagentkit/toolgate@latest</div>
+
+<div class="home-links">
+  <a class="chip" href="/modules/">模块总览</a>
+  <a class="chip" href="/reference/packages.html">机器事实</a>
+  <a class="chip" href="/reference/pitfalls.html">坑速查</a>
+  <a class="chip" href="/guide/getting-started.html">快速开始</a>
+  <a class="chip" href="/guide/architecture.html">架构总览</a>
+  <a class="chip chip-ai" href="/llms.txt">AI 直读 llms.txt</a>
+  <a class="chip" href="https://github.com/oagentkit">GitHub &#8599;</a>
+</div>
+
 ## 模块矩阵
 
 14 个独立发版的 Go 模块，按**框架耦合度**分四层。tier N 不得依赖 tier > N。

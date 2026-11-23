@@ -24,6 +24,9 @@ GRAPH_OUT = DOCS / ".vitepress" / "graph-data.json"
 MODULES_OUT = DOCS / "modules"
 PARTS_OUT = DOCS / "parts"
 
+REFERENCE_OUT = DOCS / "reference"
+VERSIONS = DOCS / "public" / "versions.json"
+
 ORG = "https://github.com/oagentkit"
 
 TIER_LABEL = {
@@ -409,6 +412,344 @@ def render_graph_data(data, mods, rev):
     )
 
 
+
+def load_versions():
+    """版本矩阵（机器可读）。
+
+    缺文件 / 坏 JSON 直接非零退出而不是静默用空值：判据跑不起来却报绿
+    是最贵的失效形态——事实页会照抄一份不存在的矩阵。
+    """
+    try:
+        return json.loads(VERSIONS.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        print(
+            f"ERROR: 读不到 {VERSIONS.relative_to(ROOT)}——"
+            "先同步 matrix-tools 的 versions.json（源先、副本后）",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"ERROR: {VERSIONS.relative_to(ROOT)} 不是合法 JSON：{e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def reconcile(mods, versions):
+    """两份机器事实对账：模块集合、包集合、计数必须逐项相等。
+
+    为什么这道对账放在生成器里：事实页若在两份数据不一致时照抄其中一份，
+    读者看到的「67 个包」可能是假的——而没有任何门禁会红。两份数据分别来自
+    matrix-tools 的两个产物（modules.json / versions.json），它们的漂移是
+    真实发生过的形态。
+    """
+    problems = []
+    dmods = {m["repo"]: m for m in mods}
+    vmods = {m["repo"]: m for m in versions.get("modules") or []}
+
+    only_d = sorted(set(dmods) - set(vmods))
+    only_v = sorted(set(vmods) - set(dmods))
+    if only_d or only_v:
+        problems.append(
+            f"模块集合不一致：modules.json 独有 {only_d} / versions.json 独有 {only_v}"
+        )
+
+    for repo in sorted(set(dmods) & set(vmods)):
+        dp = set(dmods[repo].get("packages") or [])
+        vp = {p["pkg"] for p in (vmods[repo].get("packages") or [])}
+        if dp != vp:
+            problems.append(
+                f"{repo} 的包集合不一致：modules.json 独有 {sorted(dp - vp)} / "
+                f"versions.json 独有 {sorted(vp - dp)}"
+            )
+
+    total = sum(len(m.get("packages") or []) for m in mods)
+    if versions.get("moduleCount") != len(mods):
+        problems.append(
+            f"模块计数不一致：versions.json 自述 {versions.get('moduleCount')} / "
+            f"modules.json 实算 {len(mods)}"
+        )
+    if versions.get("packageCount") != total:
+        problems.append(
+            f"包计数不一致：versions.json 自述 {versions.get('packageCount')} / "
+            f"modules.json 实算 {total}"
+        )
+
+    if problems:
+        for p in problems:
+            print("ERROR: " + p, file=sys.stderr)
+        print(
+            "两份机器事实对账失败——事实页照抄任何一份都会写出假陈述，故直接退出。",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+
+def render_packages_facts(data, mods, versions):
+    """机器事实页：模块 × 包 × 版本的机器可读投影。
+
+    这一页的每个数字都来自机器可读源（modules.json / versions.json），
+    页面本体是**生成物**——手改会在下次生成时消失（这正是它该有的性质：
+    数字不会被手抄漂移）。
+    """
+    vmods = {m["repo"]: m for m in versions.get("modules") or []}
+    total_pkgs = sum(len(m.get("packages") or []) for m in mods)
+    tier_count = len(data.get("tiers") or {})
+
+    lines = []
+    lines.append("# 机器事实：模块 × 包 × 版本")
+    lines.append("")
+    lines.append(
+        "这一页是**机器可读事实的人读投影**：模块数、包数、import 路径、"
+        "旧单仓路径、最新版本全部来自 `data/modules.json` 与 "
+        "`docs/public/versions.json`，由 `scripts/gen_module_pages.py` 生成——"
+        "**手改会在下次生成时消失**。"
+    )
+    lines.append("")
+    lines.append(
+        "同一份事实的机器可读形态：[`versions.json`](/versions.json) 与 "
+        "[`llms.txt`](/llms.txt)。"
+    )
+    lines.append("")
+
+    lines.append("## 总计")
+    lines.append("")
+    lines.append("| 项 | 值 |")
+    lines.append("| --- | --- |")
+    lines.append(f"| 模块 | {len(mods)} |")
+    lines.append(f"| 包 | {total_pkgs} |")
+    lines.append(f"| 层 | {tier_count}（tier 0 – tier {max(m['tier'] for m in mods)}） |")
+    lines.append(f"| 组织 | `{versions.get('org')}` |")
+    lines.append("| 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |")
+    lines.append("")
+
+    lines.append("## 逐模块")
+    lines.append("")
+    lines.append("| 模块 | 层 | 包数 | 最新版 | 仓内依赖 | 第三方地板 |")
+    lines.append("| --- | --- | --- | --- | --- | --- |")
+    for m in mods:
+        deps = deps_of(m)
+        deps_cell = "、".join(f"`{d}`" for d in deps) if deps else "—"
+        heavy = m.get("heavyDeps") or []
+        heavy_cell = "、".join(f"`{d}`" for d in heavy) if heavy else "零"
+        latest = (vmods.get(m["repo"]) or {}).get("latest") or "—"
+        lines.append(
+            f"| [`{m['repo']}`](/modules/{m['repo']}.html) "
+            f"| <span class=\"matrix-tier\">tier {m['tier']}</span> "
+            f"| {len(m['packages'])} "
+            f"| `{latest}` "
+            f"| <span class=\"matrix-tier\">{deps_cell}</span> "
+            f"| <span class=\"matrix-tier\">{heavy_cell}</span> |"
+        )
+    lines.append("")
+
+    lines.append("## 全包清单")
+    lines.append("")
+    lines.append(
+        "「旧单仓路径」是单仓时代（`git.enjoye.top/enjoydream/agentkit`）的包位置，"
+        "改写工具据此做纯前缀映射——消费方改 import 时只需要替换前缀。"
+    )
+    lines.append("")
+    lines.append("| 模块 | 包 | import 路径 | 旧单仓路径 |")
+    lines.append("| --- | --- | --- | --- |")
+    for m in mods:
+        vpacks = {p["pkg"]: p for p in (vmods.get(m["repo"]) or {}).get("packages") or []}
+        for p in m["packages"]:
+            meta = vpacks.get(p) or {}
+            legacy = meta.get("fromLegacy") or "—"
+            default_path = (
+                "github.com/"
+                + versions.get("org", "oagentkit")
+                + "/"
+                + m["repo"]
+                + "/"
+                + p
+            )
+            lines.append(
+                f"| `{m['repo']}` | `{p}` "
+                f"| `{meta.get('importPath', default_path)}` "
+                f"| `{legacy}` |"
+            )
+    lines.append("")
+
+    lines.append("## 装机")
+    lines.append("")
+    lines.append("```bash")
+    lines.append(f"go get {data['importRoot'].format(org=data['defaultOrg'])}/textx@latest")
+    lines.append("```")
+    lines.append("")
+    lines.append(
+        "装**模块**（`github.com/oagentkit/<仓名>`），不要装**包路径**——"
+        "包路径只是模块里的一个目录，单独装拿不到版本。"
+    )
+    lines.append("")
+
+    lines.append("## 相关")
+    lines.append("")
+    lines.append("- [模块总览](/modules/)")
+    lines.append("- [坑速查](/reference/pitfalls.html) —— 已退役的包、兼容壳期限、层地板")
+    lines.append("- [架构总览](/guide/architecture.html)")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_pitfalls(data, mods, versions):
+    """坑速查页：账本 + 层规则，全部由数据推导。
+
+    「手改会消失」在这里是**特性**：坑条目是会变的（包退役、期限临近），
+    手抄一份很快就是一句假陈述。生成物至少保证它与机器事实同步。
+    """
+    lines = []
+    lines.append("# 坑速查")
+    lines.append("")
+    lines.append(
+        "矩阵里最容易踩的几坑，全部由 `data/modules.json` 的账本与层规则推导，"
+        "由 `scripts/gen_module_pages.py` 生成——**手改会在下次生成时消失**。"
+    )
+    lines.append("")
+
+    retired = [e for e in (data.get("retiringPackages") or []) if e.get("kind") != "compat"]
+    lines.append("## 1. 已退役的包：那条路径已经没了")
+    lines.append("")
+    lines.append(
+        "import 一个已退役的包**不会降级、不会告警，直接编译失败**——"
+        "因为那条路径上已经没有包了。"
+    )
+    lines.append("")
+    if retired:
+        lines.append("| 包 | 迁往 | 状态 |")
+        lines.append("| --- | --- | --- |")
+        for e in retired:
+            repl = e.get("replacement") or e.get("canonicalPath") or "—"
+            status = e.get("status") or e.get("action") or "—"
+            lines.append(f"| `{e.get('pkg', '?')}` | `{repl}` | {status} |")
+        lines.append("")
+        for e in retired:
+            if e.get("consumedBy"):
+                lines.append(f"- `{e.get('pkg')}` —— 消费方：{e['consumedBy']}")
+            if e.get("issueChain"):
+                lines.append(f"- `{e.get('pkg')}` —— 需求链：")
+                lines.extend(issue_links(e))
+            lines.append("")
+    else:
+        lines.append("（当前账本里没有已退役的包条目。）")
+        lines.append("")
+
+    compat = [e for e in (data.get("retiringPackages") or []) if e.get("kind") == "compat"]
+    shells = data.get("compatShells") or []
+    lines.append("## 2. 兼容镜像与兼容壳：路径还在，但有期限")
+    lines.append("")
+    lines.append(
+        "兼容层是**有保质期**的：到期后上游删掉它，依赖它的代码在**升级上游之后**"
+        "才编译失败——本地还绿、CI 才红，是最难查的一类断。"
+    )
+    lines.append("")
+    if compat:
+        lines.append("| 包 | 规范路径 | 起始版本 | 状态 |")
+        lines.append("| --- | --- | --- | --- |")
+        for e in compat:
+            lines.append(
+                f"| `{e.get('pkg', '?')}` | `{e.get('canonicalPath', '—')}` "
+                f"| {e.get('availableIn', '—')} | {e.get('status', '—')} |"
+            )
+        lines.append("")
+    if shells:
+        lines.append("| 仓 | 壳路径 | 旧 import 路径 | 兼容至 | 已删除于 |")
+        lines.append("| --- | --- | --- | --- | --- |")
+        for s in shells:
+            lines.append(
+                f"| `{s.get('repo')}` | `{s.get('path')}` | `{s.get('module')}` "
+                f"| `{s.get('until')}` | `{s.get('removedIn')}` |"
+            )
+        lines.append("")
+    if not compat and not shells:
+        lines.append("（当前没有登记在册的兼容镜像 / 兼容壳。）")
+        lines.append("")
+
+    facades = [r for r in (data.get("infraRepos") or []) if r.get("retired")]
+    lines.append("## 3. 门面仓已退役：转发层不再转发")
+    lines.append("")
+    if facades:
+        for fr in facades:
+            ret = fr.get("retired") or {}
+            lines.append(
+                f"`{fr['repo']}` 是门面仓（re-export 兼容层），"
+                f"**{ret.get('version', '—')} 起已退役**"
+                f"（{ret.get('date', '—')}）："
+                f"{ret.get('packagesDeleted', '—')} 个转发包全部删除，"
+                f"旧 import 路径 `{versions.get('org', 'oagentkit')}/{fr['repo']}/*` 一律编译失败。"
+            )
+            lines.append("")
+            if ret.get("reason"):
+                lines.append(f"- 退役原因：{ret['reason']}")
+            if ret.get("decidedBy"):
+                lines.append(f"- 决策：{ret['decidedBy']}")
+            lines.append("")
+    else:
+        lines.append("（当前没有已退役的门面仓。）")
+        lines.append("")
+
+    lines.append("## 4. 层地板：tier 0 / tier 1 不得有重量级第三方依赖")
+    lines.append("")
+    lines.append(
+        "tier 由**依赖地板**决定，不是由功能多少决定。tier 0 / tier 1 必须零重量级"
+        "第三方依赖——所以它们能被任何下游安全依赖；一旦某个 tier 0 仓引了 eino 或"
+        "数据库驱动，它就不再是 tier 0，整条依赖链的地基都跟着变重。"
+    )
+    lines.append("")
+    lines.append("| 模块 | 层 | 重量级第三方依赖 |")
+    lines.append("| --- | --- | --- |")
+    for m in mods:
+        heavy = m.get("heavyDeps") or []
+        heavy_cell = "、".join(f"`{d}`" for d in heavy) if heavy else "零"
+        lines.append(
+            f"| [`{m['repo']}`](/modules/{m['repo']}.html) "
+            f"| <span class=\"matrix-tier\">tier {m['tier']}</span> "
+            f"| <span class=\"matrix-tier\">{heavy_cell}</span> |"
+        )
+    lines.append("")
+    lines.append(
+        "判据脚本：`matrix-tools/scripts/verify_dep_floor.py`——"
+        "它读的是 `heavyDeps` 登记，不是读 go.mod 猜。"
+    )
+    lines.append("")
+
+    lines.append("## 5. 依赖方向：tier N 不得依赖 tier > N")
+    lines.append("")
+    lines.append(
+        "依赖严格自底向上。**反向依赖（tier 0 依赖 tier 3）不是「暂时方便」，"
+        "是分层失效**——它让「上层坐在下层之上」的读法不再成立，"
+        "依赖图也就没法用层号排序了。"
+    )
+    lines.append("")
+    lines.append("| 模块 | 层 | 仓内依赖 |")
+    lines.append("| --- | --- | --- |")
+    tier_of = {m["repo"]: m["tier"] for m in mods}
+    for m in mods:
+        deps = deps_of(m)
+        dep_cells = []
+        for d in deps:
+            dt = tier_of.get(d)
+            dep_cells.append(f"`{d}`" + (f"（tier {dt}）" if dt is not None else ""))
+        lines.append(
+            f"| [`{m['repo']}`](/modules/{m['repo']}.html) "
+            f"| <span class=\"matrix-tier\">tier {m['tier']}</span> "
+            f"| <span class=\"matrix-tier\">{'、'.join(dep_cells) if dep_cells else '—'}</span> |"
+        )
+    lines.append("")
+    lines.append(
+        "判据脚本：`matrix-tools/scripts/verify_import_direction.py`"
+        "（层级方向 + 依赖声明对账）。"
+    )
+    lines.append("")
+
+    lines.append("## 相关")
+    lines.append("")
+    lines.append("- [机器事实](/reference/packages.html) —— 模块 × 包 × 版本")
+    lines.append("- [模块总览](/modules/)")
+    lines.append("- [架构总览](/guide/architecture.html)")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="只校验，不写文件")
@@ -417,6 +758,9 @@ def main():
     data, mods = load()
     rev = reverse_deps(mods)
     import_root = data["importRoot"].format(org=data["defaultOrg"])
+    versions = load_versions()
+    # 两份机器事实先对账再渲染：事实页照抄任何一份都会写出假陈述
+    reconcile(mods, versions)
 
     expected = {}
     compat = compat_by_repo(data)
@@ -433,6 +777,8 @@ def main():
         + "\n"
     )
     expected[GRAPH_OUT] = render_graph_data(data, mods, rev)
+    expected[REFERENCE_OUT / "packages.md"] = render_packages_facts(data, mods, versions)
+    expected[REFERENCE_OUT / "pitfalls.md"] = render_pitfalls(data, mods, versions)
 
     stale = [
         p for p, content in expected.items()

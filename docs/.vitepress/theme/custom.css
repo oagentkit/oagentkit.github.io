@@ -1,34 +1,76 @@
 /**
- * 品牌色沿用旧单页站：浅色 #0a58ca / 深色 #6cb6ff
- * 覆盖 VitePress 默认品牌绿，保持 oagentkit 视觉一致。
+ * 品牌与配色：与 goagent-kernel / goagent-runtime 两站**逐值对齐**的 GitHub 风。
+ *
+ * 覆盖 VitePress 默认品牌绿，保持 oagentkit 与姊妹站视觉一致。
+ *
+ * 亮色取 GitHub Light 官方值：底 #ffffff / 交替 #f6f8fa / 文字 #1f2328 /
+ * #59636e / #818b98 / 描边 #d1d9e0 / #d8dee4。品牌蓝在亮色下压深一档
+ * （#0969da），否则浅底上的 #58a6ff 对比度不足。
+ * 暗色用 kernel / runtime 两站迁站前那套（#0d1117 底 / #58a6ff 蓝 / #a371f7 紫）。
+ *
+ * 为什么逐值对齐而不是各挑一套：站群三站是同一套东西的三个切面，
+ * 读者在三站之间来回跳 ⇒ 配色差一位就会被读成「这是另一个站」。
  */
 
 :root {
-  --vp-c-brand-1: #0a58ca;
-  --vp-c-brand-2: #0a58ca;
-  --vp-c-brand-3: #0d6ae8;
-  --vp-c-brand-soft: rgba(10, 88, 202, 0.14);
+  /* 品牌与强调 */
+  --vp-c-brand-1: #0969da;
+  --vp-c-brand-2: #0969da;
+  --vp-c-brand-3: #218bff;
+  --vp-c-brand-soft: rgb(9 105 218 / 14%);
 
+  /* 背景三层：底 / 交替 / 浮层 */
   --vp-c-bg: #ffffff;
   --vp-c-bg-alt: #f6f8fa;
+  --vp-c-bg-soft: #f6f8fa;
   --vp-c-bg-elv: #ffffff;
-  --vp-c-border: #e5e5e5;
-  --vp-c-text-1: #1a1a1a;
-  --vp-c-text-2: #555555;
+
+  /* 文字三级 */
+  --vp-c-text-1: #1f2328;
+  --vp-c-text-2: #59636e;
+  --vp-c-text-3: #818b98;
+
+  /* 描边 */
+  --vp-c-border: #d1d9e0;
+  --vp-c-divider: #d8dee4;
+  --vp-c-gutter: #d8dee4;
+
+  /* 品牌辅色（亮色下用深一档的值：#58a6ff 在白底上对比度不足） */
+  --k-accent-2: #8250df;
+  --k-chip-ai: #8250df;
+  --k-hero-hi: #a371f7;
+  --k-shadow-card: rgb(31 35 40 / 14%);
 }
 
 .dark {
-  --vp-c-brand-1: #6cb6ff;
-  --vp-c-brand-2: #6cb6ff;
-  --vp-c-brand-3: #8cc8ff;
-  --vp-c-brand-soft: rgba(108, 182, 255, 0.16);
+  --vp-c-brand-1: #58a6ff;
+  --vp-c-brand-2: #58a6ff;
+  --vp-c-brand-3: #79b8ff;
+  --vp-c-brand-soft: rgb(88 166 255 / 14%);
 
   --vp-c-bg: #0d1117;
-  --vp-c-bg-alt: #161b22;
-  --vp-c-bg-elv: #161b22;
-  --vp-c-border: #30363d;
-  --vp-c-text-1: #e6e6e6;
-  --vp-c-text-2: #a8a8a8;
+  --vp-c-bg-alt: #11161f;
+  --vp-c-bg-soft: #161b26;
+  --vp-c-bg-elv: #161b26;
+
+  --vp-c-text-1: #e6edf3;
+  --vp-c-text-2: #9aa7b8;
+  --vp-c-text-3: #6b7787;
+
+  --vp-c-border: #262e3d;
+  --vp-c-divider: #1f2634;
+  --vp-c-gutter: #1f2634;
+
+  --k-accent-2: #a371f7;
+  --k-chip-ai: #c9a9ff;
+  --k-hero-hi: #d0b3ff;
+  --k-shadow-card: rgb(0 0 0 / 40%);
+}
+
+/* 隐藏 VitePress 自带的两态开关 —— 三态入口由 theme/index.ts 挂在
+ * nav-bar-content-after 槽位上。两个入口并存会让读者以为「刚切过又变回去了」。 */
+.VPNavBarAppearance {
+  display: none !important;
 }
 
 /* 首页 hero：沿用旧站的紧凑排版，不铺满整屏 */
@@ -39,6 +81,64 @@
 
 .VPHome .VPHero .text {
   max-width: 720px;
+}
+
+/* hero 标题：品牌蓝紫渐变（与 kernel / runtime 两站同一套渐变语言） */
+.VPHome .VPHero .name {
+  background: linear-gradient(
+    100deg,
+    var(--vp-c-brand-1) 0%,
+    var(--k-accent-2) 28%,
+    var(--k-hero-hi) 44%,
+    var(--k-accent-2) 60%,
+    var(--vp-c-brand-1) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: k-grad-flow 8s linear infinite;
+}
+
+@keyframes k-grad-flow {
+  to {
+    background-position: 220% center;
+  }
+}
+
+/* 特性卡：浮层面 + 描边 + 圆角，悬浮微升起 + 蓝光描边。
+ * VitePress 的 .VPFeatures .items 是 grid；这里收紧间距与卡片内边距，
+ * 与 kernel / runtime 两站的卡片观感对齐。 */
+.VPHome .VPFeatures .items {
+  gap: 18px;
+}
+
+.VPHome .VPFeatures .item {
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 14px;
+  padding: 22px 22px 20px;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.VPHome .VPFeatures .item:hover {
+  transform: translateY(-4px);
+  border-color: rgb(88 166 255 / 45%);
+  box-shadow:
+    0 14px 34px var(--k-shadow-card),
+    0 0 24px rgb(88 166 255 / 12%);
+}
+
+.VPHome .VPFeatures .item .title {
+  font-size: 17px;
+}
+
+.VPHome .VPFeatures .item .details {
+  font-size: 13.5px;
+  line-height: 1.7;
 }
 
 /* 模块矩阵表格：层号用等宽数字对齐 */
@@ -58,4 +158,102 @@
   background: var(--vp-c-bg-soft);
   font-size: 0.92rem;
   color: var(--vp-c-text-2);
+}
+
+/* ── 首页压轴横幅（渐变描边）+ 安装条 + 导航胶囊 ──────────────────────
+ * 与 kernel / runtime 两站同一套「配套链接行」：读者在三站之间来回跳，
+ * 首页给同一组入口（本站页面 + 站群 llms.txt + GitHub），
+ * 入口位置与形态就该是同一个。 */
+.home-punch {
+  max-width: 880px;
+  margin: 36px auto 16px;
+  padding: 24px 30px;
+  text-align: center;
+  font-size: 1.15rem;
+  color: var(--vp-c-text-2);
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--vp-c-bg-alt), var(--vp-c-bg-alt)) padding-box,
+    linear-gradient(96deg, rgb(88 166 255 / 55%), rgb(163 113 247 / 55%)) border-box;
+  box-shadow: 0 18px 46px var(--k-shadow-card);
+}
+
+.home-punch strong {
+  background: linear-gradient(96deg, var(--vp-c-brand-1), var(--k-accent-2) 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.4rem;
+  margin-right: 6px;
+}
+
+.home-install {
+  max-width: 480px;
+  margin: 0 auto 18px;
+  padding: 11px 18px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid var(--vp-c-border);
+  background: var(--vp-c-bg-elv);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  color: var(--vp-c-brand-1);
+  box-shadow: 0 0 26px rgb(88 166 255 / 10%);
+}
+
+.home-install .prompt {
+  color: var(--vp-c-text-3);
+  margin-right: 6px;
+}
+
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.home-links .chip {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--vp-c-border);
+  background: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  /* VitePress 默认给正文链接加下划线；胶囊行是导航不是正文 ⇒ 去掉 */
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.home-links .chip:hover {
+  border-color: rgb(88 166 255 / 60%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgb(88 166 255 / 18%);
+  text-decoration: none;
+}
+
+/* AI 直读胶囊（紫色系，与品牌蓝区分） */
+.chip-ai {
+  border-color: rgb(163 113 247 / 45%) !important;
+  color: var(--k-chip-ai) !important;
+}
+
+.chip-ai:hover {
+  border-color: #a371f7 !important;
+  box-shadow: 0 8px 24px rgb(163 113 247 / 20%) !important;
+}
+
+/* 尊重系统的减弱动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
