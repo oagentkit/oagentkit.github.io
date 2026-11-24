@@ -11,7 +11,7 @@
 | 仓内依赖 | —（零仓内依赖） |
 | 被依赖 | `promptx`、`llm`、`rag`、`skillkit`、`tools`、`agent` |
 | 第三方地板 | 零 |
-| 包数 | 6 |
+| 包数 | 7 |
 
 ## 安装
 
@@ -31,6 +31,7 @@ go get github.com/oagentkit/textx@latest
 | `compact` | 会话压缩策略面：auto-compact 判定（阈值/熔断/token 三轨）+ 压缩/恢复 |
 | `conversation` | 多轮会话历史原语：滚动窗口切分、历史渲染 |
 | `reportutil` | 评审/评测报告后处理：severity 归并、sampling、stats、Fingerprint 精确指纹 |
+| `gotyped` | go/types 精确调用边抽取——嵌套模块隔离 go/packages 重依赖（x/tools 等），根模块 tier 0 地板零抬升；产出 caller→callee 结构化边，替换词法面同名假边 |
 
 ## 本仓硬规则
 
@@ -39,6 +40,7 @@ go get github.com/oagentkit/textx@latest
 - 保持**零仓内依赖的纯函数形态**：能用返回值表达的错误不要用回调里的副作用。
 - 涉及 token / 预算的判定（如 `compact` 的三轨 auto-compact）必须有边界测试，
   阈值不得写死在实现里。
+- **本仓含嵌套子模块** `gotyped`（go/packages 重依赖隔离，根模块 tier 0 地板零抬升，import 路径不变但版本线独立）。主模块必须保持零外部依赖——import 根模块任一包不该把 x/tools 拖进下游模块图。
 
 ## 日志约定
 
