@@ -9,7 +9,7 @@
 | 项 | 值 |
 | --- | --- |
 | 模块 | 14 |
-| 包 | 67 |
+| 包 | 68 |
 | 层 | 4（tier 0 – tier 3） |
 | 组织 | `oagentkit` |
 | 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |
@@ -18,10 +18,10 @@
 
 | 模块 | 层 | 包数 | 最新版 | 仓内依赖 | 第三方地板 |
 | --- | --- | --- | --- | --- | --- |
-| [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 13 | `v0.29.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 13 | `v0.30.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
 | [`runtime`](/modules/runtime.html) | <span class="matrix-tier">tier 0</span> | 7 | `v0.14.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 6 | `v0.12.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `v0.2.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 7 | `v0.13.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `v0.2.1` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
 | [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 3 | `v0.10.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">零</span> |
 | [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 6 | `v0.27.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
 | [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.15.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
@@ -65,6 +65,7 @@
 | `textx` | `compact` | `github.com/oagentkit/textx/compact` | `agentkit/compact` |
 | `textx` | `conversation` | `github.com/oagentkit/textx/conversation` | `agentkit/conversation` |
 | `textx` | `reportutil` | `github.com/oagentkit/textx/reportutil` | `agentkit/reportutil` |
+| `textx` | `gotyped` | `github.com/oagentkit/textx/gotyped` | `agentkit/gotyped` |
 | `toolname` | `toolname` | `github.com/oagentkit/toolname` | `oekit/pkg/toolname` |
 | `promptx` | `sysprompt` | `github.com/oagentkit/promptx/sysprompt` | `agentkit/sysprompt` |
 | `promptx` | `steering` | `github.com/oagentkit/promptx/steering` | `agentkit/steering` |
