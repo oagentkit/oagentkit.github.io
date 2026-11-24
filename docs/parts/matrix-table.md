@@ -7,9 +7,9 @@
 | [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 提示词上下文——system prompt 分段组装/运行中转向队列/文件读后写一致性状态 | <span class="matrix-tier">`textx`</span> |
 | [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测 | <span class="matrix-tier">`textx`</span> |
 | [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管理 | <span class="matrix-tier">—</span> |
-| [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 观测与审计——Langfuse 追踪客户端/敏感操作结构化审计（不引 eino 框架） | <span class="matrix-tier">`guardx`</span> |
+| [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 敏感操作审计——结构化审计留痕，字段值统一经 logredact 打码（不引 eino 框架） | <span class="matrix-tier">`guardx`</span> |
 | [`queue`](/modules/queue.html) | <span class="matrix-tier">tier 2</span> | DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备单活回调 | <span class="matrix-tier">—</span> |
-| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 知识检索——向量化/混合召回/重排，向量后端可插拔 | <span class="matrix-tier">`textx`</span> |
+| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 知识检索与本体层——向量化/混合召回/重排（向量后端可插拔，独立子包隔离 sdk 地板）+ 实体关系本体契约与判据 | <span class="matrix-tier">`textx`</span> |
 | [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 2</span> | 技能与资产契约——SKILL.md 渐进披露/领域包布局契约/装配血缘图 | <span class="matrix-tier">`textx`、`guardx`</span> |
 | [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 工具治理——优先级三层约束/注解驱动并发调度/操作审计门/构造期不可绕过的工具调用链 | <span class="matrix-tier">`guardx`、`mcpkit`</span> |
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描/Shell 命令静态裁决 | <span class="matrix-tier">`textx`、`guardx`</span> |

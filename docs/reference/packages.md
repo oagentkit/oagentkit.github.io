@@ -9,7 +9,7 @@
 | 项 | 值 |
 | --- | --- |
 | 模块 | 14 |
-| 包 | 68 |
+| 包 | 69 |
 | 层 | 4（tier 0 – tier 3） |
 | 组织 | `oagentkit` |
 | 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |
@@ -18,20 +18,20 @@
 
 | 模块 | 层 | 包数 | 最新版 | 仓内依赖 | 第三方地板 |
 | --- | --- | --- | --- | --- | --- |
-| [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 13 | `v0.30.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`runtime`](/modules/runtime.html) | <span class="matrix-tier">tier 0</span> | 7 | `v0.14.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 7 | `v0.13.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `v0.2.1` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
-| [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 3 | `v0.10.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">零</span> |
-| [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 6 | `v0.27.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
-| [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.15.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
-| [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.9.18` | <span class="matrix-tier">`guardx`</span> | <span class="matrix-tier">零</span> |
-| [`queue`](/modules/queue.html) | <span class="matrix-tier">tier 2</span> | 5 | `v0.13.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/lib/pq`、`modernc.org/sqlite`</span> |
-| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.12.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3`</span> |
-| [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.10.7` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/Masterminds/semver/v3`</span> |
-| [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.17.5` | <span class="matrix-tier">`guardx`、`mcpkit`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
-| [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.17.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
-| [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 6 | `v0.15.0` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
+| [`guardx`](/modules/guardx.html) | <span class="matrix-tier">tier 0</span> | 13 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`runtime`](/modules/runtime.html) | <span class="matrix-tier">tier 0</span> | 7 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 7 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
+| [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 3 | `—` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">零</span> |
+| [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 6 | `—` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
+| [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 2 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
+| [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 1 | `—` | <span class="matrix-tier">`guardx`</span> | <span class="matrix-tier">零</span> |
+| [`queue`](/modules/queue.html) | <span class="matrix-tier">tier 2</span> | 5 | `—` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/lib/pq`、`modernc.org/sqlite`</span> |
+| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 5 | `—` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3`</span> |
+| [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 2</span> | 3 | `—` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/Masterminds/semver/v3`</span> |
+| [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 3 | `—` | <span class="matrix-tier">`guardx`、`mcpkit`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
+| [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `—` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
+| [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 6 | `—` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
 
 ## 全包清单
 
@@ -78,7 +78,6 @@
 | `llm` | `llm/decision` | `github.com/oagentkit/llm/decision` | `agentkit/llm/decision` |
 | `mcpkit` | `mcp` | `github.com/oagentkit/mcpkit/mcp` | `agentkit/mcp` |
 | `mcpkit` | `iface` | `github.com/oagentkit/mcpkit/iface` | `agentkit/iface` |
-| `obs` | `langfuse` | `github.com/oagentkit/obs/langfuse` | `agentkit/langfuse` |
 | `obs` | `audit` | `github.com/oagentkit/obs/audit` | `agentkit/audit` |
 | `queue` | `worker` | `github.com/oagentkit/queue/worker` | `agentkit/worker` |
 | `queue` | `worker/pglease` | `github.com/oagentkit/queue/pglease` | `agentkit/worker/pglease` |
@@ -88,6 +87,8 @@
 | `rag` | `knowledge/rag` | `github.com/oagentkit/rag` | `agentkit/knowledge/rag` |
 | `rag` | `wiki` | `github.com/oagentkit/rag/wiki` | `agentkit/wiki` |
 | `rag` | `wiki/fsstore` | `github.com/oagentkit/rag/fsstore` | `agentkit/wiki/fsstore` |
+| `rag` | `milvus` | `github.com/oagentkit/rag/milvus` | `agentkit/milvus` |
+| `rag` | `ontology` | `github.com/oagentkit/rag/ontology` | `agentkit/ontology` |
 | `skillkit` | `skill` | `github.com/oagentkit/skillkit/skill` | `agentkit/skill` |
 | `skillkit` | `pack` | `github.com/oagentkit/skillkit/pack` | `agentkit/pack` |
 | `skillkit` | `lineage` | `github.com/oagentkit/skillkit/lineage` | `agentkit/lineage` |

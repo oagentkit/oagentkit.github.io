@@ -31,9 +31,9 @@ oagentkit 是 **14 个独立发版的 Go 模块**，依赖严格自底向上，�
 | --- | --- | --- |
 | [`llm`](/modules/llm.html) | 模型客户端/降级链/预算/成本/阶段路由/调用观测 | <span class="matrix-tier">`textx`</span> |
 | [`mcpkit`](/modules/mcpkit.html) | MCP 客户端/工具池/建连单飞 | <span class="matrix-tier">—</span> |
-| [`obs`](/modules/obs.html) | 观测客户端 + 审计留痕 | <span class="matrix-tier">`guardx`</span> |
+| [`obs`](/modules/obs.html) | 敏感操作的结构化审计留痕 | <span class="matrix-tier">`guardx`</span> |
 | [`queue`](/modules/queue.html) | DB 即队列 + Postgres 选主 Lease | <span class="matrix-tier">—</span> |
-| [`rag`](/modules/rag.html) | 知识检索——向量化/混合召回/重排 | <span class="matrix-tier">`textx`</span> |
+| [`rag`](/modules/rag.html) | 知识检索与本体层——向量化/混合召回/重排 + 实体关系本体契约 | <span class="matrix-tier">`textx`</span> |
 | [`skillkit`](/modules/skillkit.html) | SKILL.md 渐进披露 + 领域包契约 + 装配血缘 | <span class="matrix-tier">`textx`、`guardx`</span> |
 | [`toolgate`](/modules/toolgate.html) | 工具优先级/并发调度/操作审计门/不可绕过的调用链 | <span class="matrix-tier">`guardx`、`mcpkit`</span> |
 | [`tools`](/modules/tools.html) | CLI 编码 agent 统一调用/公开检索/git 沙箱/SAST 扫描/Shell 静态裁决 | <span class="matrix-tier">`textx`、`guardx`</span> |
@@ -77,6 +77,17 @@ oagentkit 是 **14 个独立发版的 Go 模块**，依赖严格自底向上，�
 - 状态：已完成：llm v0.22.0 删除兼容镜像（BREAKING，llm#181）——旧路径 import 一律改根包 github.com/oagentkit/llm（符号同名，调用点零改动）
 
 退役完整时间线见 [`llm` 模块页](/modules/llm.html) 的「本仓硬规则」。
+
+## 已迁移的包：obs/langfuse
+
+`obs/langfuse` 已从 `obs` 仓移出，迁往 `github.com/oagentkit/llm/obsx`（**仍在矩阵内**——能力没有消失，只是搬到了同域的模块）。**迁移是分阶段完成的**：承接方先具备能力、来源方才删路径，两边必须一起落地，缺一不可。
+
+- 消费方：llm/obsx —— Langfuse 写/发射端与读端同域；读端实现迁入本包
+- 上游需求链（全部已关闭）：
+  - [`#129`](https://github.com/oagentkit/obs/issues/129) —— langfuse 读端并入 llm/obsx（读写同域）；obs 降为 audit 单包仓 —— 已落地
+- 状态：已完成：obs 删除 obs/langfuse（BREAKING）——旧路径 import 一律改 github.com/oagentkit/llm/obsx（承接方 llm#231 已合）
+
+迁移完整时间线见 [`obs` 模块页](/modules/obs.html) 的「本仓硬规则」。
 
 ## 已移除的包
 

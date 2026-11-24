@@ -1,6 +1,6 @@
 # obs
 
-观测与审计——Langfuse 追踪客户端/敏感操作结构化审计（不引 eino 框架）
+敏感操作审计——结构化审计留痕，字段值统一经 logredact 打码（不引 eino 框架）
 
 ## 概况
 
@@ -11,7 +11,7 @@
 | 仓内依赖 | `guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | 零 |
-| 包数 | 2 |
+| 包数 | 1 |
 
 ## 安装
 
@@ -25,26 +25,27 @@ go get github.com/oagentkit/obs@latest
 
 | 包 | 说明 |
 | --- | --- |
-| `langfuse` | Langfuse Public API 只读客户端（v3 self-hosted 契约面） |
 | `audit` | 敏感操作的结构化审计留痕（自 guardx/audit 迁入）：字段值统一经 logredact 打码 |
 
 ## 本仓硬规则
 
 以下约束出自该仓 `AGENTS.md`。**改代码前先读仓库根目录的 `AGENTS.md`**，此处是摘要，不是替代。
 
-### trace 复用约束（不可自建）
+### 定位（v0.10.0 起）：audit 单包仓
 
-**必须复用 `oekit/tracing` 的 Provider 和 `oekit/logx` 的 trace 提取器
-（`logx.ExtractTrace`/`SetTraceExtractor`），不自建一套 trace。**
-否则 agentkit 日志里的 trace_id 会与 OTel 的对不上，跨服务链路断裂。
+本仓只剩 `audit` 一个包：**执行面的操作留痕**（谁做了什么、参数是什么、结果如何），
+字段值统一经 `guardx/logredact` 打码。
 
-### 与 oekit 的边界
-
-本仓是**矩阵里唯一直接做 eino callbacks 适配**的仓 —— oekit 作为微服务工具链不会做 LLM 场景。
-`oekit/tracing`（3 个导出）提供 Provider，本仓提供「把 LLM 调用挂上去」的适配层。两者互补，不重叠。
-- **`audit` 自 `guardx/audit` 迁入**（v0.8.0）：它依赖 `oekit/logx`，而 guardx 是 tier 0 零依赖底层，依赖面按 module 结算。包名与职责不变，只是 import 路径变了。
-- **层位 t1 → t2**：带 `eino` 地板（obsx 是 eino callbacks 适配层）——属集成层。重定位后 tier0/tier1 = 零重量级第三方地板的层（可被零依赖核心安全依赖）。
-- **`obsx` 已迁至 `github.com/oagentkit/llm/obsx`**（v0.9.0）：它是 eino callbacks 适配层，在本仓时把 langfuse / audit 这两个轻包拖进 27 个第三方模块。迁走后本仓的 eino 依赖消失。
+- **Langfuse 只读客户端已迁往 `llm/obsx`**（读写同域，oagentkit/obs#129）：
+  观测/追踪侧的能力（eino callbacks 适配、OTel generation 发射出口）本就在 llm 仓的
+  `obsx`，读端并入后「Langfuse 上有什么、是谁写进去的」一处答全。本仓不再承担观测面。
+- **同层依赖禁令**：`obs` 与 `llm` 同为 tier 2 ⇒ `obs` 不得依赖 `llm` ⇒ 本仓**不能**
+  留一个转发到 `llm/obsx` 的兼容壳 ⇒ `langfuse` 直接删除，下游改 import 路径。
+- `audit` 自 `guardx/audit` 迁入（v0.8.0）：它依赖 `oekit/logx`，而 guardx 是 tier 0
+  零依赖底层，依赖面按 module 结算。包名与职责不变，只是 import 路径变了。
+- **层位仍为 tier 2**：层位标签的原始理由（带 `eino` 地板）随 langfuse 迁出已不成立，
+  但层位是**声明面**（仓内 AGENTS.md / README.md 与 modules.json 必须一致），
+  改层位是独立决策，不在本仓降级动作内顺带做。
 
 ## 日志约定
 
