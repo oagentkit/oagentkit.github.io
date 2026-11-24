@@ -29,7 +29,7 @@ go get github.com/oagentkit/llm@latest
 | `llm/port` | 窄接口层（不引 eino）：Complete(ctx,req) 形态的降级链/预算/成本记账；无 eino 的内核（预算/成本/价表/熔断）由根包下沉而来，两条路径共用同一份实现 |
 | `llm/wrap` | 调用包装与限流适配 |
 | `llm/llmtest` | 模型层契约测试套件 |
-| `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入） |
+| `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入）＋ Langfuse Public API 只读客户端（自 obs/langfuse 迁入，读写同域） |
 | `llm/decision` | System One 协议判定面客户端（非自回归判定模型）：choice/score/noul 三原语 + 校准置信口径（本地算，两端同义） |
 
 ## 本仓硬规则
@@ -42,6 +42,7 @@ go get github.com/oagentkit/llm@latest
   （库不接 `SetPanicHandler`，默认 `log.Printf`）且返回的 `panic: X` 无哨兵类型，
   无法挂回领域上下文。用 `RunSafeErr` 前先确认丢掉的结构化上下文可接受。
 - **`obsx` 自 `obs/obsx` 迁入**（v0.12.0）：它绑 eino 框架（callbacks 适配层），而本仓早已 import 它做成本记账与阶段打标——同一关注点，两个包住一起更顺。
+- **Langfuse 只读客户端自 `obs/langfuse` 迁入**（oagentkit/obs#129）：读端与写端同域——写端（OTel generation span 发射出口）本就在本仓 `obsx`；读端并入后「Langfuse 上有什么、是谁写进去的」一处答全。原 `obs/langfuse` 路径已删除（breaking），符号名逐字未变，下游只改 import 行。
 
 ## 日志约定
 

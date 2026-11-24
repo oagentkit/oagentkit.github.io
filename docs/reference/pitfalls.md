@@ -10,6 +10,7 @@ import 一个已退役的包**不会降级、不会告警，直接编译失败**
 | --- | --- | --- |
 | `breaker` | `github.com/oekit/concurrency/breaker` | 已完成：llm v0.4.0 起全量使用上游 GenBreaker |
 | `llm/llm` | `github.com/oagentkit/llm` | 已完成：llm v0.22.0 删除兼容镜像（BREAKING，llm#181）——旧路径 import 一律改根包 github.com/oagentkit/llm（符号同名，调用点零改动） |
+| `obs/langfuse` | `github.com/oagentkit/llm/obsx` | 已完成：obs 删除 obs/langfuse（BREAKING）——旧路径 import 一律改 github.com/oagentkit/llm/obsx（承接方 llm#231 已合） |
 
 - `breaker` —— 消费方：llm/breaker.go —— 只做按模型名分桶 + 转发，不再有任何本地语义兜底
 - `breaker` —— 需求链：
@@ -21,6 +22,10 @@ import 一个已退役的包**不会降级、不会告警，直接编译失败**
 - `llm/llm` —— 需求链：
   - [`#47`](https://github.com/oagentkit/llm/issues/47) —— 需求：llm/llm 扁平化后缺兼容子包 —— 跨大版本升级的下游需整仓改 import 路径（已关闭）
   - [`#48`](https://github.com/oagentkit/llm/issues/48) —— 实现：补 llm/llm 兼容层 —— 恢复 v0.7.0~v0.8.0 的历史 import 路径（已合入 llm v0.18.0）
+
+- `obs/langfuse` —— 消费方：llm/obsx —— Langfuse 写/发射端与读端同域；读端实现迁入本包
+- `obs/langfuse` —— 需求链：
+  - [`#129`](https://github.com/oagentkit/obs/issues/129) —— langfuse 读端并入 llm/obsx（读写同域）；obs 降为 audit 单包仓 —— 已落地
 
 ## 2. 兼容镜像与兼容壳：路径还在，但有期限
 

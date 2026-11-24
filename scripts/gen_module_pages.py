@@ -68,6 +68,27 @@ def reverse_deps(mods):
     return rev
 
 
+LEDGER_KINDS = ("retired", "compat", "moved")
+
+
+def check_ledger_kinds(data: dict) -> list[str]:
+    """账本条目的 kind 是否都在渲染器认得的集合里。
+
+    kind 决定**渲染分支**（已退役 / 过渡期兼容镜像 / 矩阵内迁移）。
+    拼错的 kind 不会让任何门禁变红——它只会被当成「非 compat 即退役」**静默**渲出
+    错误措辞（对外公开的假陈述）⇒ 所以在生成器里就判死：**宁可生成失败**。
+
+    与 gen_llms_txt.py 里「读不到门面包数 ⇒ 宁可生成失败」同一条纪律：
+    **判不了 ≠ 没问题**。
+    """
+    out = []
+    for entry in data.get("retiringPackages") or []:
+        k = entry.get("kind")
+        if k not in LEDGER_KINDS:
+            out.append(f"{entry.get('pkg', '?')}(kind={k!r})")
+    return out
+
+
 def compat_by_repo(data):
     """账本里 kind == "compat" 的条目按仓归组（过渡期兼容镜像）。
 
@@ -306,24 +327,45 @@ def render_modules_index(data, mods):
         lines.append(f"| [`{ir['repo']}`]({ORG}/{ir['repo']}) | {ir['role']} |")
     lines.append("")
 
-    # 账本（retiringPackages）里混着两种东西，必须分开渲染：
+    # 账本（retiringPackages）里混着三种东西，必须分开渲染：
     #   kind == "compat" → 过渡期兼容镜像：**路径仍然可用**；
-    #   其它             → 已退役的包（那条路径已经没了）。
+    #   kind == "moved"  → **矩阵内迁移**：能力仍在矩阵里，只是搬到了别的模块
+    #                      （例：obs/langfuse → llm/obsx，读写同域）；
+    #   其它             → 已退役的包（那条路径已经没了，且能力搬出了本矩阵）。
     # 兼容镜像排前面：扫索引的人先看到「还能用的路径」，再看到历史。
+    #
+    # ⚠️ 「moved」不能套用 retired 的措辞（「已从本矩阵移出」）——那是**假陈述**：
+    #   能力并没有离开矩阵。与 compat/retired 混渲是同一类问题，按 kind 分支处理。
     ledger = data.get("retiringPackages") or []
+    bad_kinds = check_ledger_kinds(data)
+    if bad_kinds:
+        raise SystemExit(
+            f"❌ retiringPackages 里有渲染器认不出的 kind：{bad_kinds}"
+            "——kind 是判据面（retired / compat / moved），认不出的 kind 会被静默当成"
+            "「已退役」渲染出错误措辞。宁可生成失败。"
+        )
     for cp in [e for e in ledger if e.get("kind") == "compat"]:
         lines.extend(render_compat_section(cp))
     for rp in [e for e in ledger if e.get("kind") != "compat"]:
         pkg = rp.get("pkg", "?")
         repl = rp.get("replacement")
-        lines.append(f"## 已退役的包：{pkg}")
+        moved = rp.get("kind") == "moved"
+        lines.append(f"## {'已迁移的包' if moved else '已退役的包'}：{pkg}")
         lines.append("")
         if repl:
-            lines.append(
-                f"`{pkg}` 已从本矩阵移出，迁往 `{repl}`。**退役是分阶段完成的**——"
-                "消费方先改依赖上游、上游能力补齐，最后才删包，"
-                "任何一步提前做都是构建断裂。"
-            )
+            if moved:
+                lines.append(
+                    f"`{pkg}` 已从 `{rp.get('repo')}` 仓移出，迁往 `{repl}`"
+                    "（**仍在矩阵内**——能力没有消失，只是搬到了同域的模块）。"
+                    "**迁移是分阶段完成的**：承接方先具备能力、来源方才删路径，"
+                    "两边必须一起落地，缺一不可。"
+                )
+            else:
+                lines.append(
+                    f"`{pkg}` 已从本矩阵移出，迁往 `{repl}`。**退役是分阶段完成的**——"
+                    "消费方先改依赖上游、上游能力补齐，最后才删包，"
+                    "任何一步提前做都是构建断裂。"
+                )
             lines.append("")
         if rp.get("consumedBy"):
             lines.append(f"- 消费方：{rp['consumedBy']}")
@@ -341,7 +383,8 @@ def render_modules_index(data, mods):
         # 交叉引用的模块由数据决定（缺字段回落旧硬编码值 ⇒ 老记录逐字节不变）
         timeline = rp.get("timelineModule") or "runtime"
         lines.append(
-            f"退役完整时间线见 [`{timeline}` 模块页](/modules/{timeline}.html) 的「本仓硬规则」。"
+            f"{'迁移' if moved else '退役'}完整时间线见 [`{timeline}` 模块页]"
+            f"(/modules/{timeline}.html) 的「本仓硬规则」。"
         )
         lines.append("")
 

@@ -81,8 +81,8 @@
     {
       "repo": "obs",
       "tier": 2,
-      "desc": "观测客户端 + 审计留痕",
-      "packages": 2,
+      "desc": "敏感操作的结构化审计留痕",
+      "packages": 1,
       "eino": false,
       "href": "/modules/obs.html"
     },
@@ -97,8 +97,8 @@
     {
       "repo": "rag",
       "tier": 2,
-      "desc": "知识检索——向量化/混合召回/重排",
-      "packages": 3,
+      "desc": "知识检索与本体层——向量化/混合召回/重排 + 实体关系本体契约",
+      "packages": 5,
       "eino": true,
       "href": "/modules/rag.html"
     },
