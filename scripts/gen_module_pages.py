@@ -34,6 +34,8 @@ TIER_LABEL = {
     1: "tier 1 · 能力层",
     2: "tier 2 · 集成层",
     3: "tier 3 · 编排层",
+    4: "tier 4 · 编排判据层",
+    5: "tier 5 · 装配层",
 }
 
 TIER_DESC = {
@@ -41,6 +43,8 @@ TIER_DESC = {
     1: "依赖 tier 0",
     2: "依赖 tier 0/1 + 重第三方地板",
     3: "依赖 llm 等 tier 2 门面",
+    4: "依赖 guardx/toolgate 等 tier 0~2，编排判据单源（ADR-0010）",
+    5: "依赖 goagent-kernel + agent，只接线不另写判据",
 }
 
 # 仓间依赖（intra-matrix）读 modules.json 的 dependsOn 字段，不再在本文件维护。

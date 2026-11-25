@@ -54,5 +54,13 @@
   {
     "repo": "agent",
     "tier": 3
+  },
+  {
+    "repo": "goagent-kernel",
+    "tier": 4
+  },
+  {
+    "repo": "goagent-runtime",
+    "tier": 5
   }
 ]

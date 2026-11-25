@@ -1,6 +1,6 @@
 # 模块总览
 
-oagentkit 是 **14 个独立发版的 Go 模块**，依赖严格自底向上，每仓独立 SemVer + 独立 CI。
+oagentkit 是 **16 个独立发版的 Go 模块**，依赖严格自底向上，每仓独立 SemVer + 独立 CI。
 
 > 每个仓库根目录都有 `AGENTS.md` —— 面向 AI Agent 的权威规范与硬规则。
 
@@ -21,7 +21,7 @@ oagentkit 是 **14 个独立发版的 Go 模块**，依赖严格自底向上，�
 
 | 模块 | 说明 | 仓内依赖 |
 | --- | --- | --- |
-| [`promptx`](/modules/promptx.html) | system prompt 分段组装/运行中转向/文件读后写一致性 | <span class="matrix-tier">`textx`</span> |
+| [`promptx`](/modules/promptx.html) | system prompt 分段组装/运行中转向/文件读后写一致性 | <span class="matrix-tier">`textx`、`guardx`</span> |
 
 ## tier 2 · 集成层
 

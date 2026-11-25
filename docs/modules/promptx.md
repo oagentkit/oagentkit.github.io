@@ -8,10 +8,10 @@
 | --- | --- |
 | 层 | tier 1 · 能力层（依赖 tier 0） |
 | oekit 对应 | `core` |
-| 仓内依赖 | `textx` |
+| 仓内依赖 | `textx`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | 零 |
-| 包数 | 3 |
+| 包数 | 6 |
 
 ## 安装
 
@@ -28,6 +28,9 @@ go get github.com/oagentkit/promptx@latest
 | `sysprompt` | system prompt 分段组装：Section 化收集 → stable/dynamic 分离 |
 | `steering` | 运行中转向队列：turn 执行中用户插入的新输入按投递语义生效 |
 | `filestate` | 读后写一致性状态：编辑/覆写文件前必须读过，且读后文件未被改动 |
+| `pending` |  |
+| `sessionref` |  |
+| `memorypipe` |  |
 
 ## 本仓硬规则
 

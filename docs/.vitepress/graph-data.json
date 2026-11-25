@@ -42,7 +42,7 @@
       "repo": "textx",
       "tier": 0,
       "desc": "文本/差异/会话/报告纯函数集",
-      "packages": 7,
+      "packages": 10,
       "eino": false,
       "href": "/modules/textx.html"
     },
@@ -58,7 +58,7 @@
       "repo": "promptx",
       "tier": 1,
       "desc": "system prompt 分段组装/运行中转向/文件读后写一致性",
-      "packages": 3,
+      "packages": 6,
       "eino": false,
       "href": "/modules/promptx.html"
     },
@@ -130,15 +130,35 @@
       "repo": "agent",
       "tier": 3,
       "desc": "ReAct 运行样板/反思循环/意图路由/多专家黑板/派发守卫/澄清",
-      "packages": 6,
+      "packages": 7,
       "eino": true,
       "href": "/modules/agent.html"
+    },
+    {
+      "repo": "goagent-kernel",
+      "tier": 4,
+      "desc": "多智能体编排判据层——状态机/副作用闸/续跑/介入/事件面的确定性机制",
+      "packages": 46,
+      "eino": false,
+      "href": "/modules/goagent-kernel.html"
+    },
+    {
+      "repo": "goagent-runtime",
+      "tier": 5,
+      "desc": "Agent 运行时装配层——把 goagent-kernel 判据装配成业务可直接用的 runtime",
+      "packages": 14,
+      "eino": false,
+      "href": "/modules/goagent-runtime.html"
     }
   ],
   "edges": [
     {
       "from": "promptx",
       "to": "textx"
+    },
+    {
+      "from": "promptx",
+      "to": "guardx"
     },
     {
       "from": "llm",
@@ -183,14 +203,52 @@
     {
       "from": "agent",
       "to": "textx"
+    },
+    {
+      "from": "goagent-kernel",
+      "to": "guardx"
+    },
+    {
+      "from": "goagent-kernel",
+      "to": "runtime"
+    },
+    {
+      "from": "goagent-kernel",
+      "to": "toolgate"
+    },
+    {
+      "from": "goagent-kernel",
+      "to": "toolname"
+    },
+    {
+      "from": "goagent-runtime",
+      "to": "agent"
+    },
+    {
+      "from": "goagent-runtime",
+      "to": "goagent-kernel"
+    },
+    {
+      "from": "goagent-runtime",
+      "to": "guardx"
+    },
+    {
+      "from": "goagent-runtime",
+      "to": "llm"
     }
   ],
   "dependents": {
     "guardx": [
+      "promptx",
       "obs",
       "skillkit",
       "toolgate",
-      "tools"
+      "tools",
+      "goagent-kernel",
+      "goagent-runtime"
+    ],
+    "runtime": [
+      "goagent-kernel"
     ],
     "textx": [
       "promptx",
@@ -200,11 +258,24 @@
       "tools",
       "agent"
     ],
+    "toolname": [
+      "goagent-kernel"
+    ],
     "llm": [
-      "agent"
+      "agent",
+      "goagent-runtime"
     ],
     "mcpkit": [
       "toolgate"
+    ],
+    "toolgate": [
+      "goagent-kernel"
+    ],
+    "agent": [
+      "goagent-runtime"
+    ],
+    "goagent-kernel": [
+      "goagent-runtime"
     ]
   }
 }

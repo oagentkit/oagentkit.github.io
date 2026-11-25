@@ -9,9 +9,9 @@ Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多�
 | 层 | tier 3 · 编排层（依赖 llm 等 tier 2 门面） |
 | oekit 对应 | `workflow` |
 | 仓内依赖 | `llm`、`textx` |
-| 被依赖 | —（矩阵叶子） |
+| 被依赖 | `goagent-runtime` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3` |
-| 包数 | 6 |
+| 包数 | 7 |
 
 ## 安装
 
@@ -31,6 +31,7 @@ go get github.com/oagentkit/agent@latest
 | `blackboard` | 无中心多专家协作黑板 |
 | `dispatch` | 通用派发守卫：allow 矩阵 + 深度上限 + 自派发拒绝 |
 | `clarify` | 澄清与标准化词表内核 |
+| `roundguard` |  |
 
 ## 本仓硬规则
 

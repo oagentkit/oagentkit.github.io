@@ -9,7 +9,7 @@
 | 层 | tier 0 · 基础层（零仓内依赖或仅依赖同仓包） |
 | oekit 对应 | `pkg/toolname（曾内嵌 oekit/pkg：v0.58.2 标记 Deprecated、v0.59.0 删除）` |
 | 仓内依赖 | —（零仓内依赖） |
-| 被依赖 | —（矩阵叶子） |
+| 被依赖 | `goagent-kernel` |
 | 第三方地板 | 零 |
 | 包数 | 1 |
 

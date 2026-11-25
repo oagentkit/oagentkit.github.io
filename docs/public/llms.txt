@@ -17,11 +17,11 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 128 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 136 包）
 
 ## 破坏性变更
 
-登记在册的破坏性变更共 34 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+登记在册的破坏性变更共 35 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
 
 - **textx v0.6.1** — 修复(agents)：审计日志归属改为 obs/audit（guardx/audit 已迁出）
   包在模块之间搬家：audit → guardx/obs
@@ -59,6 +59,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   包在模块之间搬家：bashguard → guardx/tools
 - **agent v0.8.0** — 重构(agent)!：import 跟随 llm 包上移，依赖地板升到 v0.9.0
   依赖 github.com/oagentkit/llm v0.9.0（该版起 import 路径为 github.com/oagentkit/llm，原 oagentkit/llm/llm 已移除）。
+- **goagent-kernel v0.77.0** — 重构(boundary)!：org 归属迁移 + 对话域七包上抛（v0.77.0）
+  包在模块之间搬家： → promptx/textx
 - **goagent-kernel v0.34.0** — 新增(sideeffect)!：持有者身份/对账占用/Unsafe 裁决分离/标记失败判据（#82 #83 #88 #89 #96）
 - **goagent-kernel v0.32.0** — 新增(ptc)!：安全默认装配——无判定环即拒，Unsafe 必须显式 + 门禁（#73）
 - **goagent-kernel v0.32.0** — 新增(sideeffect)!：Store 接口强制「未知结果」语义 + Fence 传入 Apply + 对账路径（#72）
@@ -101,11 +103,11 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - `queue`（tier2）：`github.com/lib/pq`、`github.com/oekit/logx`、`modernc.org/sqlite`、`github.com/dustin/go-humanize`、`github.com/google/uuid`、`github.com/mattn/go-isatty`、`github.com/ncruces/go-strftime`、`github.com/remyoudompheng/bigfft`、`golang.org/x/sys`、`modernc.org/libc`、`modernc.org/mathutil`、`modernc.org/memory`
 - `rag`（tier2）：`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`github.com/oekit/logx`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/cockroachdb/errors`、`github.com/cockroachdb/logtags`、`github.com/cockroachdb/redact`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/getsentry/sentry-go`、`github.com/gogo/protobuf`、`github.com/golang/protobuf`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/grpc-ecosystem/go-grpc-middleware`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/kr/pretty`、`github.com/kr/text`、`github.com/mailru/easyjson`、`github.com/mattn/go-isatty`、`github.com/milvus-io/milvus-proto/go-api/v2`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/rogpeppe/go-internal`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/tidwall/gjson`、`github.com/tidwall/match`、`github.com/tidwall/pretty`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/net`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`、`google.golang.org/genproto`、`google.golang.org/grpc`、`google.golang.org/protobuf`
 - `skillkit`（tier2）：`github.com/Masterminds/semver/v3`、`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/mattn/go-isatty`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`
-- `toolgate`（tier2）：`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/kr/pretty`、`github.com/rogpeppe/go-internal`、`github.com/stretchr/testify`、`gopkg.in/check.v1`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`
+- `toolgate`（tier2）：`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/google/jsonschema-go`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/mark3labs/mcp-go`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/santhosh-tekuri/jsonschema/v6`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/spf13/cast`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`github.com/yosida95/uritemplate/v3`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`、`golang.org/x/text`
 - `tools`（tier2）：`github.com/cloudwego/eino`、`github.com/oekit/logx`、`github.com/mattn/go-isatty`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`、`gopkg.in/yaml.v3`、`mvdan.cc/sh/v3`
 - `agent`（tier3）：`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cespare/xxhash/v2`、`github.com/cloudwego/base64x`、`github.com/cloudwego/eino-ext/libs/acl/openai`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/evanphx/json-patch`、`github.com/go-logr/logr`、`github.com/go-logr/stdr`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/kr/text`、`github.com/mailru/easyjson`、`github.com/mattn/go-colorable`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/oekit/logx`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`go.opentelemetry.io/auto/sdk`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/log`、`go.opentelemetry.io/otel/metric`、`go.opentelemetry.io/otel/trace`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`
 - `goagent-kernel`（tier4）：`github.com/dop251/goja`、`github.com/oekit/logx`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/cloudwego/eino`、`github.com/davecgh/go-spew`、`github.com/dlclark/regexp2/v2`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/go-sourcemap/sourcemap`、`github.com/google/jsonschema-go`、`github.com/google/pprof`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/mark3labs/mcp-go`、`github.com/mattn/go-colorable`、`github.com/mattn/go-isatty`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/rogpeppe/go-internal`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/spf13/cast`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`github.com/yosida95/uritemplate/v3`、`golang.org/x/arch`、`golang.org/x/crypto`、`golang.org/x/exp`、`golang.org/x/mod`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`
-- `goagent-runtime`（tier5）：`github.com/jackc/pgx/v5`、`github.com/yi-nology/goagent-kernel`、`modernc.org/sqlite`、`github.com/dustin/go-humanize`、`github.com/google/uuid`、`github.com/jackc/pgpassfile`、`github.com/jackc/pgservicefile`、`github.com/jackc/puddle/v2`、`github.com/mattn/go-isatty`、`github.com/ncruces/go-strftime`、`github.com/oekit/logx`、`github.com/remyoudompheng/bigfft`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`、`modernc.org/libc`、`modernc.org/mathutil`、`modernc.org/memory`
+- `goagent-runtime`（tier5）：`github.com/jackc/pgx/v5`、`modernc.org/sqlite`、`github.com/dustin/go-humanize`、`github.com/google/uuid`、`github.com/jackc/pgpassfile`、`github.com/jackc/pgservicefile`、`github.com/jackc/puddle/v2`、`github.com/mattn/go-isatty`、`github.com/ncruces/go-strftime`、`github.com/oekit/logx`、`github.com/remyoudompheng/bigfft`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`、`modernc.org/libc`、`modernc.org/mathutil`、`modernc.org/memory`
 
 ## 模块
 
@@ -120,7 +122,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`pacer`、`progress`、`procx`、`hotplug`、`hookx`、`notifyx`、`hook`
   - 安装：`go get github.com/oagentkit/runtime@latest`
 - [textx](https://github.com/oagentkit/textx): 文本与差异处理——增量切片/unified diff 解析/代码符号索引/会话滚动窗口与压缩/评审报告指纹
-  - 包：`textutil`、`diffx`、`codeintel`、`compact`、`conversation`、`reportutil`、`gotyped`
+  - 包：`textutil`、`diffx`、`codeintel`、`compact`、`conversation`、`reportutil`、`gotyped`、`budget`、`spill`、`offload`
   - 安装：`go get github.com/oagentkit/textx@latest`
 - [toolname](https://github.com/oagentkit/toolname): 工具名净化原语——工具名→程序内标识符的单一真相（JS 标识符判定 + 规整），装配两侧必须逐字一致
   - 包：`toolname`
@@ -129,8 +131,8 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 能力层 · 依赖 tier0，仍不引重量级第三方 SDK
 
 - [promptx](https://github.com/oagentkit/promptx): 提示词上下文——system prompt 分段组装/运行中转向队列/文件读后写一致性状态
-  - 包：`sysprompt`、`steering`、`filestate`
-  - 依赖：[textx](https://github.com/oagentkit/textx)
+  - 包：`sysprompt`、`steering`、`filestate`、`pending`、`sessionref`、`memorypipe`
+  - 依赖：[guardx](https://github.com/oagentkit/guardx)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/promptx@latest`
 
 ### 集成层 · 依赖 tier0/tier1 + 重第三方地板
@@ -169,20 +171,22 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 编排层 · 依赖 llm 等 tier2 门面
 
 - [agent](https://github.com/oagentkit/agent): Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多专家黑板/派发守卫
-  - 包：`agentrun`、`reflection`、`router`、`blackboard`、`dispatch`、`clarify`
+  - 包：`agentrun`、`reflection`、`router`、`blackboard`、`dispatch`、`clarify`、`roundguard`
   - 依赖：[llm](https://github.com/oagentkit/llm)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/agent@latest`
 
 ### 编排判据层 · 依赖 guardx/toolgate 等 tier0~2，判据单源（ADR-0010）
 
 - [goagent-kernel](https://github.com/oagentkit/goagent-kernel): 多智能体编排通用内核：编排是代码，LLM 只做单环节——确定性编排的机制面（报告协议/状态机/事件总线/副作用闸/续跑契约/介入面），不认识任何领域概念
-  - 包：`archcheck`、`backend`、`checkpoint`、`commitgate`、`contract`、`controlplane`、`coord`、`cost`、`deadline`、`delegate`、`delta`、`dispatch`、`drain`、`egress`、`eval`、`eventbus`、`finalize`、`gatecheck`、`guardset`、`handoff`、`hookengine`、`invocation`、`invocationtest`、`metrics`、`ownership`、`preset`、`protocol`、`ptc`、`raceprobe`、`reconcile`、`retryplan`、`scheduling`、`sideeffect`、`sidetest`、`skilldisclose`、`statemachine`、`steer`、`taskboard`、`boardtest`、`tenant`、`tooldisclose`、`trajectory`、`watchdog`、`worker`、`worktree`
+  - 包：`archcheck`、`backend`、`checkpoint`、`commitgate`、`contract`、`controlplane`、`coord`、`cost`、`deadline`、`delegate`、`delta`、`dispatch`、`drain`、`egress`、`eval`、`eventbus`、`finalize`、`gatecheck`、`guardset`、`handoff`、`hookengine`、`invocation`、`invocationtest`、`metrics`、`ownership`、`preset`、`protocol`、`ptc`、`raceprobe`、`reconcile`、`retryplan`、`scheduling`、`sideeffect`、`sidetest`、`skilldisclose`、`statemachine`、`steer`、`taskboard`、`boardtest`、`tenant`、`tooldisclose`、`trajectory`、`watchdog`、`worker`、`worktree`、`faultmatrix`
+  - 依赖：[guardx](https://github.com/oagentkit/guardx)、[runtime](https://github.com/oagentkit/runtime)、[toolgate](https://github.com/oagentkit/toolgate)、[toolname](https://github.com/oagentkit/toolname)
   - 安装：`go get github.com/oagentkit/goagent-kernel@latest`
 
 ### 装配层 · 依赖 goagent-kernel + agent，只接线不另写判据
 
 - [goagent-runtime](https://github.com/oagentkit/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
   - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`
+  - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/oagentkit/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)、[llm](https://github.com/oagentkit/llm)
   - 安装：`go get github.com/oagentkit/goagent-runtime@latest`
 
 ## 门面仓（已退役）
@@ -214,10 +218,11 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/llm/decision` → `github.com/oagentkit/llm/decision`
     - `agentkit/invocation/invocationtest` → `github.com/oagentkit/goagent-kernel/invocationtest`
     - `agentkit/taskboard/boardtest` → `github.com/oagentkit/goagent-kernel/boardtest`
+    - `agentkit/worker/faultmatrix` → `github.com/oagentkit/goagent-kernel/faultmatrix`
     - `agentkit/storage/sqlitestore` → `github.com/oagentkit/goagent-runtime/sqlitestore`
     - `agentkit/bridge/llmchat` → `github.com/oagentkit/goagent-runtime/llmchat`
     - `agentkit/bridge/einotool` → `github.com/oagentkit/goagent-runtime/einotool`
-  其中 `agentkit/toolname` → `github.com/oagentkit/toolname` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 15 条易踩对照、及全部 126 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/toolname` → `github.com/oagentkit/toolname` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 16 条易踩对照、及全部 134 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
