@@ -24,7 +24,10 @@
     "compact",
     "conversation",
     "reportutil",
-    "gotyped"
+    "gotyped",
+    "budget",
+    "spill",
+    "offload"
    ],
    "heavyDeps": [],
    "ghDescription": "文本与差异处理——增量切片/unified diff 解析/代码符号索引/会话滚动窗口与压缩/评审报告指纹",
@@ -201,11 +204,15 @@
    "packages": [
     "sysprompt",
     "steering",
-    "filestate"
+    "filestate",
+    "pending",
+    "sessionref",
+    "memorypipe"
    ],
    "heavyDeps": [],
    "dependsOn": [
-    "textx"
+    "textx",
+    "guardx"
    ],
    "ghDescription": "提示词上下文——system prompt 分段组装/运行中转向队列/文件读后写一致性状态",
    "topics": [
@@ -482,7 +489,8 @@
     "router",
     "blackboard",
     "dispatch",
-    "clarify"
+    "clarify",
+    "roundguard"
    ],
    "heavyDeps": [
     "github.com/cloudwego/eino",
@@ -561,7 +569,8 @@
     "trajectory",
     "watchdog",
     "worker",
-    "worktree"
+    "worktree",
+    "worker/faultmatrix"
    ],
    "heavyDeps": [
     "github.com/dop251/goja",
@@ -621,8 +630,16 @@
     "hookengine": "hook 匹配/超时/fail-closed 裁决判据（传输协议归上游 runtime/hookx）",
     "skilldisclose": "技能披露三信号确定性挑选（与 skillkit/skill 邻接）",
     "worktree": "工作区冲突判据（声明面）",
-    "archcheck": "架构门禁执行体（可被宿主复用：policy 声明面→逐条判定）"
-   }
+    "archcheck": "架构门禁执行体（可被宿主复用：policy 声明面→逐条判定）",
+    "worker/faultmatrix": "故障注入矩阵本体（NetworkPolicy/PG HA 等真环境判据；CI 提供环境后由宿主测试入口执行）"
+   },
+   "dependsOn": [
+    "guardx",
+    "runtime",
+    "toolgate",
+    "toolname"
+   ],
+   "oekitAnalog": "workflow"
   },
   {
    "repo": "goagent-runtime",
@@ -673,7 +690,14 @@
     "containerbackend": "容器执行后端参考实现（Docker/K8s Job）——宿主抄它不 import 它",
     "bridge/llmchat": "钦定适配器：oagentkit/llm → chat.Model（嵌套模块，LLM SDK 边只在 bridge）",
     "bridge/einotool": "钦定适配器：eino InvokableTool → pipeline.Tool（副作用闸字段不猜）"
-   }
+   },
+   "dependsOn": [
+    "agent",
+    "goagent-kernel",
+    "guardx",
+    "llm"
+   ],
+   "oekitAnalog": "bootstrap"
   }
  ],
  "infraRepos": [

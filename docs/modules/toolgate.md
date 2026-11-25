@@ -9,7 +9,7 @@
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `middleware` |
 | 仓内依赖 | `guardx`、`mcpkit` |
-| 被依赖 | —（矩阵叶子） |
+| 被依赖 | `goagent-kernel` |
 | 第三方地板 | `github.com/cloudwego/eino`、`gopkg.in/yaml.v3` |
 | 包数 | 3 |
 
