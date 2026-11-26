@@ -4324,6 +4324,10 @@
       "depFloor": [
         "github.com/cloudwego/eino",
         "gopkg.in/yaml.v3",
+        "github.com/kr/pretty",
+        "github.com/rogpeppe/go-internal",
+        "github.com/stretchr/testify",
+        "gopkg.in/check.v1",
         "github.com/bahlo/generic-list-go",
         "github.com/buger/jsonparser",
         "github.com/bytedance/gopkg",
@@ -4332,30 +4336,24 @@
         "github.com/cloudwego/base64x",
         "github.com/dustin/go-humanize",
         "github.com/eino-contrib/jsonschema",
-        "github.com/google/jsonschema-go",
         "github.com/google/uuid",
         "github.com/goph/emperror",
         "github.com/json-iterator/go",
         "github.com/klauspost/cpuid/v2",
         "github.com/mailru/easyjson",
-        "github.com/mark3labs/mcp-go",
         "github.com/modern-go/concurrent",
         "github.com/modern-go/reflect2",
         "github.com/nikolalohinski/gonja",
         "github.com/pelletier/go-toml/v2",
         "github.com/pkg/errors",
-        "github.com/santhosh-tekuri/jsonschema/v6",
         "github.com/sirupsen/logrus",
         "github.com/slongfield/pyfmt",
-        "github.com/spf13/cast",
         "github.com/twitchyliquid64/golang-asm",
         "github.com/wk8/go-ordered-map/v2",
         "github.com/yargevad/filepathx",
-        "github.com/yosida95/uritemplate/v3",
         "golang.org/x/arch",
         "golang.org/x/exp",
-        "golang.org/x/sys",
-        "golang.org/x/text"
+        "golang.org/x/sys"
       ],
       "floorBumps": [
         {
@@ -6493,7 +6491,7 @@
       "repo": "goagent-kernel",
       "url": "https://github.com/oagentkit/goagent-kernel",
       "tier": 4,
-      "latest": "v0.77.0",
+      "latest": "v0.79.0",
       "packages": [
         {
           "pkg": "archcheck",
@@ -6751,6 +6749,20 @@
           "title": "重构(boundary)!：org 归属迁移 + 对话域七包上抛（v0.77.0）",
           "summary": "包在模块之间搬家： → promptx/textx",
           "detail": "* refactor(boundary)!: org 归属迁移 + 对话域七包上抛（v0.77.0 破窗）\n两层边界调整，一个 breaking wave，消费方只改一轮：\n① module path：github.com/yi-nology/goagent-kernel → github.com/oagentkit/goagent-kernel\n（仓随 goagent-runtime 一起迁入 oagentkit org，2026-11-26 迁移；旧 URL 经\nGitHub 重定向可继续访问，旧 tag 永久可解析）。全仓 import/文档/site 引用\n同步改写；docsync 安装行正则同步。\n② 对话域七包上抛（导出面逐字未变，ADR-0010）：\n- roundguard → github.com/oagentkit/agent/roundguard（单 agent 循环判据，\n  设计 spec 与变异矩阵随包迁入 agent 仓）\n- budget/spill/offload → github.com/oagentkit/textx/*（对话域上下文工程）\n- pending/sessionref/memorypipe → github.com/oagentkit/promptx/*（对话状态与注入）\n③ 声明面同步：architecture-policy 54→47 module id（词表 4 张 roundguard 表 +\nrelations 配对随之摘除）、api-lifecycle 55→48、EXTERNAL-DEPS 摘 spill 三登记、\nREADME 包表/边界表/机制段（图 5 改指上游）、USAGE §3.5/§3.8/§3.18 指针化、\nerror-semantics 四节摘除、工程底座三数重算（65304/344/406）。\n承接仓 PR：oagentkit/textx#116、oagentkit/promptx#126、oagentkit/agent#170。\n迁移宣告与消费方迁移清单：#504。\n* docs: README ADR 速览表补 ADR-0010\n* docs: ADR 索引表补 ADR-0010\n* chore(gates): seamcheck 基线随七包上抛刷新——budget.Archive/Summarizer、offload.Store 接缝随包迁走，调用点 464→470（ratchet 只升不降）\n* docs: api-compat.md 生命周期登记数 55→48（随七包上抛重算）"
+        },
+        {
+          "version": "v0.76.0",
+          "date": "2026-11-25",
+          "title": "修复(taskboard)：Complete 的凭据面补上「租约未过期」——与 Renew 同一口径",
+          "summary": "修复(taskboard)：Complete 的凭据面补上「租约未过期」——与 Renew 同一口径",
+          "detail": "宿主接线时暴露的契约缺口：`Renew` 的契约明写「租约已过期 ⇒ ErrLeaseLost，\n**资格在到期时刻终止**」，而 `Complete` 的契约面与参考实现都只判\n「令牌匹配 + 处于 claimed 态」，**不判租约是否已过期**——两处口径不一致，\n于是存在一个真实窗口：**租约已过期、但还没有别的持有者接管**时，旧持有者\n仍能把任务标记完成。\n后果：终态内容取决于**谁先提交**（竞态），而不是取决于谁有资格提交——而两者\n在同一任务上往往给出不同结论。runtime 的 cluster 模板里这会放大成：旧\nWorker 在租约失效后仍发布结果事件，等待方可能拿到过期执行者的结论。\n**BREAKING（破坏性 minor；taskboard 是 Stable 包，走 api-compat.md 五步流程）**\n- 动机：见上。旧新对照与迁移路径三件齐：\n- 旧：`Complete(ctx, id, token)` 只认「状态 == claimed && 令牌匹配」——\n  过期持有者（尚未被接管）仍能提交终态。\n- 新：凭据面 = **令牌 + 租约未过期**（与 `Renew` 同一口径，判据走\n  `taskboard.LeaseHeld`，不各写一份）：过期 ⇒ `ErrLeaseLost` 且**不做任何\n  修改**（拒绝后任务仍是认领态，可被接管）。\n- 迁移路径：实现 `taskboard.Board` 的宿主在 `Complete` 的判定里补一条\n  「租约未过期」（存储侧同一次原子操作里判完，别拆成「读→判→写」三步）；\n  `Release` **不判有效期**（归还是自愿放弃、不写终态）⇒ 不需要改。接\n  `taskboard/boardtest` 共享套件的宿主升级内核后跑一遍即知是否合规——\n  新增子判据「租约过期后完成被拒」会把未跟上的实现判红。\n本批（契约 / 套件 / 参考实现同批落库）：\n- 契约面（`taskboard`）：`Board` 契约写明 `Complete` 的凭据面；\n  `Complete` 方法注释与 `ErrLeaseLost` 文档同步（过期也是「租约已失」的\n  一种形态）；包文档新增「资格在到期时刻终止」一节。\n- 共享契约套件（`taskboard/boardtest`）：新增子判据「租约过期后完成被拒」\n  （拒绝 + **不改状态** + 接管者能接手，三件齐），并配变异实现\n  （`expiryBlindCompleteBoard`：只认状态与令牌、不判有效期）做反向验证\n  ——摘掉判据必红。\n- 参考实现：`coord.BoardAdapter.Complete` 与 `controlplane.MemStore.Complete`\n  按新契约实现（都走 `taskboard.LeaseHeld`）；两处 `Release` 保持只认令牌。\n- 文档：`docs/error-semantics.md`（ErrLeaseLost 行）、`docs/USAGE.md`\n  （宿主接线坑位）、README 包表与「下游升级须知」。\n零既有导出符号消失、零既有签名变更、依赖地板零变化。\nCo-authored-by: zhangyi01 <zhangyi01@kylinos.cn>\n\n- 文档(release)：v0.76.0 回执——README 版本身份（新增 v0.76.0 行：Complete 凭据面补「租约未过期」）"
+        },
+        {
+          "version": "v0.73.0",
+          "date": "2026-11-23",
+          "title": "重构(boundary)：三包上抛上游——netguard/ticket → guardx，cmdpolicy → tools",
+          "summary": "重构(boundary)：三包上抛上游——netguard/ticket → guardx，cmdpolicy → tools",
+          "detail": "按**概念域**分派（不按实现依赖），本仓这三个包的位置不对：\n- `netguard`（出站 URL 守卫 SSRF）属**执行安全域**，与 `guardx/egress` 同族同层。\n  它的 IP 策略依据本来就在 `guardx/egress` ⇒ 机制住在编排内核、判据依据住在上游，\n  是分层倒挂（分层倒挂比放错仓更贵）。\n- `ticket`（一次性短时授权票据）属**执行安全域**（准入凭据），与\n  `guardx/permgate` / `rbac` / `fence` 同族。\n- `cmdpolicy`（命令级放行裁决）与它的**事实面**（`tools/bashguard` 真 shell AST）\n  本是同一件事的两半：原先分家在不同仓，依赖只能向上够；同仓之后依赖天然成立。\n为什么不落 `toolgate`：toolgate 与 tools **同为 tier 2**，迁过去会构成同层依赖\n（矩阵纪律：依赖严格自底向上）；而命令级裁决的邻居正是同仓的 bashguard。\n**BREAKING（破坏性 minor）**：本仓这三个包的导出面整体消失，下游若 import 过\n这三个包路径，编译期即红。旧新对照与迁移路径三件齐：\n- `netguard` → `github.com/oagentkit/guardx/netguard`（API 逐字未变）\n- `ticket` → `github.com/oagentkit/guardx/ticket`（API 逐字未变）\n- `cmdpolicy` → `github.com/oagentkit/tools/cmdpolicy`（API 逐字未变）\n判据与导出面**逐字未变**（三包在本仓内零 kernel 内部依赖，迁入即等价）；\n**必须 `go mod tidy`**：`oagentkit/tools` 从本仓依赖图移除。\n只用其余内核包的宿主：既有包导出面逐字未变 ⇒ 行为零变化。\n本仓侧：删三个包；policy 摘三处 module 登记 + `scan_roots` 三项；\napi-lifecycle 摘三条（Stable 19→18 / Experimental 35→33）；README 包表与\n「下游升级须知」同步；docs/{USAGE,api-compat,error-semantics,AI-GUIDE,OAGENTKIT-OVERLAP}.md\n口径同步（含 error-semantics 两处幽灵条目与门面包幽灵分组清理）；\n文档站四页与生成页同步；`go.mod` 撤 `oagentkit/tools` 依赖。\n接缝清单随迁包同步：ticket 的两处导出时钟接缝随之迁走 ⇒ 下限 13 → 12；\n降的是**清单**不是判据——少一处接缝立刻红，这个机制本身不变（本次正是它报出来的）。\n上游已发版：guardx v0.29.0（迁入 netguard + ticket）、tools v0.16.0（迁入 cmdpolicy）。\n\n- 杂务(release)：登记 v0.73.0 的混装提交 ece11ad（releasecheck 闭合清单）+ 底座口径同步\n\n打 tag 前跑一遍 releasecheck 的判据 3「区间内无混装提交」：区间\nv0.72.2..v0.73.0 里，`refactor(boundary)`（ece11ad）同时改了\ngo.mod/go.sum 与 45 个非依赖文件——**判红**。\n处置照本仓既有先例（v0.66.0 的 00b4d1d、v0.67.0 的 02a5e39、v0.69.0 的\nde275a2、v0.70.0 的 6ad6650）：**已合并发布的提交不可重写**（改写公开历史\n会让下游按 commit 引用的校验失效），故登记进 `legacyMixed` 并写明为什么修不了。\n为什么当初没拆成两个提交（拆了才对）：ece11ad 的依赖部分与行为部分\n**互为因果**——`oagentkit/tools` 不从依赖图移除，删掉 cmdpolicy 之后的\n依赖面就不自洽（不 `go mod tidy` 删不干净）；而行为部分（删三个包 + 改指\n上游路径）已在本版 CHANGELOG 与 README「下游升级须知」写明，**没有藏进\n依赖段**——这正是判据 3 要防的那件事。\n本提交是登记动作，不改任何判据：`legacyMixed` 是数据表（闭合清单），\n新混装仍然一律报红（`mixViolations` 只认这张表里的 sha）。\n**底座口径同步（附带）**：登记条目让 `cmd/releasecheck/main.go` 多 5 行 ⇒\n生产代码 65286 → **65291**。README「工程底座」表与 AI-GUIDE §2.2 示例输出\n两处一并跟上（docsync 判相等、不留容差——差 1 行就是红；这条判据当场把\nCI 的 unit 作业染红过一轮）。\n\n\n- 文档(receipt)：v0.73.0 版本身份翻面 + PR 号回填 + 底座口径同步（tag 指向本提交）\n\n回执 = 对账 + 走查盲区两步，缺一不可。本轮两项都做了：\n**① 对账**：v0.73.0 = 三个包上抛上游（PR #486，CI 6/6 SUCCESS）。\n- 上游：guardx **v0.29.0**（迁入 netguard + ticket）、tools **v0.16.0**（迁入 cmdpolicy）\n- 本仓：包数 49（README 包表口径）/ policy module id 51 / api-lifecycle 51（Stable 18 / Experimental 33）\n- 导出面审计三问（区间 v0.72.2..HEAD）：问一消失的导出符号 172 个**全部来自这三个被删包**、\n  其它包零损失；问二既有接口加方法 **0**；问三既有导出函数签名变更 **0**\n- 依赖地板：`oagentkit/tools` 出图、`rogpeppe/go-internal` 降 indirect、`mvdan.cc/sh/v3` 退出\n  ⇒ 下游**必须 `go mod tidy`**\n**② 走查盲区**（门禁判不到、只能人走的面）：\n- README「下游升级须知」版本表——**门禁不判这张表**（v0.66.x 两行插错位置曾躺八小时），\n  本轮确认 v0.73.0 行在表首、身份正确\n- Go 注释里的**位置断言**——门禁只判 README 包表与 USAGE 口径，不判注释。\n  走查发现 18 处仍在说「同仓/本仓的 netguard」，已随 PR #486 的同批提交\n  （`docs(boundary)`，9551dd8）改指上游\n- 台账：本轮不属分布式演进台账的范围（无单号、无 §建议），故不写入——避免\n  触发判据 3「无主单号」（正文引用 #486 却没在 §9 登记即红）\n- `.guardx-work/`：工作副本，未被跟踪且已 gitignore ⇒ 不入库\nREADME 版本行同步：身份「（待发版）」→「（已发版，tag `v0.73.0`）」、\n回填 PR #486、补上游版本锚点（guardx ≥ v0.29.0 / tools ≥ v0.16.0 起提供这三个包）、\n补记同批的 18 处注释清理。\n**底座口径同步（本提交附带）**：上批注释清理把 `guardset/guardset.go` 的包头\n多折了一行 ⇒ 生产代码 65285 → **65286** 行。README「工程底座」表与\nAI-GUIDE §2.2 的示例输出两处一并跟上（docsync 判相等、不留容差——\n差 1 行就是红）。\n\n- 文档(boundary)：迁出后仓内残留断言改指上游——「同仓/本仓的 netguard」表述失效（18 处注释，零行为变化）\n\n三包上抛后，本仓若干处注释仍在把 `netguard` / `ticket` / `pii` 说成\n「同仓」「本仓已有先例」——那是迁移前为真的事实，现在成了假话。注释里的\n位置断言错了，读者会照着它去找一个已经不在本仓的包。\n逐条清点（18 处，**纯注释、零行为变化**）：\n- `guardset/assembly.go`：包头「形态对齐**同仓**的 netguard」→「对齐**上游\n  guardx/netguard**」；「「换整份」这件事**本仓已有先例**」→「上游 guardx/netguard\n  已有先例」；对齐表首列 `netguard` → `guardx/netguard`；代次投影、Subscription\n  类型别名、代次投影三处指路补「上游」\n- `guardset/assembly.go` + `assembly_subscribe.go`：订阅表机制的位置\n  `internal/subhub` → `oekit/pkg/subhub`（v0.66.0 已上移），同现时并列的两个\n  包改指 `guardx/netguard` / `oekit/pkg/pii`\n- `guardset/guardset.go`：包头「本仓的守卫（…）」补注 `netguard`/`pii`/`toolfail`\n  已上移上游\n- `egress/egress.go`：包头「**本仓的** netguard 判定挂在 http.Client / Transport 上」\n  → 「**上游 guardx/netguard** 的判定」——这句是 egress 补的那个洞的起点，\n  指错位置会让人以为 egress 仍与 netguard 同仓\n- `eventbus/durable.go`（两处）、`reconcile/reconcile.go`、`guardset/assembly_gen_test.go`（两处）、\n  `ptc/sandbox_test.go`：同款机制/同风格类比补「上游」定位词\n**只改位置断言，不改机制描述**——「同款」「同风格」类比本身仍然成立\n（上游同名包的判据与导出面逐字未变），补的是「它现在住在哪」。\n本次是回执走查的产物（走查盲区：门禁只判 README 包表与 USAGE 口径，\n**不判 Go 注释里的位置断言** ⇒ 迁移后这类话会静默过期）。"
         },
         {
           "version": "v0.34.0",
@@ -8042,6 +8054,52 @@
               "to": "v1.15.0"
             }
           ]
+        },
+        {
+          "version": "v0.79.0",
+          "date": "2026-11-26",
+          "bumps": [
+            {
+              "dep": "github.com/oagentkit/guardx",
+              "from": "v0.28.0",
+              "to": "v0.30.0"
+            },
+            {
+              "dep": "github.com/oagentkit/mcpkit",
+              "from": "v0.14.0",
+              "to": "v0.15.0"
+            },
+            {
+              "dep": "github.com/oagentkit/runtime",
+              "from": "v0.13.0",
+              "to": "v0.14.0"
+            },
+            {
+              "dep": "github.com/oagentkit/toolgate",
+              "from": "v0.17.4",
+              "to": "v0.17.5"
+            },
+            {
+              "dep": "github.com/oagentkit/toolname",
+              "from": "v0.1.0",
+              "to": "v0.2.1"
+            },
+            {
+              "dep": "github.com/oekit/concurrency",
+              "from": "v0.38.1",
+              "to": "v0.40.0"
+            },
+            {
+              "dep": "github.com/oekit/logx",
+              "from": "v0.11.0",
+              "to": "v0.12.1"
+            },
+            {
+              "dep": "github.com/oekit/pkg",
+              "from": "v0.59.0",
+              "to": "v0.61.5"
+            }
+          ]
         }
       ]
     },
@@ -8049,7 +8107,7 @@
       "repo": "goagent-runtime",
       "url": "https://github.com/oagentkit/goagent-runtime",
       "tier": 5,
-      "latest": "v0.7.0",
+      "latest": "v0.7.1",
       "packages": [
         {
           "pkg": "chat",
@@ -8134,10 +8192,6 @@
         {
           "repo": "guardx",
           "url": "https://github.com/oagentkit/guardx"
-        },
-        {
-          "repo": "llm",
-          "url": "https://github.com/oagentkit/llm"
         }
       ],
       "breakingIndex": [],
@@ -8246,6 +8300,27 @@
               "dep": "github.com/oekit/pkg",
               "from": "v0.57.0",
               "to": "v0.61.4"
+            }
+          ]
+        },
+        {
+          "version": "v0.7.1",
+          "date": "2026-11-26",
+          "bumps": [
+            {
+              "dep": "github.com/oagentkit/goagent-kernel",
+              "from": "v0.77.0",
+              "to": "v0.78.0"
+            },
+            {
+              "dep": "github.com/oagentkit/guardx",
+              "from": "v0.28.0",
+              "to": "v0.30.0"
+            },
+            {
+              "dep": "github.com/oekit/pkg",
+              "from": "v0.61.4",
+              "to": "v0.61.5"
             }
           ]
         }
