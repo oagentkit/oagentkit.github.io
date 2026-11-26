@@ -19,7 +19,7 @@
 go get github.com/oagentkit/textx@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/textx](github.com/oagentkit/textx)
+源码与该仓 `AGENTS.md`：[oagentkit/textx](https://github.com/oagentkit/textx)
 
 ## 包
 

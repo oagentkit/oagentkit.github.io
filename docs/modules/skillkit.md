@@ -19,7 +19,7 @@
 go get github.com/oagentkit/skillkit@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/skillkit](github.com/oagentkit/skillkit)
+源码与该仓 `AGENTS.md`：[oagentkit/skillkit](https://github.com/oagentkit/skillkit)
 
 ## 包
 

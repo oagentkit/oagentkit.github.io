@@ -19,7 +19,7 @@
 go get github.com/yi-nology/goagent-kernel@latest
 ```
 
-源码与该仓 `AGENTS.md`：[yi-nology/goagent-kernel](github.com/yi-nology/goagent-kernel)
+源码与该仓 `AGENTS.md`：[yi-nology/goagent-kernel](https://github.com/yi-nology/goagent-kernel)
 
 ## 包
 

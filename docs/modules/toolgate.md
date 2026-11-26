@@ -19,7 +19,7 @@
 go get github.com/oagentkit/toolgate@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/toolgate](github.com/oagentkit/toolgate)
+源码与该仓 `AGENTS.md`：[oagentkit/toolgate](https://github.com/oagentkit/toolgate)
 
 ## 包
 

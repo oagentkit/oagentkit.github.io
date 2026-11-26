@@ -185,7 +185,7 @@ def render_module_page(m, rev, import_root, compat=()):
     # 单仓可迁出默认 org（goagent-kernel/runtime 在 yi-nology）：
     # 标签与链接都从该仓自己的 import_root 推导，不写死 oagentkit。
     morg = import_root.split("github.com/")[-1]
-    lines.append(f"源码与该仓 `AGENTS.md`：[{morg}/{repo}]({import_root}/{repo})")
+    lines.append(f"源码与该仓 `AGENTS.md`：[{morg}/{repo}](https://{import_root}/{repo})")
     lines.append("")
 
     lines.append("## 包")

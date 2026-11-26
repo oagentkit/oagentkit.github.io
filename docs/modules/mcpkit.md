@@ -19,7 +19,7 @@ MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管�
 go get github.com/oagentkit/mcpkit@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/mcpkit](github.com/oagentkit/mcpkit)
+源码与该仓 `AGENTS.md`：[oagentkit/mcpkit](https://github.com/oagentkit/mcpkit)
 
 ## 包
 

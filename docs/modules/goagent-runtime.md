@@ -19,7 +19,7 @@ Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务�
 go get github.com/yi-nology/goagent-runtime@latest
 ```
 
-源码与该仓 `AGENTS.md`：[yi-nology/goagent-runtime](github.com/yi-nology/goagent-runtime)
+源码与该仓 `AGENTS.md`：[yi-nology/goagent-runtime](https://github.com/yi-nology/goagent-runtime)
 
 ## 包
 

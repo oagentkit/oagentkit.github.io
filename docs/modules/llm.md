@@ -19,7 +19,7 @@
 go get github.com/oagentkit/llm@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/llm](github.com/oagentkit/llm)
+源码与该仓 `AGENTS.md`：[oagentkit/llm](https://github.com/oagentkit/llm)
 
 ## 包
 
