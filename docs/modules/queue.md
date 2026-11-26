@@ -19,7 +19,7 @@ DB 即队列 + Postgres Lease 选主——任务表驱动的工作池与主备�
 go get github.com/oagentkit/queue@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/queue](https://github.com/oagentkit/queue)
+源码与该仓 `AGENTS.md`：[oagentkit/queue](github.com/oagentkit/queue)
 
 ## 包
 

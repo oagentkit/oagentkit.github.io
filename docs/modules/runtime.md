@@ -19,7 +19,7 @@ Agent 进程运行时——LLM token 流式节控/泛型事件总线/子进程�
 go get github.com/oagentkit/runtime@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/runtime](https://github.com/oagentkit/runtime)
+源码与该仓 `AGENTS.md`：[oagentkit/runtime](github.com/oagentkit/runtime)
 
 ## 包
 

@@ -19,7 +19,7 @@
 go get github.com/oagentkit/promptx@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/promptx](https://github.com/oagentkit/promptx)
+源码与该仓 `AGENTS.md`：[oagentkit/promptx](github.com/oagentkit/promptx)
 
 ## 包
 

@@ -19,7 +19,7 @@
 go get github.com/oagentkit/obs@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/obs](https://github.com/oagentkit/obs)
+源码与该仓 `AGENTS.md`：[oagentkit/obs](github.com/oagentkit/obs)
 
 ## 包
 

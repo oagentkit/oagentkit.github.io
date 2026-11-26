@@ -8,7 +8,7 @@ Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务�
 | --- | --- |
 | 层 | tier 5 · 装配层（依赖 goagent-kernel + agent，只接线不另写判据） |
 | oekit 对应 | `bootstrap` |
-| 仓内依赖 | `agent`、`goagent-kernel`、`guardx`、`llm` |
+| 仓内依赖 | `agent`、`goagent-kernel`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/jackc/pgx/v5`、`modernc.org/sqlite` |
 | 包数 | 14 |
@@ -16,10 +16,10 @@ Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务�
 ## 安装
 
 ```bash
-go get github.com/oagentkit/goagent-runtime@latest
+go get github.com/yi-nology/goagent-runtime@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/goagent-runtime](https://github.com/oagentkit/goagent-runtime)
+源码与该仓 `AGENTS.md`：[yi-nology/goagent-runtime](github.com/yi-nology/goagent-runtime)
 
 ## 包
 
@@ -50,7 +50,7 @@ go get github.com/oagentkit/goagent-runtime@latest
 - **驱动边分包**：`storage` 纯判据零驱动（scripts/check-dep-edges.sh 门禁）；驱动只落在 sqliteadapter/pgstore。
 - **LLM SDK 边嵌套模块**：`bridge`（独立 go.mod）承载 llm/eino 适配器（llmchat/einotool），主 module 零 LLM SDK import（ADR-0003）；不用 bridge 的宿主依赖图里没有 eino。
 - 命名消歧：`oagentkit/runtime`（tier 0）是家族生命周期原语仓（hookx/hotplug/notifyx/pacer/progress）；本仓是装配层，`goagent-` 前缀即家族装配层约定。
-- 发版纯 git tag；2026-11-26 归属迁移：yi-nology → oagentkit org。
+- 发版纯 git tag；2026-11-26 归属回迁：oagentkit → yi-nology org（v0.8.0 起；v0.7.0-v0.7.1 的 oagentkit tag 只能经 oagentkit 路径消费）。
 
 ## 日志约定
 

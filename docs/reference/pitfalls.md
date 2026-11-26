@@ -62,7 +62,7 @@ tier 由**依赖地板**决定，不是由功能多少决定。tier 0 / tier 1 �
 | [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
-| [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`</span> |
+| [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`</span> |
 | [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
 
 判据脚本：`matrix-tools/scripts/verify_dep_floor.py`——它读的是 `heavyDeps` 登记，不是读 go.mod 猜。
@@ -88,7 +88,7 @@ tier 由**依赖地板**决定，不是由功能多少决定。tier 0 / tier 1 �
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | <span class="matrix-tier">`textx`（tier 0）、`guardx`（tier 0）</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | <span class="matrix-tier">`llm`（tier 2）、`textx`（tier 0）</span> |
 | [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | <span class="matrix-tier">`guardx`（tier 0）、`runtime`（tier 0）、`toolgate`（tier 2）、`toolname`（tier 0）</span> |
-| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | <span class="matrix-tier">`agent`（tier 3）、`goagent-kernel`（tier 4）、`guardx`（tier 0）、`llm`（tier 2）</span> |
+| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | <span class="matrix-tier">`agent`（tier 3）、`goagent-kernel`（tier 4）、`guardx`（tier 0）</span> |
 
 判据脚本：`matrix-tools/scripts/verify_import_direction.py`（层级方向 + 依赖声明对账）。
 

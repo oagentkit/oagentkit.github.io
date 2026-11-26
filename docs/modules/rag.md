@@ -19,7 +19,7 @@
 go get github.com/oagentkit/rag@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/rag](https://github.com/oagentkit/rag)
+源码与该仓 `AGENTS.md`：[oagentkit/rag](github.com/oagentkit/rag)
 
 ## 包
 

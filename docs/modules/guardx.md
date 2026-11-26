@@ -19,7 +19,7 @@
 go get github.com/oagentkit/guardx@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/guardx](https://github.com/oagentkit/guardx)
+源码与该仓 `AGENTS.md`：[oagentkit/guardx](github.com/oagentkit/guardx)
 
 ## 包
 

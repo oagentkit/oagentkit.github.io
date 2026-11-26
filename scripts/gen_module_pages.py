@@ -182,7 +182,10 @@ def render_module_page(m, rev, import_root, compat=()):
     lines.append(f"go get {import_root}/{repo}@latest")
     lines.append("```")
     lines.append("")
-    lines.append(f"源码与该仓 `AGENTS.md`：[oagentkit/{repo}]({ORG}/{repo})")
+    # 单仓可迁出默认 org（goagent-kernel/runtime 在 yi-nology）：
+    # 标签与链接都从该仓自己的 import_root 推导，不写死 oagentkit。
+    morg = import_root.split("github.com/")[-1]
+    lines.append(f"源码与该仓 `AGENTS.md`：[{morg}/{repo}]({import_root}/{repo})")
     lines.append("")
 
     lines.append("## 包")
@@ -812,8 +815,11 @@ def main():
     expected = {}
     compat = compat_by_repo(data)
     for m in mods:
+        # 各仓自己的 org：goagent-kernel/runtime 的 import_root 是 yi-nology
+        m_import_root = data["importRoot"].format(
+            org=m.get("org") or data["defaultOrg"])
         expected[MODULES_OUT / f"{m['repo']}.md"] = render_module_page(
-            m, rev, import_root, compat.get(m["repo"], [])
+            m, rev, m_import_root, compat.get(m["repo"], [])
         )
     expected[MODULES_OUT / "index.md"] = render_modules_index(data, mods)
     expected[PARTS_OUT / "matrix-table.md"] = render_matrix_table(mods)

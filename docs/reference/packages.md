@@ -10,7 +10,7 @@
 | --- | --- |
 | 模块 | 16 |
 | 包 | 136 |
-| 层 | 4（tier 0 – tier 5） |
+| 层 | 6（tier 0 – tier 5） |
 | 组织 | `oagentkit` |
 | 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |
 
@@ -32,8 +32,8 @@
 | [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.17.5` | <span class="matrix-tier">`guardx`、`mcpkit`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.17.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 7 | `v0.16.0` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
-| [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | 46 | `v0.79.0` | <span class="matrix-tier">`guardx`、`runtime`、`toolgate`、`toolname`</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`</span> |
-| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 14 | `v0.7.1` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`、`llm`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
+| [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | 46 | `v0.80.0` | <span class="matrix-tier">`guardx`、`runtime`、`toolgate`、`toolname`</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`</span> |
+| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 14 | `v0.8.0` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
 
 ## 全包清单
 
@@ -117,66 +117,66 @@
 | `agent` | `dispatch` | `github.com/oagentkit/agent/dispatch` | `agentkit/dispatch` |
 | `agent` | `clarify` | `github.com/oagentkit/agent/clarify` | `agentkit/clarify` |
 | `agent` | `roundguard` | `github.com/oagentkit/agent/roundguard` | `agentkit/roundguard` |
-| `goagent-kernel` | `archcheck` | `github.com/oagentkit/goagent-kernel/archcheck` | `agentkit/archcheck` |
-| `goagent-kernel` | `backend` | `github.com/oagentkit/goagent-kernel/backend` | `agentkit/backend` |
-| `goagent-kernel` | `checkpoint` | `github.com/oagentkit/goagent-kernel/checkpoint` | `agentkit/checkpoint` |
-| `goagent-kernel` | `commitgate` | `github.com/oagentkit/goagent-kernel/commitgate` | `agentkit/commitgate` |
-| `goagent-kernel` | `contract` | `github.com/oagentkit/goagent-kernel/contract` | `agentkit/contract` |
-| `goagent-kernel` | `controlplane` | `github.com/oagentkit/goagent-kernel/controlplane` | `agentkit/controlplane` |
-| `goagent-kernel` | `coord` | `github.com/oagentkit/goagent-kernel/coord` | `agentkit/coord` |
-| `goagent-kernel` | `cost` | `github.com/oagentkit/goagent-kernel/cost` | `agentkit/cost` |
-| `goagent-kernel` | `deadline` | `github.com/oagentkit/goagent-kernel/deadline` | `agentkit/deadline` |
-| `goagent-kernel` | `delegate` | `github.com/oagentkit/goagent-kernel/delegate` | `agentkit/delegate` |
-| `goagent-kernel` | `delta` | `github.com/oagentkit/goagent-kernel/delta` | `agentkit/delta` |
-| `goagent-kernel` | `dispatch` | `github.com/oagentkit/goagent-kernel/dispatch` | `agentkit/dispatch` |
-| `goagent-kernel` | `drain` | `github.com/oagentkit/goagent-kernel/drain` | `agentkit/drain` |
-| `goagent-kernel` | `egress` | `github.com/oagentkit/goagent-kernel/egress` | `agentkit/egress` |
-| `goagent-kernel` | `eval` | `github.com/oagentkit/goagent-kernel/eval` | `agentkit/eval` |
-| `goagent-kernel` | `eventbus` | `github.com/oagentkit/goagent-kernel/eventbus` | `agentkit/eventbus` |
-| `goagent-kernel` | `finalize` | `github.com/oagentkit/goagent-kernel/finalize` | `agentkit/finalize` |
-| `goagent-kernel` | `gatecheck` | `github.com/oagentkit/goagent-kernel/gatecheck` | `agentkit/gatecheck` |
-| `goagent-kernel` | `guardset` | `github.com/oagentkit/goagent-kernel/guardset` | `agentkit/guardset` |
-| `goagent-kernel` | `handoff` | `github.com/oagentkit/goagent-kernel/handoff` | `agentkit/handoff` |
-| `goagent-kernel` | `hookengine` | `github.com/oagentkit/goagent-kernel/hookengine` | `agentkit/hookengine` |
-| `goagent-kernel` | `invocation` | `github.com/oagentkit/goagent-kernel/invocation` | `agentkit/invocation` |
-| `goagent-kernel` | `invocation/invocationtest` | `github.com/oagentkit/goagent-kernel/invocationtest` | `agentkit/invocation/invocationtest` |
-| `goagent-kernel` | `metrics` | `github.com/oagentkit/goagent-kernel/metrics` | `agentkit/metrics` |
-| `goagent-kernel` | `ownership` | `github.com/oagentkit/goagent-kernel/ownership` | `agentkit/ownership` |
-| `goagent-kernel` | `preset` | `github.com/oagentkit/goagent-kernel/preset` | `agentkit/preset` |
-| `goagent-kernel` | `protocol` | `github.com/oagentkit/goagent-kernel/protocol` | `agentkit/protocol` |
-| `goagent-kernel` | `ptc` | `github.com/oagentkit/goagent-kernel/ptc` | `agentkit/ptc` |
-| `goagent-kernel` | `raceprobe` | `github.com/oagentkit/goagent-kernel/raceprobe` | `agentkit/raceprobe` |
-| `goagent-kernel` | `reconcile` | `github.com/oagentkit/goagent-kernel/reconcile` | `agentkit/reconcile` |
-| `goagent-kernel` | `retryplan` | `github.com/oagentkit/goagent-kernel/retryplan` | `agentkit/retryplan` |
-| `goagent-kernel` | `scheduling` | `github.com/oagentkit/goagent-kernel/scheduling` | `agentkit/scheduling` |
-| `goagent-kernel` | `sideeffect` | `github.com/oagentkit/goagent-kernel/sideeffect` | `agentkit/sideeffect` |
-| `goagent-kernel` | `sidetest` | `github.com/oagentkit/goagent-kernel/sidetest` | `agentkit/sidetest` |
-| `goagent-kernel` | `skilldisclose` | `github.com/oagentkit/goagent-kernel/skilldisclose` | `agentkit/skilldisclose` |
-| `goagent-kernel` | `statemachine` | `github.com/oagentkit/goagent-kernel/statemachine` | `agentkit/statemachine` |
-| `goagent-kernel` | `steer` | `github.com/oagentkit/goagent-kernel/steer` | `agentkit/steer` |
-| `goagent-kernel` | `taskboard` | `github.com/oagentkit/goagent-kernel/taskboard` | `agentkit/taskboard` |
-| `goagent-kernel` | `taskboard/boardtest` | `github.com/oagentkit/goagent-kernel/boardtest` | `agentkit/taskboard/boardtest` |
-| `goagent-kernel` | `tenant` | `github.com/oagentkit/goagent-kernel/tenant` | `agentkit/tenant` |
-| `goagent-kernel` | `tooldisclose` | `github.com/oagentkit/goagent-kernel/tooldisclose` | `agentkit/tooldisclose` |
-| `goagent-kernel` | `trajectory` | `github.com/oagentkit/goagent-kernel/trajectory` | `agentkit/trajectory` |
-| `goagent-kernel` | `watchdog` | `github.com/oagentkit/goagent-kernel/watchdog` | `agentkit/watchdog` |
-| `goagent-kernel` | `worker` | `github.com/oagentkit/goagent-kernel/worker` | `agentkit/worker` |
-| `goagent-kernel` | `worktree` | `github.com/oagentkit/goagent-kernel/worktree` | `agentkit/worktree` |
-| `goagent-kernel` | `worker/faultmatrix` | `github.com/oagentkit/goagent-kernel/faultmatrix` | `agentkit/worker/faultmatrix` |
-| `goagent-runtime` | `chat` | `github.com/oagentkit/goagent-runtime/chat` | `agentkit/chat` |
-| `goagent-runtime` | `pipeline` | `github.com/oagentkit/goagent-runtime/pipeline` | `agentkit/pipeline` |
-| `goagent-runtime` | `agentloop` | `github.com/oagentkit/goagent-runtime/agentloop` | `agentkit/agentloop` |
-| `goagent-runtime` | `adjudicate` | `github.com/oagentkit/goagent-runtime/adjudicate` | `agentkit/adjudicate` |
-| `goagent-runtime` | `storage` | `github.com/oagentkit/goagent-runtime/storage` | `agentkit/storage` |
-| `goagent-runtime` | `storage/sqlitestore` | `github.com/oagentkit/goagent-runtime/sqlitestore` | `agentkit/storage/sqlitestore` |
-| `goagent-runtime` | `sqliteadapter` | `github.com/oagentkit/goagent-runtime/sqliteadapter` | `agentkit/sqliteadapter` |
-| `goagent-runtime` | `pgstore` | `github.com/oagentkit/goagent-runtime/pgstore` | `agentkit/pgstore` |
-| `goagent-runtime` | `runtime` | `github.com/oagentkit/goagent-runtime/runtime` | `agentkit/runtime` |
-| `goagent-runtime` | `cluster` | `github.com/oagentkit/goagent-runtime/cluster` | `agentkit/cluster` |
-| `goagent-runtime` | `observe` | `github.com/oagentkit/goagent-runtime/observe` | `agentkit/observe` |
-| `goagent-runtime` | `containerbackend` | `github.com/oagentkit/goagent-runtime/containerbackend` | `agentkit/containerbackend` |
-| `goagent-runtime` | `bridge/llmchat` | `github.com/oagentkit/goagent-runtime/llmchat` | `agentkit/bridge/llmchat` |
-| `goagent-runtime` | `bridge/einotool` | `github.com/oagentkit/goagent-runtime/einotool` | `agentkit/bridge/einotool` |
+| `goagent-kernel` | `archcheck` | `github.com/yi-nology/goagent-kernel/archcheck` | `agentkit/archcheck` |
+| `goagent-kernel` | `backend` | `github.com/yi-nology/goagent-kernel/backend` | `agentkit/backend` |
+| `goagent-kernel` | `checkpoint` | `github.com/yi-nology/goagent-kernel/checkpoint` | `agentkit/checkpoint` |
+| `goagent-kernel` | `commitgate` | `github.com/yi-nology/goagent-kernel/commitgate` | `agentkit/commitgate` |
+| `goagent-kernel` | `contract` | `github.com/yi-nology/goagent-kernel/contract` | `agentkit/contract` |
+| `goagent-kernel` | `controlplane` | `github.com/yi-nology/goagent-kernel/controlplane` | `agentkit/controlplane` |
+| `goagent-kernel` | `coord` | `github.com/yi-nology/goagent-kernel/coord` | `agentkit/coord` |
+| `goagent-kernel` | `cost` | `github.com/yi-nology/goagent-kernel/cost` | `agentkit/cost` |
+| `goagent-kernel` | `deadline` | `github.com/yi-nology/goagent-kernel/deadline` | `agentkit/deadline` |
+| `goagent-kernel` | `delegate` | `github.com/yi-nology/goagent-kernel/delegate` | `agentkit/delegate` |
+| `goagent-kernel` | `delta` | `github.com/yi-nology/goagent-kernel/delta` | `agentkit/delta` |
+| `goagent-kernel` | `dispatch` | `github.com/yi-nology/goagent-kernel/dispatch` | `agentkit/dispatch` |
+| `goagent-kernel` | `drain` | `github.com/yi-nology/goagent-kernel/drain` | `agentkit/drain` |
+| `goagent-kernel` | `egress` | `github.com/yi-nology/goagent-kernel/egress` | `agentkit/egress` |
+| `goagent-kernel` | `eval` | `github.com/yi-nology/goagent-kernel/eval` | `agentkit/eval` |
+| `goagent-kernel` | `eventbus` | `github.com/yi-nology/goagent-kernel/eventbus` | `agentkit/eventbus` |
+| `goagent-kernel` | `finalize` | `github.com/yi-nology/goagent-kernel/finalize` | `agentkit/finalize` |
+| `goagent-kernel` | `gatecheck` | `github.com/yi-nology/goagent-kernel/gatecheck` | `agentkit/gatecheck` |
+| `goagent-kernel` | `guardset` | `github.com/yi-nology/goagent-kernel/guardset` | `agentkit/guardset` |
+| `goagent-kernel` | `handoff` | `github.com/yi-nology/goagent-kernel/handoff` | `agentkit/handoff` |
+| `goagent-kernel` | `hookengine` | `github.com/yi-nology/goagent-kernel/hookengine` | `agentkit/hookengine` |
+| `goagent-kernel` | `invocation` | `github.com/yi-nology/goagent-kernel/invocation` | `agentkit/invocation` |
+| `goagent-kernel` | `invocation/invocationtest` | `github.com/yi-nology/goagent-kernel/invocationtest` | `agentkit/invocation/invocationtest` |
+| `goagent-kernel` | `metrics` | `github.com/yi-nology/goagent-kernel/metrics` | `agentkit/metrics` |
+| `goagent-kernel` | `ownership` | `github.com/yi-nology/goagent-kernel/ownership` | `agentkit/ownership` |
+| `goagent-kernel` | `preset` | `github.com/yi-nology/goagent-kernel/preset` | `agentkit/preset` |
+| `goagent-kernel` | `protocol` | `github.com/yi-nology/goagent-kernel/protocol` | `agentkit/protocol` |
+| `goagent-kernel` | `ptc` | `github.com/yi-nology/goagent-kernel/ptc` | `agentkit/ptc` |
+| `goagent-kernel` | `raceprobe` | `github.com/yi-nology/goagent-kernel/raceprobe` | `agentkit/raceprobe` |
+| `goagent-kernel` | `reconcile` | `github.com/yi-nology/goagent-kernel/reconcile` | `agentkit/reconcile` |
+| `goagent-kernel` | `retryplan` | `github.com/yi-nology/goagent-kernel/retryplan` | `agentkit/retryplan` |
+| `goagent-kernel` | `scheduling` | `github.com/yi-nology/goagent-kernel/scheduling` | `agentkit/scheduling` |
+| `goagent-kernel` | `sideeffect` | `github.com/yi-nology/goagent-kernel/sideeffect` | `agentkit/sideeffect` |
+| `goagent-kernel` | `sidetest` | `github.com/yi-nology/goagent-kernel/sidetest` | `agentkit/sidetest` |
+| `goagent-kernel` | `skilldisclose` | `github.com/yi-nology/goagent-kernel/skilldisclose` | `agentkit/skilldisclose` |
+| `goagent-kernel` | `statemachine` | `github.com/yi-nology/goagent-kernel/statemachine` | `agentkit/statemachine` |
+| `goagent-kernel` | `steer` | `github.com/yi-nology/goagent-kernel/steer` | `agentkit/steer` |
+| `goagent-kernel` | `taskboard` | `github.com/yi-nology/goagent-kernel/taskboard` | `agentkit/taskboard` |
+| `goagent-kernel` | `taskboard/boardtest` | `github.com/yi-nology/goagent-kernel/boardtest` | `agentkit/taskboard/boardtest` |
+| `goagent-kernel` | `tenant` | `github.com/yi-nology/goagent-kernel/tenant` | `agentkit/tenant` |
+| `goagent-kernel` | `tooldisclose` | `github.com/yi-nology/goagent-kernel/tooldisclose` | `agentkit/tooldisclose` |
+| `goagent-kernel` | `trajectory` | `github.com/yi-nology/goagent-kernel/trajectory` | `agentkit/trajectory` |
+| `goagent-kernel` | `watchdog` | `github.com/yi-nology/goagent-kernel/watchdog` | `agentkit/watchdog` |
+| `goagent-kernel` | `worker` | `github.com/yi-nology/goagent-kernel/worker` | `agentkit/worker` |
+| `goagent-kernel` | `worktree` | `github.com/yi-nology/goagent-kernel/worktree` | `agentkit/worktree` |
+| `goagent-kernel` | `worker/faultmatrix` | `github.com/yi-nology/goagent-kernel/faultmatrix` | `agentkit/worker/faultmatrix` |
+| `goagent-runtime` | `chat` | `github.com/yi-nology/goagent-runtime/chat` | `agentkit/chat` |
+| `goagent-runtime` | `pipeline` | `github.com/yi-nology/goagent-runtime/pipeline` | `agentkit/pipeline` |
+| `goagent-runtime` | `agentloop` | `github.com/yi-nology/goagent-runtime/agentloop` | `agentkit/agentloop` |
+| `goagent-runtime` | `adjudicate` | `github.com/yi-nology/goagent-runtime/adjudicate` | `agentkit/adjudicate` |
+| `goagent-runtime` | `storage` | `github.com/yi-nology/goagent-runtime/storage` | `agentkit/storage` |
+| `goagent-runtime` | `storage/sqlitestore` | `github.com/yi-nology/goagent-runtime/sqlitestore` | `agentkit/storage/sqlitestore` |
+| `goagent-runtime` | `sqliteadapter` | `github.com/yi-nology/goagent-runtime/sqliteadapter` | `agentkit/sqliteadapter` |
+| `goagent-runtime` | `pgstore` | `github.com/yi-nology/goagent-runtime/pgstore` | `agentkit/pgstore` |
+| `goagent-runtime` | `runtime` | `github.com/yi-nology/goagent-runtime/runtime` | `agentkit/runtime` |
+| `goagent-runtime` | `cluster` | `github.com/yi-nology/goagent-runtime/cluster` | `agentkit/cluster` |
+| `goagent-runtime` | `observe` | `github.com/yi-nology/goagent-runtime/observe` | `agentkit/observe` |
+| `goagent-runtime` | `containerbackend` | `github.com/yi-nology/goagent-runtime/containerbackend` | `agentkit/containerbackend` |
+| `goagent-runtime` | `bridge/llmchat` | `github.com/yi-nology/goagent-runtime/llmchat` | `agentkit/bridge/llmchat` |
+| `goagent-runtime` | `bridge/einotool` | `github.com/yi-nology/goagent-runtime/einotool` | `agentkit/bridge/einotool` |
 
 ## 装机
 

@@ -9,7 +9,7 @@
 | 层 | tier 2 · 集成层（依赖 tier 0/1 + 重第三方地板） |
 | oekit 对应 | `httpx` |
 | 仓内依赖 | `textx` |
-| 被依赖 | `agent`、`goagent-runtime` |
+| 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace` |
 | 包数 | 6 |
 
@@ -19,7 +19,7 @@
 go get github.com/oagentkit/llm@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/llm](https://github.com/oagentkit/llm)
+源码与该仓 `AGENTS.md`：[oagentkit/llm](github.com/oagentkit/llm)
 
 ## 包
 

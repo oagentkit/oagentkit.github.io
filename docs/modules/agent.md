@@ -19,7 +19,7 @@ Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多�
 go get github.com/oagentkit/agent@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/agent](https://github.com/oagentkit/agent)
+源码与该仓 `AGENTS.md`：[oagentkit/agent](github.com/oagentkit/agent)
 
 ## 包
 
