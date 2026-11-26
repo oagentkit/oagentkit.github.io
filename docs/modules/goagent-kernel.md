@@ -10,16 +10,16 @@
 | oekit 对应 | `workflow` |
 | 仓内依赖 | `guardx`、`runtime`、`toolgate`、`toolname` |
 | 被依赖 | `goagent-runtime` |
-| 第三方地板 | `github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools` |
+| 第三方地板 | `github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3` |
 | 包数 | 46 |
 
 ## 安装
 
 ```bash
-go get github.com/oagentkit/goagent-kernel@latest
+go get github.com/yi-nology/goagent-kernel@latest
 ```
 
-源码与该仓 `AGENTS.md`：[oagentkit/goagent-kernel](https://github.com/oagentkit/goagent-kernel)
+源码与该仓 `AGENTS.md`：[yi-nology/goagent-kernel](https://github.com/yi-nology/goagent-kernel)
 
 ## 包
 
@@ -82,7 +82,7 @@ go get github.com/oagentkit/goagent-kernel@latest
 - 判定口诀：「这个包需要知道自己在给谁干活吗？」需要 → 编排域留本仓；对话域判据已上抛（roundguard→agent、budget/spill/offload→textx、pending/sessionref/memorypipe→promptx，v0.77.0）。
 - 本仓不 import 领域词表；门禁由自带 archcheck + architecture-policy.yaml 强制（策略先行：新依赖方向先改 policy 再写代码）。
 - 发版是**纯 git tag + 自有 releasecheck 门禁**，不走 matrix release.py；CHANGELOG 由 gen_changelogs.py 生成。
-- 2026-11-26 归属迁移：yi-nology → oagentkit org，module path 为 github.com/oagentkit/goagent-kernel（旧路径经 GitHub 重定向）。
+- 2026-11-26 归属回迁：oagentkit → yi-nology org，module path 为 github.com/yi-nology/goagent-kernel（v0.80.0 起；v0.77.0-v0.79.0 的 oagentkit tag 只能经 oagentkit 路径消费）。
 
 ## 日志约定
 

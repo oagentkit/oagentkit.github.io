@@ -21,7 +21,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ## 破坏性变更
 
-登记在册的破坏性变更共 37 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
+登记在册的破坏性变更共 39 条（由各仓 CHANGELOG 自动抽取，机器可读同源见 versions.json 的 `breakingIndex` 字段）：
 
 - **textx v0.6.1** — 修复(agents)：审计日志归属改为 obs/audit（guardx/audit 已迁出）
   包在模块之间搬家：audit → guardx/obs
@@ -59,6 +59,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   包在模块之间搬家：bashguard → guardx/tools
 - **agent v0.8.0** — 重构(agent)!：import 跟随 llm 包上移，依赖地板升到 v0.9.0
   依赖 github.com/oagentkit/llm v0.9.0（该版起 import 路径为 github.com/oagentkit/llm，原 oagentkit/llm/llm 已移除）。
+- **goagent-kernel v0.80.0** — 重构(boundary)!：org 归属回迁——module path 变回 yi-nology（v0.80.0 破窗）
 - **goagent-kernel v0.77.0** — 重构(boundary)!：org 归属迁移 + 对话域七包上抛（v0.77.0）
   包在模块之间搬家： → promptx/textx
 - **goagent-kernel v0.76.0** — 修复(taskboard)：Complete 的凭据面补上「租约未过期」——与 Renew 同一口径
@@ -74,6 +75,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - **goagent-kernel v0.14.0** — 
   包在模块之间搬家：audit → guardx/obs, bashguard → guardx/tools
 - **goagent-kernel v0.13.0** — 修复(spill)!：会话标识与定位符的路径逃逸 —— 收口到 oekit/pkg/pathx.IsSafeFileName
+- **goagent-runtime v0.8.0** — 重构(boundary)!：org 归属回迁——module path 变回 yi-nology（v0.8.0）
 - **agentkit v1.9.0** — 重构：整仓退役——48 个兼容转发子包全删，终版 v1.9.0（BREAKING）
   包在模块之间搬家： → agent/agentkit/guardx/obs/promptx/queue/runtime/skillkit/textx/toolgate/tools
 - **agentkit v1.8.9** — 重构：obsx 的转发改指 llm（obsx 已迁仓）
@@ -109,7 +111,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - `tools`（tier2）：`github.com/cloudwego/eino`、`github.com/oekit/logx`、`github.com/mattn/go-isatty`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`、`gopkg.in/yaml.v3`、`mvdan.cc/sh/v3`
 - `agent`（tier3）：`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cespare/xxhash/v2`、`github.com/cloudwego/base64x`、`github.com/cloudwego/eino-ext/libs/acl/openai`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/evanphx/json-patch`、`github.com/go-logr/logr`、`github.com/go-logr/stdr`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/kr/text`、`github.com/mailru/easyjson`、`github.com/mattn/go-colorable`、`github.com/meguminnnnnnnnn/go-openai`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/oekit/logx`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`go.opentelemetry.io/auto/sdk`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/log`、`go.opentelemetry.io/otel/metric`、`go.opentelemetry.io/otel/trace`、`golang.org/x/arch`、`golang.org/x/exp`、`golang.org/x/sys`
 - `goagent-kernel`（tier4）：`github.com/dop251/goja`、`github.com/oekit/logx`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`、`github.com/bahlo/generic-list-go`、`github.com/buger/jsonparser`、`github.com/bytedance/gopkg`、`github.com/bytedance/sonic`、`github.com/bytedance/sonic/loader`、`github.com/cloudwego/base64x`、`github.com/cloudwego/eino`、`github.com/davecgh/go-spew`、`github.com/dlclark/regexp2/v2`、`github.com/dustin/go-humanize`、`github.com/eino-contrib/jsonschema`、`github.com/go-sourcemap/sourcemap`、`github.com/google/jsonschema-go`、`github.com/google/pprof`、`github.com/google/uuid`、`github.com/goph/emperror`、`github.com/json-iterator/go`、`github.com/klauspost/cpuid/v2`、`github.com/mailru/easyjson`、`github.com/mark3labs/mcp-go`、`github.com/mattn/go-colorable`、`github.com/mattn/go-isatty`、`github.com/modern-go/concurrent`、`github.com/modern-go/reflect2`、`github.com/nikolalohinski/gonja`、`github.com/pelletier/go-toml/v2`、`github.com/pkg/errors`、`github.com/rogpeppe/go-internal`、`github.com/sirupsen/logrus`、`github.com/slongfield/pyfmt`、`github.com/spf13/cast`、`github.com/twitchyliquid64/golang-asm`、`github.com/wk8/go-ordered-map/v2`、`github.com/yargevad/filepathx`、`github.com/yosida95/uritemplate/v3`、`golang.org/x/arch`、`golang.org/x/crypto`、`golang.org/x/exp`、`golang.org/x/mod`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`
-- `goagent-runtime`（tier5）：`github.com/jackc/pgx/v5`、`modernc.org/sqlite`、`github.com/dustin/go-humanize`、`github.com/google/uuid`、`github.com/jackc/pgpassfile`、`github.com/jackc/pgservicefile`、`github.com/jackc/puddle/v2`、`github.com/mattn/go-isatty`、`github.com/ncruces/go-strftime`、`github.com/oekit/logx`、`github.com/remyoudompheng/bigfft`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`、`modernc.org/libc`、`modernc.org/mathutil`、`modernc.org/memory`
+- `goagent-runtime`（tier5）：`github.com/jackc/pgx/v5`、`github.com/yi-nology/goagent-kernel`、`modernc.org/sqlite`、`github.com/dustin/go-humanize`、`github.com/google/uuid`、`github.com/jackc/pgpassfile`、`github.com/jackc/pgservicefile`、`github.com/jackc/puddle/v2`、`github.com/mattn/go-isatty`、`github.com/ncruces/go-strftime`、`github.com/oekit/logx`、`github.com/remyoudompheng/bigfft`、`golang.org/x/sync`、`golang.org/x/sys`、`golang.org/x/text`、`modernc.org/libc`、`modernc.org/mathutil`、`modernc.org/memory`
 
 ## 模块
 
@@ -179,17 +181,17 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 ### 编排判据层 · 依赖 guardx/toolgate 等 tier0~2，判据单源（ADR-0010）
 
-- [goagent-kernel](https://github.com/oagentkit/goagent-kernel): 多智能体编排通用内核：编排是代码，LLM 只做单环节——确定性编排的机制面（报告协议/状态机/事件总线/副作用闸/续跑契约/介入面），不认识任何领域概念
+- [goagent-kernel](https://github.com/yi-nology/goagent-kernel): 多智能体编排通用内核：编排是代码，LLM 只做单环节——确定性编排的机制面（报告协议/状态机/事件总线/副作用闸/续跑契约/介入面），不认识任何领域概念
   - 包：`archcheck`、`backend`、`checkpoint`、`commitgate`、`contract`、`controlplane`、`coord`、`cost`、`deadline`、`delegate`、`delta`、`dispatch`、`drain`、`egress`、`eval`、`eventbus`、`finalize`、`gatecheck`、`guardset`、`handoff`、`hookengine`、`invocation`、`invocationtest`、`metrics`、`ownership`、`preset`、`protocol`、`ptc`、`raceprobe`、`reconcile`、`retryplan`、`scheduling`、`sideeffect`、`sidetest`、`skilldisclose`、`statemachine`、`steer`、`taskboard`、`boardtest`、`tenant`、`tooldisclose`、`trajectory`、`watchdog`、`worker`、`worktree`、`faultmatrix`
   - 依赖：[guardx](https://github.com/oagentkit/guardx)、[runtime](https://github.com/oagentkit/runtime)、[toolgate](https://github.com/oagentkit/toolgate)、[toolname](https://github.com/oagentkit/toolname)
-  - 安装：`go get github.com/oagentkit/goagent-kernel@latest`
+  - 安装：`go get github.com/yi-nology/goagent-kernel@latest`
 
 ### 装配层 · 依赖 goagent-kernel + agent，只接线不另写判据
 
-- [goagent-runtime](https://github.com/oagentkit/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
+- [goagent-runtime](https://github.com/yi-nology/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
   - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`
-  - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/oagentkit/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)
-  - 安装：`go get github.com/oagentkit/goagent-runtime@latest`
+  - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/yi-nology/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)
+  - 安装：`go get github.com/yi-nology/goagent-runtime@latest`
 
 ## 门面仓（已退役）
 
@@ -218,15 +220,15 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/llm/wrap` → `github.com/oagentkit/llm/wrap`
     - `agentkit/llm/llmtest` → `github.com/oagentkit/llm/llmtest`
     - `agentkit/llm/decision` → `github.com/oagentkit/llm/decision`
-    - `agentkit/invocation/invocationtest` → `github.com/oagentkit/goagent-kernel/invocationtest`
-    - `agentkit/taskboard/boardtest` → `github.com/oagentkit/goagent-kernel/boardtest`
-    - `agentkit/worker/faultmatrix` → `github.com/oagentkit/goagent-kernel/faultmatrix`
-    - `agentkit/storage/sqlitestore` → `github.com/oagentkit/goagent-runtime/sqlitestore`
-    - `agentkit/bridge/llmchat` → `github.com/oagentkit/goagent-runtime/llmchat`
-    - `agentkit/bridge/einotool` → `github.com/oagentkit/goagent-runtime/einotool`
+    - `agentkit/invocation/invocationtest` → `github.com/yi-nology/goagent-kernel/invocationtest`
+    - `agentkit/taskboard/boardtest` → `github.com/yi-nology/goagent-kernel/boardtest`
+    - `agentkit/worker/faultmatrix` → `github.com/yi-nology/goagent-kernel/faultmatrix`
+    - `agentkit/storage/sqlitestore` → `github.com/yi-nology/goagent-runtime/sqlitestore`
+    - `agentkit/bridge/llmchat` → `github.com/yi-nology/goagent-runtime/llmchat`
+    - `agentkit/bridge/einotool` → `github.com/yi-nology/goagent-runtime/einotool`
   其中 `agentkit/toolname` → `github.com/oagentkit/toolname` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 16 条易踩对照、及全部 134 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
-- 改 CI 规则只去 [{org}/.github](https://github.com/{org}/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
+- 改 CI 规则只去 [oagentkit/.github](https://github.com/oagentkit/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
 
 ## 易踩的坑

@@ -231,10 +231,6 @@
     {
       "from": "goagent-runtime",
       "to": "guardx"
-    },
-    {
-      "from": "goagent-runtime",
-      "to": "llm"
     }
   ],
   "dependents": {
@@ -262,8 +258,7 @@
       "goagent-kernel"
     ],
     "llm": [
-      "agent",
-      "goagent-runtime"
+      "agent"
     ],
     "mcpkit": [
       "toolgate"

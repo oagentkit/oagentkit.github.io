@@ -15,4 +15,4 @@
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 外部工具接入——CLI 编码 agent 统一调用/公开资料检索/git 工作副本沙箱/确定性 SAST 扫描/Shell 命令静态裁决 | <span class="matrix-tier">`textx`、`guardx`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多专家黑板/派发守卫 | <span class="matrix-tier">`llm`、`textx`</span> |
 | [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | 多智能体编排通用内核：编排是代码，LLM 只做单环节——确定性编排的机制面（报告协议/状态机/事件总线/副作用闸/续跑契约/介入面），不认识任何领域概念 | <span class="matrix-tier">`guardx`、`runtime`、`toolgate`、`toolname`</span> |
-| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径） | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`、`llm`</span> |
+| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径） | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> |
