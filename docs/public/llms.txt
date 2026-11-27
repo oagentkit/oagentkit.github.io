@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 136 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 137 包）
 
 ## 破坏性变更
 
@@ -189,7 +189,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 装配层 · 依赖 goagent-kernel + agent，只接线不另写判据
 
 - [goagent-runtime](https://github.com/yi-nology/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
-  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`
+  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`、`trace`
   - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/yi-nology/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)
   - 安装：`go get github.com/yi-nology/goagent-runtime@latest`
 
@@ -226,7 +226,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
     - `agentkit/storage/sqlitestore` → `github.com/yi-nology/goagent-runtime/sqlitestore`
     - `agentkit/bridge/llmchat` → `github.com/yi-nology/goagent-runtime/llmchat`
     - `agentkit/bridge/einotool` → `github.com/yi-nology/goagent-runtime/einotool`
-  其中 `agentkit/toolname` → `github.com/oagentkit/toolname` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 16 条易踩对照、及全部 134 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
+  其中 `agentkit/toolname` → `github.com/oagentkit/toolname` 尤其坑：包名末段与仓名相同时**收口到 module 根**（不重复末段），直觉会以为要写成 `llm/llm`。完整 16 条易踩对照、及全部 135 条映射见 [matrix-tools/scripts/rewrite_imports.py --print-rules](https://github.com/oagentkit/matrix-tools)，机器可读映射见 [versions.json](https://oagentkit.github.io/versions.json) 的 `fromLegacy` 字段。
 - 完整包路径映射见 [matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)。
 - 改 CI 规则只去 [oagentkit/.github](https://github.com/oagentkit/.github) 仓（`go-ci.yml@main`）；各仓 `ci.yml` 只是薄调用层，不要在各仓复制规则。
 - 不确定 API 时以源码为准：各仓均带测试，`go doc github.com/oagentkit/<mod>[/<pkg>]` 可查。
