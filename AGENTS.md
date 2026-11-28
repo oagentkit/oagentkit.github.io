@@ -41,13 +41,15 @@ scripts/gen_module_pages.py     页面 + 依赖图数据生成器
 
 ### 生成物不许手改
 
-以下 **17 个文件**由 `data/modules.json` 生成，**手改会被 CI 直接拦下**
+以下 **22 个文件**由 `data/modules.json` 生成（`npm run gen:modules` 实时数，写死的
+计数会随矩阵增长变假——本仓有过 17 vs 22 的陈旧实录），**手改会被 CI 直接拦下**
 （`python3 scripts/gen_module_pages.py --check`，在两个 workflow 里各跑一次：
 `.github/workflows/build.yml` 拦 **PR**、`.github/workflows/pages.yml` 拦 **push main**）：
 
 ```
-docs/modules/*.md（14 个模块页 + docs/modules/index.md）
+docs/modules/*.md（16 个模块页 + docs/modules/index.md）
 docs/parts/matrix-table.md
+docs/reference/packages.md、docs/reference/pitfalls.md
 docs/.vitepress/modules-nav.json
 docs/.vitepress/graph-data.json
 ```
@@ -57,12 +59,16 @@ docs/.vitepress/graph-data.json
 - `docs/guide/*.md` 与 `docs/index.md` 是手写的，不受此约束 —— 但里面引用的模块事实
   （包名、分层、依赖方向）仍要与数据源对得上。
 
-### llms.txt / versions.json 是副本
+### llms.txt / versions.json / scenarios.md 是副本
 
 - `docs/public/llms.txt` 由 `matrix-tools/scripts/gen_llms_txt.py` 从矩阵源生成，
   本仓只持有**逐字节一致的副本**；需要更新时去 `matrix-tools` 重新生成再同步过来。
 - `docs/public/versions.json` 是 `matrix-tools/versions.json` 的副本，字段 `fromLegacy` /
   `importPath` 是机器可读的旧 import 路径映射，改动同样以源为准。
+- `docs/reference/scenarios.md`（场景选型表）由 `matrix-tools/scripts/gen_llms_txt.py
+  --out-page` 生成，同样是**逐字节副本**——数据单源在 matrix-tools `gen_skill.py` 的
+  SCENARIOS 手写数据区。手改会被 matrix-tools `site-modules-copy` 的
+  `verify_docs --page` 判红；导航入口在 `config.mts`（手写配置，可改）。
 - 站点面向两类读者：**AI Agent 读 `llms.txt`，人类读页面**。两者的模块/包清单必须一致。
 
 ### 提交前必跑校验
