@@ -146,7 +146,7 @@
       "repo": "goagent-runtime",
       "tier": 5,
       "desc": "Agent 运行时装配层——把 goagent-kernel 判据装配成业务可直接用的 runtime",
-      "packages": 15,
+      "packages": 16,
       "eino": false,
       "href": "/modules/goagent-runtime.html"
     }

@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 138 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 139 包）
 
 ## 破坏性变更
 
@@ -191,7 +191,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 - [goagent-runtime](https://github.com/yi-nology/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
   - 消歧：Agent 应用运行时装配层（tier5）——非 oagentkit/runtime
-  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`、`trace`
+  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`、`trace`、`agentiface`
   - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/yi-nology/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)
   - 安装：`go get github.com/yi-nology/goagent-runtime@latest`
 
