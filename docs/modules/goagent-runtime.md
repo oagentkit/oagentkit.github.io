@@ -11,7 +11,7 @@ Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务�
 | 仓内依赖 | `agent`、`goagent-kernel`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/jackc/pgx/v5`、`modernc.org/sqlite` |
-| 包数 | 15 |
+| 包数 | 16 |
 
 ## 安装
 
@@ -40,6 +40,7 @@ go get github.com/yi-nology/goagent-runtime@latest
 | `bridge/llmchat` | 钦定适配器：oagentkit/llm → chat.Model（嵌套模块，LLM SDK 边只在 bridge） |
 | `bridge/einotool` | 钦定适配器：eino InvokableTool → pipeline.Tool（副作用闸字段不猜） |
 | `trace` |  |
+| `agentiface` |  |
 
 ## 本仓硬规则
 
