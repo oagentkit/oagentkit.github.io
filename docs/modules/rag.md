@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3` |
-| 包数 | 5 |
+| 包数 | 6 |
 
 ## 安装
 
@@ -30,6 +30,7 @@ go get github.com/oagentkit/rag@latest
 | `wiki/fsstore` | wiki.Store 的文件系统参考实现：一页一个 markdown（元数据 YAML front-matter），同目录临时文件 + Rename 原子替换 |
 | `milvus` | 向量后端（Milvus）实现：rag/milvus 子包——**只有它链向量 sdk**，根包零向量依赖（本地索引/混合召回调用方不必拖进 milvus 传递链） |
 | `ontology` | 实体/关系本体层：Schema/Type/Field 与 Triple 契约 + Validate 判据面 + Store 接口（内存参考实现）——不做抽取、不建图库，契约与领域无关 |
+| `embedtest` | Embedder 契约套件：确定性/排序一致性分级声明 + 批量单条一致 + 维度契约 + 边界 + 错误不静默（正/负对照，面向第三方实现者） |
 
 ## 本仓硬规则
 

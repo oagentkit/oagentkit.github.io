@@ -9,7 +9,7 @@
 | 项 | 值 |
 | --- | --- |
 | 模块 | 16 |
-| 包 | 139 |
+| 包 | 143 |
 | 层 | 6（tier 0 – tier 5） |
 | 组织 | `oagentkit` |
 | 源 | `oagentkit/matrix-tools`（模块与版本两份产物分别生成后对账） |
@@ -23,17 +23,17 @@
 | [`textx`](/modules/textx.html) | <span class="matrix-tier">tier 0</span> | 10 | `v0.14.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
 | [`toolname`](/modules/toolname.html) | <span class="matrix-tier">tier 0</span> | 1 | `v0.2.1` | <span class="matrix-tier">—</span> | <span class="matrix-tier">零</span> |
 | [`promptx`](/modules/promptx.html) | <span class="matrix-tier">tier 1</span> | 6 | `v0.11.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">零</span> |
-| [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 6 | `v0.27.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
-| [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 2 | `v0.15.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
+| [`llm`](/modules/llm.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.27.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace`</span> |
+| [`mcpkit`](/modules/mcpkit.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.15.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/mark3labs/mcp-go`、`github.com/eino-contrib/jsonschema`、`github.com/cloudwego/eino`</span> |
 | [`obs`](/modules/obs.html) | <span class="matrix-tier">tier 2</span> | 1 | `v0.9.18` | <span class="matrix-tier">`guardx`</span> | <span class="matrix-tier">零</span> |
 | [`queue`](/modules/queue.html) | <span class="matrix-tier">tier 2</span> | 5 | `v0.13.0` | <span class="matrix-tier">—</span> | <span class="matrix-tier">`github.com/lib/pq`、`modernc.org/sqlite`</span> |
-| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 5 | `v0.13.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3`</span> |
+| [`rag`](/modules/rag.html) | <span class="matrix-tier">tier 2</span> | 6 | `v0.13.0` | <span class="matrix-tier">`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/milvus-io/milvus-sdk-go/v2`、`gopkg.in/yaml.v3`</span> |
 | [`skillkit`](/modules/skillkit.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.10.7` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`、`github.com/Masterminds/semver/v3`</span> |
 | [`toolgate`](/modules/toolgate.html) | <span class="matrix-tier">tier 2</span> | 3 | `v0.17.5` | <span class="matrix-tier">`guardx`、`mcpkit`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`gopkg.in/yaml.v3`</span> |
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.17.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 8 | `v0.17.0` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
 | [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | 46 | `v0.80.0` | <span class="matrix-tier">`guardx`、`runtime`、`toolgate`、`toolname`</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`</span> |
-| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 16 | `v0.9.0` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
+| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 17 | `v0.9.0` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
 
 ## 全包清单
 
@@ -84,8 +84,10 @@
 | `llm` | `llm/llmtest` | `github.com/oagentkit/llm/llmtest` | `agentkit/llm/llmtest` |
 | `llm` | `obsx` | `github.com/oagentkit/llm/obsx` | `agentkit/obsx` |
 | `llm` | `llm/decision` | `github.com/oagentkit/llm/decision` | `—` |
+| `llm` | `conformance` | `github.com/oagentkit/llm/conformance` | `—` |
 | `mcpkit` | `mcp` | `github.com/oagentkit/mcpkit/mcp` | `agentkit/mcp` |
 | `mcpkit` | `iface` | `github.com/oagentkit/mcpkit/iface` | `—` |
+| `mcpkit` | `conformance` | `github.com/oagentkit/mcpkit/conformance` | `—` |
 | `obs` | `audit` | `github.com/oagentkit/obs/audit` | `agentkit/audit` |
 | `queue` | `worker` | `github.com/oagentkit/queue/worker` | `agentkit/worker` |
 | `queue` | `worker/pglease` | `github.com/oagentkit/queue/pglease` | `agentkit/worker/pglease` |
@@ -97,6 +99,7 @@
 | `rag` | `wiki/fsstore` | `github.com/oagentkit/rag/fsstore` | `—` |
 | `rag` | `milvus` | `github.com/oagentkit/rag/milvus` | `—` |
 | `rag` | `ontology` | `github.com/oagentkit/rag/ontology` | `—` |
+| `rag` | `embedtest` | `github.com/oagentkit/rag/embedtest` | `—` |
 | `skillkit` | `skill` | `github.com/oagentkit/skillkit/skill` | `agentkit/skill` |
 | `skillkit` | `pack` | `github.com/oagentkit/skillkit/pack` | `agentkit/pack` |
 | `skillkit` | `lineage` | `github.com/oagentkit/skillkit/lineage` | `agentkit/lineage` |
@@ -180,6 +183,7 @@
 | `goagent-runtime` | `bridge/einotool` | `github.com/yi-nology/goagent-runtime/einotool` | `—` |
 | `goagent-runtime` | `trace` | `github.com/yi-nology/goagent-runtime/trace` | `—` |
 | `goagent-runtime` | `agentiface` | `github.com/yi-nology/goagent-runtime/agentiface` | `—` |
+| `goagent-runtime` | `preset` | `github.com/yi-nology/goagent-runtime/preset` | `—` |
 
 ## 装机
 
