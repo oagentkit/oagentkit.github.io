@@ -33,7 +33,7 @@
 | [`tools`](/modules/tools.html) | <span class="matrix-tier">tier 2</span> | 7 | `v0.17.0` | <span class="matrix-tier">`textx`、`guardx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`mvdan.cc/sh/v3`</span> |
 | [`agent`](/modules/agent.html) | <span class="matrix-tier">tier 3</span> | 7 | `v0.16.0` | <span class="matrix-tier">`llm`、`textx`</span> | <span class="matrix-tier">`github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3`</span> |
 | [`goagent-kernel`](/modules/goagent-kernel.html) | <span class="matrix-tier">tier 4</span> | 46 | `v0.80.0` | <span class="matrix-tier">`guardx`、`runtime`、`toolgate`、`toolname`</span> | <span class="matrix-tier">`github.com/dop251/goja`、`github.com/santhosh-tekuri/jsonschema/v6`、`golang.org/x/tools`、`gopkg.in/yaml.v3`</span> |
-| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 15 | `v0.8.0` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
+| [`goagent-runtime`](/modules/goagent-runtime.html) | <span class="matrix-tier">tier 5</span> | 15 | `v0.9.0` | <span class="matrix-tier">`agent`、`goagent-kernel`、`guardx`</span> | <span class="matrix-tier">`github.com/jackc/pgx/v5`、`modernc.org/sqlite`</span> |
 
 ## 全包清单
 
