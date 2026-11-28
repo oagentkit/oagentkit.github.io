@@ -11,7 +11,7 @@
 | 仓内依赖 | `textx` |
 | 被依赖 | `agent` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`github.com/meguminnnnnnnnn/go-openai`、`go.opentelemetry.io/otel`、`go.opentelemetry.io/otel/sdk`、`go.opentelemetry.io/otel/trace` |
-| 包数 | 6 |
+| 包数 | 7 |
 
 ## 安装
 
@@ -31,6 +31,7 @@ go get github.com/oagentkit/llm@latest
 | `llm/llmtest` | 模型层契约测试套件 |
 | `obsx` | eino callbacks 体系的 LLM 调用追踪 + token 用量采集 + 分阶段打标（自 obs/obsx 迁入）＋ Langfuse Public API 只读客户端（自 obs/langfuse 迁入，读写同域） |
 | `llm/decision` | System One 协议判定面客户端（非自回归判定模型）：choice/score/noul 三原语 + 校准置信口径（本地算，两端同义） |
+| `conformance` | Completer 契约套件：换 Completer 实现的合规验证——降级原因可分类/预算前置判定/Classifier 分类行为/ErrEmptyChain·ErrCircuitOpen 哨兵语义（正/负对照，面向第三方实现者） |
 
 ## 本仓硬规则
 

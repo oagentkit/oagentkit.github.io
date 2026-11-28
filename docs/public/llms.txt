@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 139 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 143 包）
 
 ## 破坏性变更
 
@@ -143,11 +143,11 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 集成层 · 依赖 tier0/tier1 + 重第三方地板
 
 - [llm](https://github.com/oagentkit/llm): 模型客户端——多模型降级链/任务级预算/成本记账/分阶段路由/LLM 调用观测
-  - 包：`llm`、`port`、`wrap`、`llmtest`、`obsx`、`decision`
+  - 包：`llm`、`port`、`wrap`、`llmtest`、`obsx`、`decision`、`conformance`
   - 依赖：[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/llm@latest`
 - [mcpkit](https://github.com/oagentkit/mcpkit): MCP 工具池——客户端封装/工具目录/建连单飞/自愈与租约管理
-  - 包：`mcp`、`iface`
+  - 包：`mcp`、`iface`、`conformance`
   - 安装：`go get github.com/oagentkit/mcpkit@latest`
 - [obs](https://github.com/oagentkit/obs): 敏感操作审计——结构化审计留痕，字段值统一经 logredact 打码（不引 eino 框架）
   - 包：`audit`
@@ -157,7 +157,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
   - 包：`worker`、`pglease`、`sqllease`、`sqlqueue`、`outbox`
   - 安装：`go get github.com/oagentkit/queue@latest`
 - [rag](https://github.com/oagentkit/rag): 知识检索与本体层——向量化/混合召回/重排（向量后端可插拔，独立子包隔离 sdk 地板）+ 实体关系本体契约与判据
-  - 包：`rag`、`wiki`、`fsstore`、`milvus`、`ontology`
+  - 包：`rag`、`wiki`、`fsstore`、`milvus`、`ontology`、`embedtest`
   - 依赖：[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/rag@latest`
 - [skillkit](https://github.com/oagentkit/skillkit): 技能与资产契约——SKILL.md 渐进披露/领域包布局契约/装配血缘图
@@ -191,7 +191,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 
 - [goagent-runtime](https://github.com/yi-nology/goagent-runtime): Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务方可直接用的 runtime（Loop/Pipeline/存储/事件接线与默认口径）
   - 消歧：Agent 应用运行时装配层（tier5）——非 oagentkit/runtime
-  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`、`trace`、`agentiface`
+  - 包：`chat`、`pipeline`、`agentloop`、`adjudicate`、`storage`、`sqlitestore`、`sqliteadapter`、`pgstore`、`runtime`、`cluster`、`observe`、`containerbackend`、`llmchat`、`einotool`、`trace`、`agentiface`、`preset`
   - 依赖：[agent](https://github.com/oagentkit/agent)、[goagent-kernel](https://github.com/yi-nology/goagent-kernel)、[guardx](https://github.com/oagentkit/guardx)
   - 安装：`go get github.com/yi-nology/goagent-runtime@latest`
 
@@ -277,6 +277,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 - **状态** — 单源：`goagent-kernel/statemachine`（环节状态枚举与谓词（Valid/枚举；词表值别名 contract #354/#357））
   - 词表值单点定义在 contract（#357：statemachine 常量是别名）；矩阵内零 import——enum 出口是宿主面（enum.go 头注释：宿主接编排协议要知道合法状态）。
 - **任务调度** — 单源：`agent/dispatch`（可达性/深度/自派发（能不能派））、`goagent-kernel/scheduling`（优先级/公平/配额/背压（怎么排））、`toolgate/toolsched`（并发执行调度（同时跑几个））、`goagent-kernel/dispatch`（改派失败面（失败后还能不能再派、派给谁））；消费方：goagent-runtime
+  - 同族包：`agent/blackboard`
   - 四判据面分立是 kernel ADR-0009 已裁结论，本表不重开；kernel 原可达性门面 v0.35.0 已整包删除（dispatch.go 包头：消费方直连上游 agent/dispatch）。矩阵内 agent/dispatch 由 goagent-runtime 的 examples/multiagent 消费，scheduling/toolsched/kernel-dispatch 零 import（宿主面）。
 - **事件** — 单源：`goagent-kernel/eventbus`（任务事件词表（机制层 snake_case 单源））、`runtime/hookx`（泛型钩子传输（带超时 Hook Runner））、`runtime/notifyx`（泛型通知传输）、`runtime/progress`（泛型广播传输（有损观测总线））；消费方：goagent-runtime、goagent-kernel
   - 同族包：`runtime/notifyx/hook`、`goagent-kernel/hookengine`

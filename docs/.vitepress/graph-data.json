@@ -66,7 +66,7 @@
       "repo": "llm",
       "tier": 2,
       "desc": "模型客户端/降级链/预算/成本/阶段路由/调用观测",
-      "packages": 6,
+      "packages": 7,
       "eino": true,
       "href": "/modules/llm.html"
     },
@@ -74,7 +74,7 @@
       "repo": "mcpkit",
       "tier": 2,
       "desc": "MCP 客户端/工具池/建连单飞",
-      "packages": 2,
+      "packages": 3,
       "eino": true,
       "href": "/modules/mcpkit.html"
     },
@@ -98,7 +98,7 @@
       "repo": "rag",
       "tier": 2,
       "desc": "知识检索与本体层——向量化/混合召回/重排 + 实体关系本体契约",
-      "packages": 5,
+      "packages": 6,
       "eino": true,
       "href": "/modules/rag.html"
     },
@@ -146,7 +146,7 @@
       "repo": "goagent-runtime",
       "tier": 5,
       "desc": "Agent 运行时装配层——把 goagent-kernel 判据装配成业务可直接用的 runtime",
-      "packages": 16,
+      "packages": 17,
       "eino": false,
       "href": "/modules/goagent-runtime.html"
     }

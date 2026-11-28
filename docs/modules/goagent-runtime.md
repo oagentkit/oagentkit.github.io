@@ -11,7 +11,7 @@ Agent 运行时装配层：把 goagent-kernel 的确定性机制装配成业务�
 | 仓内依赖 | `agent`、`goagent-kernel`、`guardx` |
 | 被依赖 | —（矩阵叶子） |
 | 第三方地板 | `github.com/jackc/pgx/v5`、`modernc.org/sqlite` |
-| 包数 | 16 |
+| 包数 | 17 |
 
 ## 安装
 
@@ -41,6 +41,7 @@ go get github.com/yi-nology/goagent-runtime@latest
 | `bridge/einotool` | 钦定适配器：eino InvokableTool → pipeline.Tool（副作用闸字段不猜） |
 | `trace` |  |
 | `agentiface` |  |
+| `preset` | 五形态标准装配（真装配非转发，ADR-004 落地面）：Simple/ReAct/Workflow/Multi/Long-running 各自默认口径——装配→会话→Run→Close 一体 |
 
 ## 本仓硬规则
 
