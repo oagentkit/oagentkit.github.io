@@ -69,6 +69,9 @@ export default defineConfig({
         text: '参考',
         items: [
           { text: '机器事实（模块 × 包 × 版本）', link: '/reference/packages' },
+          // 场景选型表：按「我要做什么」直查（源=matrix-tools gen_skill SCENARIOS，
+          // 生成物 docs/reference/scenarios.md，手改会被 verify_docs --page 判红）。
+          { text: '场景选型表', link: '/reference/scenarios' },
           // 版本矩阵是**机器可读 JSON**：人读的那一面在「机器事实」页，
           // 这里只留原始文件入口（.json 不在 VitePress 的已知扩展名里 ⇒
           // 客户端路由不拦截它，走整页导航拿到静态文件）。
@@ -117,6 +120,7 @@ export default defineConfig({
           text: '参考',
           items: [
             { text: '机器事实（模块 × 包 × 版本）', link: '/reference/packages' },
+            { text: '场景选型表', link: '/reference/scenarios' },
             { text: '坑速查', link: '/reference/pitfalls' }
           ]
         }
