@@ -11,7 +11,7 @@ Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多�
 | 仓内依赖 | `llm`、`textx` |
 | 被依赖 | `goagent-runtime` |
 | 第三方地板 | `github.com/cloudwego/eino`、`github.com/cloudwego/eino-ext/components/model/openai`、`gopkg.in/yaml.v3` |
-| 包数 | 7 |
+| 包数 | 8 |
 
 ## 安装
 
@@ -25,6 +25,7 @@ go get github.com/oagentkit/agent@latest
 
 | 包 | 说明 |
 | --- | --- |
+| `iface` |  |
 | `agentrun` | ReAct 运行样板与计划先行（PlanAndExecute）编排 |
 | `reflection` | 反思循环 |
 | `router` | 显式意图路由 |

@@ -17,7 +17,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ## 版本矩阵（机器可读）
 
 - https://oagentkit.github.io/versions.json（由 matrix-tools `scripts/gen_versions.py` 生成）
-- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 137 包）
+- 矩阵数据源：[matrix-tools/modules.json](https://github.com/oagentkit/matrix-tools)（16 模块 / 138 包）
 
 ## 破坏性变更
 
@@ -176,7 +176,7 @@ oagentkit 是一套**独立矩阵**，与 [oekit](https://oekit.github.io/llms.t
 ### 编排层 · 依赖 llm 等 tier2 门面
 
 - [agent](https://github.com/oagentkit/agent): Agent 编排——ReAct 运行样板/计划先行/反思循环/意图路由/多专家黑板/派发守卫
-  - 包：`agentrun`、`reflection`、`router`、`blackboard`、`dispatch`、`clarify`、`roundguard`
+  - 包：`iface`、`agentrun`、`reflection`、`router`、`blackboard`、`dispatch`、`clarify`、`roundguard`
   - 依赖：[llm](https://github.com/oagentkit/llm)、[textx](https://github.com/oagentkit/textx)
   - 安装：`go get github.com/oagentkit/agent@latest`
 
