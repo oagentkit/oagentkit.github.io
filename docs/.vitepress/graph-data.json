@@ -130,7 +130,7 @@
       "repo": "agent",
       "tier": 3,
       "desc": "ReAct 运行样板/反思循环/意图路由/多专家黑板/派发守卫/澄清",
-      "packages": 7,
+      "packages": 8,
       "eino": true,
       "href": "/modules/agent.html"
     },
